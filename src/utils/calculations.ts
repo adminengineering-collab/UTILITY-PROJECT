@@ -41,12 +41,39 @@ export function formatDisplayDate(dateStr: string): string {
 }
 
 export function parseDateToIso(dateStr: string): string {
-  // If DD/MM/YYYY convert to YYYY-MM-DD
-  if (dateStr.includes('/')) {
-    const [d, m, y] = dateStr.split('/');
-    return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
+  if (!dateStr) return '';
+  let s = dateStr.trim();
+  if (s.includes('T')) s = s.split('T')[0].trim();
+  if (s.includes(' ')) s = s.split(' ')[0].trim();
+
+  // If DD/MM/YYYY or D/M/YYYY
+  if (s.includes('/')) {
+    const parts = s.split('/');
+    if (parts.length === 3) {
+      const d = parts[0].padStart(2, '0');
+      const m = parts[1].padStart(2, '0');
+      let y = parts[2];
+      if (y.length === 2) y = '20' + y;
+      return `${y}-${m}-${d}`;
+    }
   }
-  return dateStr;
+
+  // If YYYY-MM-DD or DD-MM-YYYY
+  if (s.includes('-')) {
+    const parts = s.split('-');
+    if (parts.length === 3) {
+      if (parts[0].length === 4) {
+        return `${parts[0]}-${parts[1].padStart(2, '0')}-${parts[2].padStart(2, '0')}`;
+      } else {
+        const d = parts[0].padStart(2, '0');
+        const m = parts[1].padStart(2, '0');
+        let y = parts[2];
+        if (y.length === 2) y = '20' + y;
+        return `${y}-${m}-${d}`;
+      }
+    }
+  }
+  return s;
 }
 
 export function calculateDailySummaries(
@@ -60,19 +87,18 @@ export function calculateDailySummaries(
     preloadedMap.set(r.tanggal, r);
   });
 
-  // Group entries by date
+  // Group entries by normalized ISO date
   const grouped = new Map<string, FuelEntry[]>();
   for (const entry of entries) {
-    const list = grouped.get(entry.tanggal) || [];
+    const isoDate = parseDateToIso(entry.tanggal);
+    if (!isoDate) continue;
+    const list = grouped.get(isoDate) || [];
     list.push(entry);
-    grouped.set(entry.tanggal, list);
+    grouped.set(isoDate, list);
   }
 
-  // Ensure all 28 days from preloaded records are included, plus any custom user dates
-  const allDatesSet = new Set<string>();
-  DAILY_CONSUMPTION_RECORDS.forEach((r) => allDatesSet.add(r.isoDate));
-  entries.forEach((e) => allDatesSet.add(e.tanggal));
-  const sortedDates = Array.from(allDatesSet).sort();
+  // ONLY include the dates present in the active entries so filtering works accurately
+  const sortedDates = Array.from(grouped.keys()).sort();
 
   return sortedDates.map((date) => {
     const dayEntries = grouped.get(date) || [];
@@ -110,14 +136,11 @@ export function calculateDailySummaries(
           mcSums[fType].sumWeight += item.konsumsi;
         }
       }
-    }
-
-    // If preloaded spreadsheet record is available, synchronize exact figures
-    if (rec) {
+    } else if (rec) {
+      // Fallback to preloaded record only if no entries exist
       totalKonsumsi = rec.totalQty;
       totalHarga = rec.totalHarga;
 
-      // Exact breakdown from spreadsheet
       breakdown['CANGKANG'].konsumsi = rec.cangkangQty;
       breakdown['CANGKANG'].hargaTotal = rec.cangkangHarga;
 
@@ -147,15 +170,9 @@ export function calculateDailySummaries(
       }
     }
 
-    const steamOut = rec
-      ? rec.steamOut
-      : (steamDataMap[date] ?? (totalKonsumsi > 0 ? Math.round(totalKonsumsi / 160) : 0));
-    const kgPerTonSteam = rec
-      ? rec.kgPerTonSteam
-      : (steamOut > 0 ? Math.round(totalKonsumsi / steamOut) : 0);
-    const rpPerTonSteam = rec
-      ? rec.rpPerTonSteam
-      : (steamOut > 0 ? totalHarga / steamOut : 0);
+    const steamOut = steamDataMap[date] ?? (rec ? rec.steamOut : (totalKonsumsi > 0 ? Math.round(totalKonsumsi / 160) : 0));
+    const kgPerTonSteam = steamOut > 0 ? Math.round(totalKonsumsi / steamOut) : (rec ? rec.kgPerTonSteam : 0);
+    const rpPerTonSteam = steamOut > 0 ? totalHarga / steamOut : (rec ? rec.rpPerTonSteam : 0);
 
     return {
       tanggal: date,

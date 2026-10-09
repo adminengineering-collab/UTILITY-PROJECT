@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import { FuelEntry, DailyFuelSummary } from './types/boiler';
 import { INITIAL_ENTRIES, INITIAL_STEAM_DATA } from './data/initialData';
-import { calculateDailySummaries, formatDisplayDate } from './utils/calculations';
+import { calculateDailySummaries, formatDisplayDate, parseDateToIso } from './utils/calculations';
 import { convertToGoogleSheetsCsvUrl, parseSpreadsheetText } from './utils/spreadsheetSync';
 import { Header } from './components/Header';
 import { MetricCards } from './components/MetricCards';
@@ -12,7 +12,7 @@ import { AddRecordModal } from './components/AddRecordModal';
 import { AuditExportModal } from './components/AuditExportModal';
 import { RealtimeSyncSettingsModal, SyncLogItem } from './components/RealtimeSyncSettingsModal';
 import { exportDetailToCsv } from './utils/exportCsv';
-import { Filter, RotateCcw, CheckCircle, Radio, Calendar } from 'lucide-react';
+import { Filter, RotateCcw, CheckCircle, Radio, Calendar, X } from 'lucide-react';
 
 const STORAGE_KEY_ENTRIES = 'boiler_fuel_entries_v2_feb2026';
 const STORAGE_KEY_STEAM = 'boiler_steam_data_v2_feb2026';
@@ -123,7 +123,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<'overview' | 'charts' | 'daily_breakdown' | 'spreadsheet'>('overview');
 
   // Filter State
-  const [dateFilterPreset, setDateFilterPreset] = useState<'ALL' | 'LATEST' | 'LAST7'>('ALL');
+  const [dateFilterPreset, setDateFilterPreset] = useState<'ALL' | 'LATEST' | 'LAST7' | 'CUSTOM'>('ALL');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
@@ -147,29 +147,36 @@ export default function App() {
     return Array.from(set).sort();
   }, [entries]);
 
-  // Compute sorted unique dates
+  // Compute sorted unique normalized ISO dates
   const uniqueDates = useMemo(() => {
     const set = new Set<string>();
-    entries.forEach((e) => set.add(e.tanggal));
+    entries.forEach((e) => {
+      const iso = parseDateToIso(e.tanggal);
+      if (iso) set.add(iso);
+    });
     return Array.from(set).sort();
   }, [entries]);
+
+  const minAvailableDate = uniqueDates.length > 0 ? uniqueDates[0] : '';
+  const maxAvailableDate = uniqueDates.length > 0 ? uniqueDates[uniqueDates.length - 1] : '';
 
   // Filter entries according to date filter
   const filteredEntries = useMemo(() => {
     if (dateFilterPreset === 'LATEST' && uniqueDates.length > 0) {
       const latestDate = uniqueDates[uniqueDates.length - 1];
-      return entries.filter((e) => e.tanggal === latestDate);
+      return entries.filter((e) => parseDateToIso(e.tanggal) === latestDate);
     }
 
     if (dateFilterPreset === 'LAST7' && uniqueDates.length > 0) {
       const recentDates = uniqueDates.slice(-7);
-      return entries.filter((e) => recentDates.includes(e.tanggal));
+      return entries.filter((e) => recentDates.includes(parseDateToIso(e.tanggal)));
     }
 
     if (startDate || endDate) {
       return entries.filter((e) => {
-        if (startDate && e.tanggal < startDate) return false;
-        if (endDate && e.tanggal > endDate) return false;
+        const iso = parseDateToIso(e.tanggal);
+        if (startDate && iso < startDate) return false;
+        if (endDate && iso > endDate) return false;
         return true;
       });
     }
@@ -453,35 +460,54 @@ export default function App() {
             </div>
 
             {/* Custom Date Pickers */}
-            <div className="flex items-center gap-1 text-xs">
+            <div className="flex items-center gap-1.5 text-xs">
               <input
                 type="date"
                 value={startDate}
+                min={minAvailableDate}
+                max={maxAvailableDate}
                 onChange={(e) => {
                   setStartDate(e.target.value);
-                  setDateFilterPreset('ALL');
+                  setDateFilterPreset('CUSTOM');
                 }}
-                className="px-2 py-1 border border-slate-300 rounded text-slate-700 text-xs bg-white"
-                title="Tanggal Mulai"
+                className="px-2 py-1 border border-slate-300 rounded text-slate-700 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                title={`Tanggal Mulai (Data: ${formatDisplayDate(minAvailableDate)} - ${formatDisplayDate(maxAvailableDate)})`}
               />
-              <span className="text-slate-400">-</span>
+              <span className="text-slate-400 font-medium">-</span>
               <input
                 type="date"
                 value={endDate}
+                min={minAvailableDate}
+                max={maxAvailableDate}
                 onChange={(e) => {
                   setEndDate(e.target.value);
-                  setDateFilterPreset('ALL');
+                  setDateFilterPreset('CUSTOM');
                 }}
-                className="px-2 py-1 border border-slate-300 rounded text-slate-700 text-xs bg-white"
-                title="Tanggal Selesai"
+                className="px-2 py-1 border border-slate-300 rounded text-slate-700 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                title={`Tanggal Selesai (Data: ${formatDisplayDate(minAvailableDate)} - ${formatDisplayDate(maxAvailableDate)})`}
               />
+              {(startDate || endDate) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStartDate('');
+                    setEndDate('');
+                    setDateFilterPreset('ALL');
+                  }}
+                  className="px-2 py-1 text-xs text-rose-600 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 rounded border border-rose-200 flex items-center gap-1 transition-colors"
+                  title="Hapus filter rentang tanggal"
+                >
+                  <X className="w-3 h-3" />
+                  <span>Reset</span>
+                </button>
+              )}
             </div>
           </div>
 
           {/* Right info / reset */}
           <div className="flex items-center gap-3">
             <span className="text-xs text-slate-500 font-mono">
-              Periode: <strong className="text-slate-800">{periodText}</strong> ({summaries.length} hari)
+              Periode: <strong className="text-slate-800">{periodText}</strong> ({summaries.length} hari · {filteredEntries.length} transaksi)
             </span>
 
             <button
@@ -494,6 +520,31 @@ export default function App() {
             </button>
           </div>
         </div>
+
+        {/* Empty filter result warning */}
+        {summaries.length === 0 && (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 text-center space-y-3">
+            <div className="w-10 h-10 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mx-auto">
+              <Filter className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-slate-800">Tidak ada data untuk rentang tanggal yang dipilih</h4>
+              <p className="text-xs text-slate-600 mt-1">
+                Data transaksi yang tersimpan berada di rentang tanggal {formatDisplayDate(minAvailableDate)} s/d {formatDisplayDate(maxAvailableDate)}.
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                setDateFilterPreset('ALL');
+                setStartDate('');
+                setEndDate('');
+              }}
+              className="px-3.5 py-1.5 text-xs font-semibold bg-amber-500 hover:bg-amber-600 text-slate-900 rounded-lg transition-colors shadow-xs"
+            >
+              Tampilkan Semua Data
+            </button>
+          </div>
+        )}
 
         {/* TAB 1: OVERVIEW / RINGKASAN EKSEKUTIF */}
         {activeTab === 'overview' && (
