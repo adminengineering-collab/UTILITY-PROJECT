@@ -3,6 +3,7 @@ import { FuelEntry, DailyFuelSummary } from './types/boiler';
 import { INITIAL_ENTRIES, INITIAL_STEAM_DATA } from './data/initialData';
 import { calculateDailySummaries, formatDisplayDate, parseDateToIso } from './utils/calculations';
 import { convertToGoogleSheetsCsvUrl, parseSpreadsheetText } from './utils/spreadsheetSync';
+import { playSyncChime } from './utils/soundNotification';
 import { Header } from './components/Header';
 import { MetricCards } from './components/MetricCards';
 import { DailyCostBreakdown } from './components/DailyCostBreakdown';
@@ -64,18 +65,19 @@ export default function App() {
 
   const [autoSync, setAutoSync] = useState<boolean>(() => {
     try {
-      return localStorage.getItem(STORAGE_KEY_AUTO_SYNC) === 'true';
+      const saved = localStorage.getItem(STORAGE_KEY_AUTO_SYNC);
+      return saved !== 'false';
     } catch {
-      return false;
+      return true;
     }
   });
 
   const [syncIntervalSeconds, setSyncIntervalSeconds] = useState<number>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_SYNC_INTERVAL_SEC);
-      return saved ? parseInt(saved, 10) : 30; // 30 seconds default
+      return saved ? parseInt(saved, 10) : 15; // 15 seconds default for fast real-time response
     } catch {
-      return 30;
+      return 15;
     }
   });
 
@@ -251,7 +253,7 @@ export default function App() {
   };
 
   // REAL-TIME SYNC EXECUTION ENGINE
-  const handlePerformSync = useCallback(async () => {
+  const handlePerformSync = useCallback(async (isSilent = false) => {
     if (!sheetUrl.trim()) return;
 
     setIsSyncing(true);
@@ -260,14 +262,20 @@ export default function App() {
 
     try {
       const baseCsvUrl = convertToGoogleSheetsCsvUrl(sheetUrl);
-      // Cache buster for real-time freshness
-      const csvUrlWithCacheBuster = `${baseCsvUrl}${baseCsvUrl.includes('?') ? '&' : '?'}_nocache=${Date.now()}`;
+      // High-performance cache buster for instant freshness
+      const csvUrlWithCacheBuster = `${baseCsvUrl}${baseCsvUrl.includes('?') ? '&' : '?'}_nocache=${Date.now()}&_rnd=${Math.random().toString(36).substring(2, 7)}`;
 
       let response: Response;
       try {
-        response = await fetch(csvUrlWithCacheBuster, { cache: 'no-store' });
+        response = await fetch(csvUrlWithCacheBuster, {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+          },
+        });
       } catch {
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrlWithCacheBuster)}`;
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrlWithCacheBuster)}&_t=${Date.now()}`;
         response = await fetch(proxyUrl, { cache: 'no-store' });
       }
 
@@ -284,10 +292,15 @@ export default function App() {
 
       const durationMs = Date.now() - startTime;
 
-      // Check if data changed
+      // Smart check if data changed or rows added
       const previousCount = prevEntryCountRef.current;
       const newCount = parseResult.entries.length;
       const countDelta = newCount - previousCount;
+
+      const prevTotalKg = entries.reduce((acc, e) => acc + (e.konsumsi || 0), 0);
+      const newTotalKg = parseResult.entries.reduce((acc, e) => acc + (e.konsumsi || 0), 0);
+      const hasAddedRows = countDelta > 0;
+      const hasModifiedData = countDelta !== 0 || Math.abs(newTotalKg - prevTotalKg) > 0.01;
 
       if (mergeMode === 'replace') {
         setEntries(parseResult.entries);
@@ -299,10 +312,9 @@ export default function App() {
         setSteamData((prev) => ({ ...prev, ...parseResult.steamData }));
       }
 
-      // Auto-align date filter range with the connected spreadsheet
-      if (parseResult.summary.datesFound.length > 0) {
+      // Auto-align date filter range with spreadsheet if dates exist
+      if (parseResult.summary.datesFound.length > 0 && dateFilterPreset === 'ALL') {
         const dates = parseResult.summary.datesFound;
-        setDateFilterPreset('ALL');
         setStartDate(dates[0]);
         setEndDate(dates[dates.length - 1]);
       }
@@ -324,13 +336,21 @@ export default function App() {
         id: `log-${Date.now()}`,
         timestamp: timeFormatted,
         status: 'success',
-        message: `${newCount} baris tersinkronkan (${countDelta > 0 ? `+${countDelta} baris baru` : 'update'})`,
+        message: `${newCount} baris tersinkronkan (${hasAddedRows ? `+${countDelta} baris baru` : hasModifiedData ? 'data diperbarui' : 'sinkron'})`,
         rowCount: newCount,
         durationMs,
       };
       setSyncLogs((prev) => [newLog, ...prev.slice(0, 19)]);
 
-      showToast(`Real-Time Sync Berhasil: ${newCount} baris data diperbarui dari Google Sheets!`);
+      if (hasAddedRows) {
+        if (notifyOnDataChange) playSyncChime();
+        showToast(`⚡ Auto-Sync: Terdeteksi penambahan data di Spreadsheet (+${countDelta} baris baru)! Total: ${newCount} baris.`);
+      } else if (hasModifiedData) {
+        if (notifyOnDataChange) playSyncChime();
+        showToast(`⚡ Auto-Sync: Data transaksi di Spreadsheet berhasil disinkronkan.`);
+      } else if (!isSilent) {
+        showToast(`Data sudah mutakhir (tidak ada perubahan baru di Google Sheets).`);
+      }
     } catch (err: any) {
       console.error('Realtime sync error:', err);
       const newLog: SyncLogItem = {
@@ -340,12 +360,68 @@ export default function App() {
         message: err.message || 'Gagal tersinkronisasi',
       };
       setSyncLogs((prev) => [newLog, ...prev.slice(0, 19)]);
-      showToast(`Gagal Sinkronisasi: ${err.message || 'Periksa koneksi Google Sheets'}`);
+      if (!isSilent) {
+        showToast(`Gagal Sinkronisasi: ${err.message || 'Periksa koneksi Google Sheets'}`);
+      }
     } finally {
       setIsSyncing(false);
       setNextSyncCountdown(syncIntervalSeconds);
     }
-  }, [sheetUrl, mergeMode, syncIntervalSeconds, showToast]);
+  }, [sheetUrl, mergeMode, syncIntervalSeconds, entries, dateFilterPreset, notifyOnDataChange, showToast]);
+
+  // Active Background Auto-Sync Countdown Timer
+  useEffect(() => {
+    if (!autoSync || !sheetUrl.trim()) return;
+
+    const timer = setInterval(() => {
+      setNextSyncCountdown((prev) => {
+        if (prev <= 1) {
+          if (!isSyncing) {
+            handlePerformSync(true);
+          }
+          return syncIntervalSeconds;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [autoSync, sheetUrl, syncIntervalSeconds, isSyncing, handlePerformSync]);
+
+  // Instant Sync on Tab Focus / Window Visibility Change
+  useEffect(() => {
+    if (!autoSync || !sheetUrl.trim()) return;
+
+    const handleFocus = () => {
+      if (!isSyncing) {
+        handlePerformSync(true);
+        setNextSyncCountdown(syncIntervalSeconds);
+      }
+    };
+
+    window.addEventListener('focus', handleFocus);
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible' && !isSyncing) {
+        handlePerformSync(true);
+        setNextSyncCountdown(syncIntervalSeconds);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, [autoSync, sheetUrl, syncIntervalSeconds, isSyncing, handlePerformSync]);
+
+  const handleToggleAutoSyncQuick = useCallback(() => {
+    setAutoSync((prev) => {
+      const next = !prev;
+      setNextSyncCountdown(syncIntervalSeconds);
+      showToast(next ? `Auto-Sync Aktif: memeriksa penambahan data setiap ${syncIntervalSeconds} detik.` : 'Auto-Sync dijeda.');
+      return next;
+    });
+  }, [syncIntervalSeconds, showToast]);
 
   const handleResetData = () => {
     if (window.confirm('Reset data ke default awal (sesuai template spreadsheet asli)?')) {
@@ -394,13 +470,15 @@ export default function App() {
         }}
         onOpenExportModal={() => setIsExportModalOpen(true)}
         onOpenRealtimeSettings={() => setIsRealtimeModalOpen(true)}
-        onPerformSync={handlePerformSync}
+        onPerformSync={() => handlePerformSync(false)}
         isSyncing={isSyncing}
         hasGoogleSheetConnected={Boolean(sheetUrl)}
         lastSyncedAt={lastSyncedAt}
         autoSync={autoSync}
         syncIntervalSeconds={syncIntervalSeconds}
         dateRangeText={periodText}
+        nextSyncCountdown={nextSyncCountdown}
+        onToggleAutoSyncQuick={handleToggleAutoSyncQuick}
       />
 
       {/* Main Content Area */}
@@ -635,7 +713,7 @@ export default function App() {
         }}
         syncIntervalSeconds={syncIntervalSeconds}
         lastSyncedAt={lastSyncedAt}
-        onForceSyncNow={handlePerformSync}
+        onForceSyncNow={() => handlePerformSync(false)}
         isSyncing={isSyncing}
         syncLogs={syncLogs}
         nextSyncCountdown={nextSyncCountdown}

@@ -364,9 +364,9 @@ export const RealtimeSyncSettingsModal: React.FC<RealtimeSyncSettingsModalProps>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                       {[
                         { sec: 10, label: '10 Detik', badge: 'Ultra Cepat' },
-                        { sec: 30, label: '30 Detik', badge: 'Disarankan' },
-                        { sec: 60, label: '1 Menit', badge: 'Standar' },
-                        { sec: 300, label: '5 Menit', badge: 'Hemat Data' },
+                        { sec: 15, label: '15 Detik', badge: 'Disarankan' },
+                        { sec: 30, label: '30 Detik', badge: 'Standar' },
+                        { sec: 60, label: '1 Menit', badge: 'Hemat Data' },
                       ].map((opt) => (
                         <button
                           key={opt.sec}

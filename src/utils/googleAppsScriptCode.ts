@@ -252,7 +252,34 @@ function setupTemplate() {
 }
 
 /**
- * 5. Hitung Ulang & Perbarui Formula Kolom Total Harga
+ * 5. Trigger Otomatis saat Ada Perubahan Data di Spreadsheet (onEdit)
+ * Secara otomatis menghitung Total Harga saat baris baru diinput atau diubah
+ */
+function onEdit(e) {
+  try {
+    var range = e.range;
+    var sheet = range.getSheet();
+    var row = range.getRow();
+    var col = range.getColumn();
+    
+    // Jangan proses baris header
+    if (row < 2) return;
+
+    // Jika kolom yang diedit adalah Konsumsi (G/7) atau Harga (H/8)
+    if (col === 7 || col === 8) {
+      var konsumsi = sheet.getRange(row, 7).getValue();
+      var harga = sheet.getRange(row, 8).getValue();
+      if (konsumsi && harga) {
+        sheet.getRange(row, 9).setFormula('=G' + row + '*H' + row);
+      }
+    }
+  } catch (err) {
+    // Silent catch on edit trigger
+  }
+}
+
+/**
+ * 6. Hitung Ulang & Perbarui Formula Kolom Total Harga
  */
 function autoCalculate() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -267,17 +294,14 @@ function autoCalculate() {
 }
 
 /**
- * 6. Bantuan & Panduan
+ * 7. Bantuan & Panduan
  */
 function showInstructions() {
   SpreadsheetApp.getUi().alert(
-    'Langkah Deployment Web App:\n\n' +
-    '1. Klik menu "Deploy" (Terapkan) di kanan atas Apps Script.\n' +
-    '2. Pilih "New deployment" (Deployment baru).\n' +
-    '3. Pilih type "Web app" (Aplikasi web).\n' +
-    '4. Set "Execute as": Me (Saya).\n' +
-    '5. Set "Who has access": Anyone (Siapa saja).\n' +
-    '6. Klik Deploy, lalu Salin Web App URL ke Dashboard Monitoring.'
+    'Langkah Sinkronisasi Otomatis:\n\n' +
+    '1. Setiap penambahan baris baru di Google Sheets ini akan otomatis tersinkronisasi ke Dashboard Web.\n' +
+    '2. Dashboard memiliki fitur Auto-Sync Polling yang aktif memeriksa penambahan data setiap 10-30 detik.\n' +
+    '3. Untuk koneksi instan, gunakan URL Web App (Deploy > New Deployment > Web app > Anyone) atau link Share View spreadsheet ini.'
   );
 }
 

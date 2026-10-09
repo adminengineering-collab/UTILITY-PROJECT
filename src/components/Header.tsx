@@ -14,6 +14,8 @@ interface HeaderProps {
   autoSync: boolean;
   syncIntervalSeconds: number;
   dateRangeText: string;
+  nextSyncCountdown?: number;
+  onToggleAutoSyncQuick?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -28,6 +30,8 @@ export const Header: React.FC<HeaderProps> = ({
   lastSyncedAt,
   autoSync,
   syncIntervalSeconds,
+  nextSyncCountdown = 15,
+  onToggleAutoSyncQuick,
 }) => {
   return (
     <header className="sticky top-0 z-30 bg-slate-900 border-b border-slate-800 text-white shadow-md">
@@ -98,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Zone 3: Primary Action Buttons */}
           <div className="flex items-center gap-2">
-            {/* Button 1: Dedicated Real-time Sync Button (Focused Element) */}
+            {/* Button 1: Dedicated Real-time Sync Button */}
             <button
               onClick={() => {
                 if (hasGoogleSheetConnected) {
@@ -115,7 +119,7 @@ export const Header: React.FC<HeaderProps> = ({
               } ${isSyncing ? 'opacity-80 cursor-wait' : ''}`}
               title={
                 hasGoogleSheetConnected
-                  ? `Klik untuk memperbarui data langsung dari Google Sheets (Terakhir: ${lastSyncedAt || 'Belum ada'})`
+                  ? `Klik untuk sinkronisasi data langsung dari Google Sheets (Terakhir: ${lastSyncedAt || 'Belum ada'})`
                   : 'Hubungkan tautan Google Sheets untuk sinkronisasi'
               }
             >
