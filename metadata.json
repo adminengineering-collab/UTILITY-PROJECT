@@ -1,0 +1,6 @@
+{
+  "name": "Dashboard Monitoring Konsumsi Bahan Bakar Boiler",
+  "description": "Sistem monitoring konsumsi dan biaya bahan bakar boiler (Cangkang, Wood Pellet, Dust Pellet, Kopi Pellet) dengan visualisasi interaktif dan ekspor audit PDF & CSV.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
