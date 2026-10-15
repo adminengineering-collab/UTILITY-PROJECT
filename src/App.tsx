@@ -15,8 +15,8 @@ import { RealtimeSyncSettingsModal, SyncLogItem } from './components/RealtimeSyn
 import { exportDetailToCsv } from './utils/exportCsv';
 import { Filter, RotateCcw, CheckCircle, Radio, Calendar, X } from 'lucide-react';
 
-const STORAGE_KEY_ENTRIES = 'boiler_fuel_entries_v2_feb2026';
-const STORAGE_KEY_STEAM = 'boiler_steam_data_v2_feb2026';
+const STORAGE_KEY_ENTRIES = 'boiler_fuel_entries_v3_sync55_all';
+const STORAGE_KEY_STEAM = 'boiler_steam_data_v3_sync55_all';
 const STORAGE_KEY_SHEET_URL = 'boiler_sheet_url_v1';
 const STORAGE_KEY_LAST_SYNCED = 'boiler_last_synced_v1';
 const STORAGE_KEY_AUTO_SYNC = 'boiler_auto_sync_v1';
@@ -25,11 +25,25 @@ const STORAGE_KEY_MERGE_MODE = 'boiler_merge_mode_v1';
 const STORAGE_KEY_NOTIFY = 'boiler_notify_change_v1';
 
 export default function App() {
-  // Persistent State or Initial Seed Data
+  // Persistent State or Initial Seed Data (with August & September coverage guaranteed)
   const [entries, setEntries] = useState<FuelEntry[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_ENTRIES);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed: FuelEntry[] = JSON.parse(saved);
+        const hasAugSep = parsed.some((e) => {
+          const t = e.tanggal || '';
+          return t.includes('2026-08') || t.includes('2026-09') || t.includes('/08/') || t.includes('/09/');
+        });
+        if (!hasAugSep) {
+          const augSepEntries = INITIAL_ENTRIES.filter((e) => {
+            const t = e.tanggal || '';
+            return t.includes('2026-08') || t.includes('2026-09') || t.includes('/08/') || t.includes('/09/');
+          });
+          return [...parsed, ...augSepEntries];
+        }
+        return parsed;
+      }
     } catch (e) {
       console.error(e);
     }
@@ -39,7 +53,10 @@ export default function App() {
   const [steamData, setSteamData] = useState<Record<string, number>>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_STEAM);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed: Record<string, number> = JSON.parse(saved);
+        return { ...INITIAL_STEAM_DATA, ...parsed };
+      }
     } catch (e) {
       console.error(e);
     }

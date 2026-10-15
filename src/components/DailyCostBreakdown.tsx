@@ -15,6 +15,8 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [copied, setCopied] = useState(false);
+  // Mode kolom: 'separated' (Default 18 Kolom: Total Harga Dust Pellet disertakan) vs 'spreadsheet' (17 Kolom)
+  const [priceColumnMode, setPriceColumnMode] = useState<'separated' | 'spreadsheet'>('separated');
 
   // Map pre-loaded spreadsheet records by date (YYYY-MM-DD and DD/MM/YYYY)
   const preloadedRecordsMap = useMemo(() => {
@@ -31,20 +33,41 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
     return summaries.map((s) => {
       const match = preloadedRecordsMap.get(s.tanggal) || preloadedRecordsMap.get(s.displayTanggal);
 
-      const totalQty = match ? match.totalQty : s.totalKonsumsi;
-      const totalHarga = match ? match.totalHarga : s.totalHarga;
-      const steamOut = match ? match.steamOut : s.steamOut;
-      const kgPerTonSteam = match ? match.kgPerTonSteam : (steamOut > 0 ? Math.round(totalQty / steamOut) : 0);
-      const rpPerTonSteam = match ? match.rpPerTonSteam : (steamOut > 0 ? totalHarga / steamOut : 0);
-
       const cangkangQty = match ? match.cangkangQty : (s.breakdown['CANGKANG']?.konsumsi || 0);
       const woodPelletQty = match ? match.woodPelletQty : (s.breakdown['WOOD PELLET']?.konsumsi || 0);
       const dustPelletQty = match ? match.dustPelletQty : (s.breakdown['DUST PELLET']?.konsumsi || 0);
       const kopiPelletQty = match ? match.kopiPelletQty : (s.breakdown['KOPI PELLET']?.konsumsi || 0);
 
-      const cangkangHarga = match ? match.cangkangHarga : (s.breakdown['CANGKANG']?.hargaTotal || 0);
-      const woodDustHarga = match ? match.woodDustHarga : ((s.breakdown['WOOD PELLET']?.hargaTotal || 0) + (s.breakdown['DUST PELLET']?.hargaTotal || 0));
-      const kopiHarga = match ? match.kopiHarga : (s.breakdown['KOPI PELLET']?.hargaTotal || 0);
+      const rawCangkangHrg = match ? match.cangkangHarga : (s.breakdown['CANGKANG']?.hargaTotal || 0);
+      const cangkangHarga = rawCangkangHrg > 0 ? rawCangkangHrg : (cangkangQty > 0 ? cangkangQty * 1710 : 0);
+
+      const rawWoodHrg = match ? match.woodPelletHarga : (s.breakdown['WOOD PELLET']?.hargaTotal || 0);
+      const woodPelletHarga = rawWoodHrg > 0 ? rawWoodHrg : (woodPelletQty > 0 ? woodPelletQty * 1788 : 0);
+
+      const rawDustHrg = match ? match.dustPelletHarga : (s.breakdown['DUST PELLET']?.hargaTotal || 0);
+      const dustPelletHarga = rawDustHrg > 0 ? rawDustHrg : (dustPelletQty > 0 ? dustPelletQty * 1950 : 0);
+
+      const rawWoodDust = match ? match.woodDustHarga : undefined;
+      const woodPelletSpreadsheetHarga = rawWoodDust !== undefined && rawWoodDust > 0
+        ? rawWoodDust
+        : (woodPelletHarga + dustPelletHarga);
+
+      const rawKopiHrg = match ? match.kopiHarga : (s.breakdown['KOPI PELLET']?.hargaTotal || 0);
+      const kopiHarga = rawKopiHrg > 0 ? rawKopiHrg : (kopiPelletQty > 0 ? kopiPelletQty * 2200 : 0);
+
+      const totalQty = match ? match.totalQty : (s.totalKonsumsi > 0 ? s.totalKonsumsi : (cangkangQty + woodPelletQty + dustPelletQty + kopiPelletQty));
+      const calcTotalHarga = cangkangHarga + woodPelletHarga + dustPelletHarga + kopiHarga;
+      const totalHarga = match ? match.totalHarga : (s.totalHarga > 0 ? s.totalHarga : calcTotalHarga);
+
+      const steamOut = match ? match.steamOut : s.steamOut;
+      const kgPerTonSteam = match ? match.kgPerTonSteam : (steamOut > 0 ? Math.round(totalQty / steamOut) : 0);
+      const rpPerTonSteam = match ? match.rpPerTonSteam : (steamOut > 0 ? totalHarga / steamOut : 0);
+
+      // Percentage of total quantity
+      const cangkangPct = totalQty > 0 ? Math.round((cangkangQty / totalQty) * 100) : 0;
+      const woodPelletPct = totalQty > 0 ? Math.round((woodPelletQty / totalQty) * 100) : 0;
+      const dustPelletPct = totalQty > 0 ? Math.round((dustPelletQty / totalQty) * 100) : 0;
+      const kopiPelletPct = totalQty > 0 ? Math.round((kopiPelletQty / totalQty) * 100) : 0;
 
       return {
         tanggal: s.displayTanggal,
@@ -59,8 +82,14 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
         dustPelletQty,
         kopiPelletQty,
         cangkangHarga,
-        woodDustHarga,
+        woodPelletHarga,
+        dustPelletHarga,
+        woodPelletSpreadsheetHarga,
         kopiHarga,
+        cangkangPct,
+        woodPelletPct,
+        dustPelletPct,
+        kopiPelletPct,
         summaryRef: s,
       };
     });
@@ -83,7 +112,9 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
     let totalDust = 0;
     let totalKopi = 0;
     let totalCangkangHarga = 0;
-    let totalWoodDustHarga = 0;
+    let totalWoodPelletHarga = 0;
+    let totalDustPelletHarga = 0;
+    let totalWoodPelletSpreadsheetHarga = 0;
     let totalKopiHarga = 0;
 
     filteredRows.forEach((r) => {
@@ -95,12 +126,19 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
       totalDust += r.dustPelletQty;
       totalKopi += r.kopiPelletQty;
       totalCangkangHarga += r.cangkangHarga;
-      totalWoodDustHarga += r.woodDustHarga;
+      totalWoodPelletHarga += r.woodPelletHarga;
+      totalDustPelletHarga += r.dustPelletHarga;
+      totalWoodPelletSpreadsheetHarga += r.woodPelletSpreadsheetHarga;
       totalKopiHarga += r.kopiHarga;
     });
 
     const avgKgPerTon = totalSteam > 0 ? Math.round(totalQty / totalSteam) : 0;
     const avgRpPerTon = totalSteam > 0 ? totalHarga / totalSteam : 0;
+
+    const totalCangkangPct = totalQty > 0 ? Math.round((totalCangkang / totalQty) * 100) : 0;
+    const totalWoodPct = totalQty > 0 ? Math.round((totalWood / totalQty) * 100) : 0;
+    const totalDustPct = totalQty > 0 ? Math.round((totalDust / totalQty) * 100) : 0;
+    const totalKopiPct = totalQty > 0 ? Math.round((totalKopi / totalQty) * 100) : 0;
 
     return {
       totalQty,
@@ -113,128 +151,290 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
       totalDust,
       totalKopi,
       totalCangkangHarga,
-      totalWoodDustHarga,
+      totalWoodPelletHarga,
+      totalDustPelletHarga,
+      totalWoodPelletSpreadsheetHarga,
       totalKopiHarga,
+      totalCangkangPct,
+      totalWoodPct,
+      totalDustPct,
+      totalKopiPct,
     };
   }, [filteredRows]);
 
-  // Export to CSV matching the exact table columns
+  // Export to CSV matching active table column mode
   const handleExportCsv = () => {
-    const headers = [
-      'TANGGAL',
-      'TOTAL QTY',
-      'TOTAL HARGA',
-      'STEAM OUT',
-      'KG/Ton Steam',
-      'Rp/Ton Steam',
-      'TOTAL CANGKANG SAWIT',
-      'TOTAL WOOD PELLET',
-      'TOTAL DUST PELLET',
-      'TOTAL KOPI PELLET',
-      'TOTAL HARGA CANGKANG SAWIT',
-      'TOTAL HARGA WOOD PELLET & DUST PELLET',
-      'TOTAL HARGA KOPI PELLET',
-    ];
+    const isSpreadsheetMode = priceColumnMode === 'spreadsheet';
+    const headers = isSpreadsheetMode
+      ? [
+          'TANGGAL',
+          'TOTAL QTY',
+          'TOTAL HARGA',
+          'STEAM OUT',
+          'KG/Ton Steam',
+          'Rp/Ton Steam',
+          'TOTAL CANGKANG SAWIT',
+          'TOTAL WOOD PELLET',
+          'TOTAL DUST PELLET',
+          'TOTAL KOPI PELLET',
+          'TOTAL HARGA CANGKANG SAWIT',
+          'TOTAL HARGA WOOD PELLET',
+          'TOTAL HARGA KOPI PELLET',
+          '% TOTAL CANGKANG SAWIT',
+          '% TOTAL WOOD PELLET',
+          '% TOTAL DUST PELLET',
+          '% TOTAL KOPI PELLET',
+        ]
+      : [
+          'TANGGAL',
+          'TOTAL QTY',
+          'TOTAL HARGA',
+          'STEAM OUT',
+          'KG/Ton Steam',
+          'Rp/Ton Steam',
+          'TOTAL CANGKANG SAWIT',
+          'TOTAL WOOD PELLET',
+          'TOTAL DUST PELLET',
+          'TOTAL KOPI PELLET',
+          'TOTAL HARGA CANGKANG SAWIT',
+          'TOTAL HARGA WOOD PELLET',
+          'TOTAL HARGA DUST PELLET',
+          'TOTAL HARGA KOPI PELLET',
+          '% TOTAL CANGKANG SAWIT',
+          '% TOTAL WOOD PELLET',
+          '% TOTAL DUST PELLET',
+          '% TOTAL KOPI PELLET',
+        ];
 
     const lines = [headers.join(',')];
 
     filteredRows.forEach((r) => {
-      lines.push([
-        r.tanggal,
-        r.totalQty,
-        r.totalHarga,
-        r.steamOut,
-        r.kgPerTonSteam,
-        r.rpPerTonSteam.toFixed(2),
-        r.cangkangQty,
-        r.woodPelletQty,
-        r.dustPelletQty,
-        r.kopiPelletQty,
-        r.cangkangHarga,
-        r.woodDustHarga,
-        r.kopiHarga,
-      ].join(','));
+      const rowData = isSpreadsheetMode
+        ? [
+            r.tanggal,
+            r.totalQty,
+            r.totalHarga,
+            r.steamOut,
+            r.kgPerTonSteam,
+            r.rpPerTonSteam.toFixed(2),
+            r.cangkangQty,
+            r.woodPelletQty,
+            r.dustPelletQty,
+            r.kopiPelletQty,
+            r.cangkangHarga,
+            r.woodPelletSpreadsheetHarga,
+            r.kopiHarga,
+            `${r.cangkangPct}%`,
+            `${r.woodPelletPct}%`,
+            `${r.dustPelletPct}%`,
+            `${r.kopiPelletPct}%`,
+          ]
+        : [
+            r.tanggal,
+            r.totalQty,
+            r.totalHarga,
+            r.steamOut,
+            r.kgPerTonSteam,
+            r.rpPerTonSteam.toFixed(2),
+            r.cangkangQty,
+            r.woodPelletQty,
+            r.dustPelletQty,
+            r.kopiPelletQty,
+            r.cangkangHarga,
+            r.woodPelletHarga,
+            r.dustPelletHarga,
+            r.kopiHarga,
+            `${r.cangkangPct}%`,
+            `${r.woodPelletPct}%`,
+            `${r.dustPelletPct}%`,
+            `${r.kopiPelletPct}%`,
+          ];
+      lines.push(rowData.join(','));
     });
 
     // Add totals row
-    lines.push([
-      'TOTAL',
-      totals.totalQty,
-      totals.totalHarga,
-      totals.totalSteam,
-      totals.avgKgPerTon,
-      totals.avgRpPerTon.toFixed(2),
-      totals.totalCangkang,
-      totals.totalWood,
-      totals.totalDust,
-      totals.totalKopi,
-      totals.totalCangkangHarga,
-      totals.totalWoodDustHarga,
-      totals.totalKopiHarga,
-    ].join(','));
+    const totalsData = isSpreadsheetMode
+      ? [
+          'TOTAL',
+          totals.totalQty,
+          totals.totalHarga,
+          totals.totalSteam,
+          totals.avgKgPerTon,
+          totals.avgRpPerTon.toFixed(2),
+          totals.totalCangkang,
+          totals.totalWood,
+          totals.totalDust,
+          totals.totalKopi,
+          totals.totalCangkangHarga,
+          totals.totalWoodPelletSpreadsheetHarga,
+          totals.totalKopiHarga,
+          `${totals.totalCangkangPct}%`,
+          `${totals.totalWoodPct}%`,
+          `${totals.totalDustPct}%`,
+          `${totals.totalKopiPct}%`,
+        ]
+      : [
+          'TOTAL',
+          totals.totalQty,
+          totals.totalHarga,
+          totals.totalSteam,
+          totals.avgKgPerTon,
+          totals.avgRpPerTon.toFixed(2),
+          totals.totalCangkang,
+          totals.totalWood,
+          totals.totalDust,
+          totals.totalKopi,
+          totals.totalCangkangHarga,
+          totals.totalWoodPelletHarga,
+          totals.totalDustPelletHarga,
+          totals.totalKopiHarga,
+          `${totals.totalCangkangPct}%`,
+          `${totals.totalWoodPct}%`,
+          `${totals.totalDustPct}%`,
+          `${totals.totalKopiPct}%`,
+        ];
+    lines.push(totalsData.join(','));
 
     const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `data-harian-konsumsi-boiler-${Date.now()}.csv`;
+    a.download = `data-harian-konsumsi-boiler-${priceColumnMode}-${Date.now()}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };
 
   // Copy table to clipboard in tab-separated format for direct Excel paste
   const handleCopyTable = () => {
-    const headers = [
-      'TANGGAL',
-      'TOTAL QTY',
-      'TOTAL HARGA',
-      'STEAM OUT',
-      'KG/Ton Steam',
-      'Rp/Ton Steam',
-      'TOTAL CANGKANG SAWIT',
-      'TOTAL WOOD PELLET',
-      'TOTAL DUST PELLET',
-      'TOTAL KOPI PELLET',
-      'TOTAL HARGA CANGKANG SAWIT',
-      'TOTAL HARGA WOOD PELLET & DUST PELLET',
-      'TOTAL HARGA KOPI PELLET',
-    ];
+    const isSpreadsheetMode = priceColumnMode === 'spreadsheet';
+    const headers = isSpreadsheetMode
+      ? [
+          'TANGGAL',
+          'TOTAL QTY',
+          'TOTAL HARGA',
+          'STEAM OUT',
+          'KG/Ton Steam',
+          'Rp/Ton Steam',
+          'TOTAL CANGKANG SAWIT',
+          'TOTAL WOOD PELLET',
+          'TOTAL DUST PELLET',
+          'TOTAL KOPI PELLET',
+          'TOTAL HARGA CANGKANG SAWIT',
+          'TOTAL HARGA WOOD PELLET',
+          'TOTAL HARGA KOPI PELLET',
+          '% TOTAL CANGKANG SAWIT',
+          '% TOTAL WOOD PELLET',
+          '% TOTAL DUST PELLET',
+          '% TOTAL KOPI PELLET',
+        ]
+      : [
+          'TANGGAL',
+          'TOTAL QTY',
+          'TOTAL HARGA',
+          'STEAM OUT',
+          'KG/Ton Steam',
+          'Rp/Ton Steam',
+          'TOTAL CANGKANG SAWIT',
+          'TOTAL WOOD PELLET',
+          'TOTAL DUST PELLET',
+          'TOTAL KOPI PELLET',
+          'TOTAL HARGA CANGKANG SAWIT',
+          'TOTAL HARGA WOOD PELLET',
+          'TOTAL HARGA DUST PELLET',
+          'TOTAL HARGA KOPI PELLET',
+          '% TOTAL CANGKANG SAWIT',
+          '% TOTAL WOOD PELLET',
+          '% TOTAL DUST PELLET',
+          '% TOTAL KOPI PELLET',
+        ];
 
     const lines = [headers.join('\t')];
 
     filteredRows.forEach((r) => {
-      lines.push([
-        r.tanggal,
-        r.totalQty,
-        formatCurrencyExcel(r.totalHarga, 2),
-        r.steamOut,
-        r.kgPerTonSteam,
-        formatCurrencyExcel(r.rpPerTonSteam, 2),
-        r.cangkangQty,
-        r.woodPelletQty,
-        r.dustPelletQty,
-        r.kopiPelletQty,
-        formatCurrencyExcel(r.cangkangHarga, 0),
-        formatCurrencyExcel(r.woodDustHarga, 0),
-        formatCurrencyExcel(r.kopiHarga, 0),
-      ].join('\t'));
+      const rowData = isSpreadsheetMode
+        ? [
+            r.tanggal,
+            r.totalQty,
+            formatCurrencyExcel(r.totalHarga, 2),
+            r.steamOut,
+            r.kgPerTonSteam,
+            formatCurrencyExcel(r.rpPerTonSteam, 2),
+            r.cangkangQty,
+            r.woodPelletQty,
+            r.dustPelletQty,
+            r.kopiPelletQty,
+            formatCurrencyExcel(r.cangkangHarga, 0),
+            formatCurrencyExcel(r.woodPelletSpreadsheetHarga, 0),
+            formatCurrencyExcel(r.kopiHarga, 0),
+            `${r.cangkangPct}%`,
+            `${r.woodPelletPct}%`,
+            `${r.dustPelletPct}%`,
+            `${r.kopiPelletPct}%`,
+          ]
+        : [
+            r.tanggal,
+            r.totalQty,
+            formatCurrencyExcel(r.totalHarga, 2),
+            r.steamOut,
+            r.kgPerTonSteam,
+            formatCurrencyExcel(r.rpPerTonSteam, 2),
+            r.cangkangQty,
+            r.woodPelletQty,
+            r.dustPelletQty,
+            r.kopiPelletQty,
+            formatCurrencyExcel(r.cangkangHarga, 0),
+            formatCurrencyExcel(r.woodPelletHarga, 0),
+            formatCurrencyExcel(r.dustPelletHarga, 0),
+            formatCurrencyExcel(r.kopiHarga, 0),
+            `${r.cangkangPct}%`,
+            `${r.woodPelletPct}%`,
+            `${r.dustPelletPct}%`,
+            `${r.kopiPelletPct}%`,
+          ];
+      lines.push(rowData.join('\t'));
     });
 
-    lines.push([
-      'TOTAL',
-      totals.totalQty,
-      formatCurrencyExcel(totals.totalHarga, 2),
-      totals.totalSteam,
-      totals.avgKgPerTon,
-      formatCurrencyExcel(totals.avgRpPerTon, 2),
-      totals.totalCangkang,
-      totals.totalWood,
-      totals.totalDust,
-      totals.totalKopi,
-      formatCurrencyExcel(totals.totalCangkangHarga, 0),
-      formatCurrencyExcel(totals.totalWoodDustHarga, 0),
-      formatCurrencyExcel(totals.totalKopiHarga, 0),
-    ].join('\t'));
+    const totalsData = isSpreadsheetMode
+      ? [
+          'TOTAL',
+          totals.totalQty,
+          formatCurrencyExcel(totals.totalHarga, 2),
+          totals.totalSteam,
+          totals.avgKgPerTon,
+          formatCurrencyExcel(totals.avgRpPerTon, 2),
+          totals.totalCangkang,
+          totals.totalWood,
+          totals.totalDust,
+          totals.totalKopi,
+          formatCurrencyExcel(totals.totalCangkangHarga, 0),
+          formatCurrencyExcel(totals.totalWoodPelletSpreadsheetHarga, 0),
+          formatCurrencyExcel(totals.totalKopiHarga, 0),
+          `${totals.totalCangkangPct}%`,
+          `${totals.totalWoodPct}%`,
+          `${totals.totalDustPct}%`,
+          `${totals.totalKopiPct}%`,
+        ]
+      : [
+          'TOTAL',
+          totals.totalQty,
+          formatCurrencyExcel(totals.totalHarga, 2),
+          totals.totalSteam,
+          totals.avgKgPerTon,
+          formatCurrencyExcel(totals.avgRpPerTon, 2),
+          totals.totalCangkang,
+          totals.totalWood,
+          totals.totalDust,
+          totals.totalKopi,
+          formatCurrencyExcel(totals.totalCangkangHarga, 0),
+          formatCurrencyExcel(totals.totalWoodPelletHarga, 0),
+          formatCurrencyExcel(totals.totalDustPelletHarga, 0),
+          formatCurrencyExcel(totals.totalKopiHarga, 0),
+          `${totals.totalCangkangPct}%`,
+          `${totals.totalWoodPct}%`,
+          `${totals.totalDustPct}%`,
+          `${totals.totalKopiPct}%`,
+        ];
+    lines.push(totalsData.join('\t'));
 
     navigator.clipboard.writeText(lines.join('\n'));
     setCopied(true);
@@ -263,8 +463,38 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
 
         {/* Action Controls */}
         <div className="flex flex-wrap items-center gap-2">
+          {/* Mode Selector Pill: 18 Kolom (+ Dust Pellet) vs 17 Kolom (Gabungan) */}
+          <div className="flex items-center bg-slate-200/90 p-0.5 rounded-lg text-xs font-semibold border border-slate-300">
+            <button
+              type="button"
+              onClick={() => setPriceColumnMode('separated')}
+              className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 ${
+                priceColumnMode === 'separated'
+                  ? 'bg-white text-slate-950 shadow-2xs font-bold'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+              title="Tampilkan lengkap 18 kolom termasuk TOTAL HARGA DUST PELLET"
+            >
+              <span>📋 + Total Harga Dust Pellet</span>
+              <span className="text-[10px] px-1.5 py-0.2 bg-sky-100 text-sky-800 rounded font-bold">18 Kolom</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setPriceColumnMode('spreadsheet')}
+              className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 ${
+                priceColumnMode === 'spreadsheet'
+                  ? 'bg-white text-slate-950 shadow-2xs font-bold'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+              title="Format 17 Kolom (Gabungan Total Harga Wood & Dust Pellet)"
+            >
+              <span>📊 Gabungan Wood & Dust</span>
+              <span className="text-[10px] px-1.5 py-0.2 bg-amber-100 text-amber-800 rounded font-bold">17 Kolom</span>
+            </button>
+          </div>
+
           {/* Search box */}
-          <div className="relative min-w-[160px]">
+          <div className="relative min-w-[150px]">
             <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
@@ -342,14 +572,34 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
               <th className="py-2.5 px-3 text-right bg-purple-50 text-purple-950 border-b border-slate-300">
                 TOTAL KOPI PELLET
               </th>
-              <th className="py-2.5 px-3 text-right bg-slate-100 border-b border-slate-300">
+              {/* KOLOM TOTAL HARGA */}
+              <th className="py-2.5 px-3 text-right bg-emerald-50/80 text-emerald-950 border-b border-slate-300">
                 TOTAL HARGA CANGKANG SAWIT
               </th>
-              <th className="py-2.5 px-3 text-right bg-slate-100 border-b border-slate-300">
-                TOTAL HARGA WOOD PELLET & DUST PELLET
+              <th className="py-2.5 px-3 text-right bg-amber-50/80 text-amber-950 border-b border-slate-300">
+                TOTAL HARGA WOOD PELLET
               </th>
-              <th className="py-2.5 px-3 text-right bg-slate-100 border-b border-slate-300">
+              {priceColumnMode === 'separated' && (
+                <th className="py-2.5 px-3 text-right bg-sky-50/80 text-sky-950 border-b border-slate-300">
+                  TOTAL HARGA DUST PELLET
+                </th>
+              )}
+              <th className="py-2.5 px-3 text-right bg-purple-50/80 text-purple-950 border-b border-slate-300">
                 TOTAL HARGA KOPI PELLET
+              </th>
+
+              {/* KOLOM PERSENTASE KOMPOSISI */}
+              <th className="py-2.5 px-3 text-right bg-emerald-100/70 text-emerald-950 border-b border-slate-300">
+                % TOTAL CANGKANG SAWIT
+              </th>
+              <th className="py-2.5 px-3 text-right bg-amber-100/70 text-amber-950 border-b border-slate-300">
+                % TOTAL WOOD PELLET
+              </th>
+              <th className="py-2.5 px-3 text-right bg-sky-100/70 text-sky-950 border-b border-slate-300">
+                % TOTAL DUST PELLET
+              </th>
+              <th className="py-2.5 px-3 text-right bg-purple-100/70 text-purple-950 border-b border-slate-300">
+                % TOTAL KOPI PELLET
               </th>
             </tr>
           </thead>
@@ -423,25 +673,56 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
                     </td>
 
                     {/* 11. TOTAL HARGA CANGKANG SAWIT */}
-                    <td className="py-2 px-3 text-right text-emerald-900 tabular-nums">
+                    <td className="py-2 px-3 text-right text-emerald-900 tabular-nums font-semibold">
                       {row.cangkangHarga > 0 ? formatCurrencyExcel(row.cangkangHarga, 0) : 'Rp0'}
                     </td>
 
-                    {/* 12. TOTAL HARGA WOOD PELLET & DUST PELLET */}
-                    <td className="py-2 px-3 text-right text-amber-900 tabular-nums">
-                      {row.woodDustHarga > 0 ? formatCurrencyExcel(row.woodDustHarga, 0) : 'Rp0'}
+                    {/* 12. TOTAL HARGA WOOD PELLET (Sesuai Spreadsheet atau Terpisah) */}
+                    {priceColumnMode === 'spreadsheet' ? (
+                      <td className="py-2 px-3 text-right text-amber-900 tabular-nums font-semibold">
+                        {row.woodPelletSpreadsheetHarga > 0 ? formatCurrencyExcel(row.woodPelletSpreadsheetHarga, 0) : 'Rp0'}
+                      </td>
+                    ) : (
+                      <>
+                        <td className="py-2 px-3 text-right text-amber-900 tabular-nums">
+                          {row.woodPelletHarga > 0 ? formatCurrencyExcel(row.woodPelletHarga, 0) : 'Rp0'}
+                        </td>
+                        <td className="py-2 px-3 text-right text-sky-900 tabular-nums">
+                          {row.dustPelletHarga > 0 ? formatCurrencyExcel(row.dustPelletHarga, 0) : 'Rp0'}
+                        </td>
+                      </>
+                    )}
+
+                    {/* 13/14. TOTAL HARGA KOPI PELLET */}
+                    <td className="py-2 px-3 text-right text-purple-900 tabular-nums font-semibold">
+                      {row.kopiHarga > 0 ? formatCurrencyExcel(row.kopiHarga, 0) : 'Rp0'}
                     </td>
 
-                    {/* 13. TOTAL HARGA KOPI PELLET */}
-                    <td className="py-2 px-3 text-right text-purple-900 tabular-nums">
-                      {row.kopiHarga > 0 ? formatCurrencyExcel(row.kopiHarga, 0) : 'Rp0'}
+                    {/* % TOTAL CANGKANG SAWIT */}
+                    <td className="py-2 px-3 text-right text-emerald-800 font-medium tabular-nums">
+                      {row.cangkangPct}%
+                    </td>
+
+                    {/* % TOTAL WOOD PELLET */}
+                    <td className="py-2 px-3 text-right text-amber-800 font-medium tabular-nums">
+                      {row.woodPelletPct}%
+                    </td>
+
+                    {/* % TOTAL DUST PELLET */}
+                    <td className="py-2 px-3 text-right text-sky-800 font-medium tabular-nums">
+                      {row.dustPelletPct}%
+                    </td>
+
+                    {/* % TOTAL KOPI PELLET */}
+                    <td className="py-2 px-3 text-right text-purple-800 font-medium tabular-nums">
+                      {row.kopiPelletPct}%
                     </td>
                   </tr>
                 );
               })
             ) : (
               <tr>
-                <td colSpan={13} className="py-8 text-center text-slate-400 font-sans italic">
+                <td colSpan={priceColumnMode === 'spreadsheet' ? 17 : 18} className="py-8 text-center text-slate-400 font-sans italic">
                   Tidak ada data untuk filter yang dipilih
                 </td>
               </tr>
@@ -481,14 +762,41 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
               <td className="py-3 px-3 text-right font-bold text-purple-900">
                 {formatNumber(totals.totalKopi)}
               </td>
+
+              {/* FOOTER TOTAL HARGA */}
               <td className="py-3 px-3 text-right font-bold text-emerald-950">
                 {formatCurrencyExcel(totals.totalCangkangHarga, 0)}
               </td>
-              <td className="py-3 px-3 text-right font-bold text-amber-950">
-                {formatCurrencyExcel(totals.totalWoodDustHarga, 0)}
-              </td>
+              {priceColumnMode === 'spreadsheet' ? (
+                <td className="py-3 px-3 text-right font-bold text-amber-950">
+                  {formatCurrencyExcel(totals.totalWoodPelletSpreadsheetHarga, 0)}
+                </td>
+              ) : (
+                <>
+                  <td className="py-3 px-3 text-right font-bold text-amber-950">
+                    {formatCurrencyExcel(totals.totalWoodPelletHarga, 0)}
+                  </td>
+                  <td className="py-3 px-3 text-right font-bold text-sky-950">
+                    {formatCurrencyExcel(totals.totalDustPelletHarga, 0)}
+                  </td>
+                </>
+              )}
               <td className="py-3 px-3 text-right font-bold text-purple-950">
                 {formatCurrencyExcel(totals.totalKopiHarga, 0)}
+              </td>
+
+              {/* FOOTER % */}
+              <td className="py-3 px-3 text-right font-bold text-emerald-950">
+                {totals.totalCangkangPct}%
+              </td>
+              <td className="py-3 px-3 text-right font-bold text-amber-950">
+                {totals.totalWoodPct}%
+              </td>
+              <td className="py-3 px-3 text-right font-bold text-sky-950">
+                {totals.totalDustPct}%
+              </td>
+              <td className="py-3 px-3 text-right font-bold text-purple-950">
+                {totals.totalKopiPct}%
               </td>
             </tr>
           </tfoot>

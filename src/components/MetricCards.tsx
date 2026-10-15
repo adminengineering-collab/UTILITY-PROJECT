@@ -45,14 +45,10 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
     const dayTotalKg = match ? match.totalQty : s.totalKonsumsi;
 
     const cangkangCost = match ? match.cangkangHarga : (s.breakdown['CANGKANG']?.hargaTotal || 0);
-    const woodDustCost = match
-      ? match.woodDustHarga
-      : ((s.breakdown['WOOD PELLET']?.hargaTotal || 0) + (s.breakdown['DUST PELLET']?.hargaTotal || 0));
+    const woodCost = match ? match.woodPelletHarga : (s.breakdown['WOOD PELLET']?.hargaTotal || 0);
+    const dustCost = match ? match.dustPelletHarga : (s.breakdown['DUST PELLET']?.hargaTotal || 0);
     const kopiCost = match ? match.kopiHarga : (s.breakdown['KOPI PELLET']?.hargaTotal || 0);
     const dayTotalHarga = match ? match.totalHarga : s.totalHarga;
-
-    const woodCost = (woodKg + dustKg > 0) ? Math.round(woodDustCost * (woodKg / (woodKg + dustKg))) : 0;
-    const dustCost = woodDustCost - woodCost;
 
     const steamOut = match ? match.steamOut : s.steamOut;
 

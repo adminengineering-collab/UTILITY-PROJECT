@@ -91,9 +91,24 @@ function cleanNumber(val: any): number {
   return parseFloat(s) || 0;
 }
 
+const INDO_MONTH_NAMES: Record<string, string> = {
+  januari: '01', jan: '01', january: '01',
+  februari: '02', feb: '02', february: '02',
+  maret: '03', mar: '03', march: '03',
+  april: '04', apr: '04',
+  mei: '05', may: '05',
+  juni: '06', jun: '06', june: '06',
+  juli: '07', jul: '07', july: '07',
+  agustus: '08', agu: '08', ags: '08', aug: '08', august: '08',
+  september: '09', sep: '09', sept: '09',
+  oktober: '10', okt: '10', oct: '10', october: '10',
+  november: '11', nov: '11',
+  desember: '12', des: '12', dec: '12', december: '12',
+};
+
 /**
- * Robust date parser supporting Indonesian format DD/MM/YYYY, Excel serial dates,
- * ISO format, and carrying over date from previous row for merged cells.
+ * Robust date parser supporting Indonesian format DD/MM/YYYY, Indonesian month names (1 Agustus 2026, 30 September 2026),
+ * US MM/DD/YYYY, Excel serial dates, ISO format, and carrying over date from previous row for merged cells.
  */
 export function parseSpreadsheetDate(raw: any, lastValidDate = ''): string {
   if (raw === null || raw === undefined) return lastValidDate;
@@ -101,7 +116,7 @@ export function parseSpreadsheetDate(raw: any, lastValidDate = ''): string {
   if (!s || s === '-' || s === '""') return lastValidDate;
 
   // Remove time component if present (e.g. "01/02/2026 00:00:00")
-  if (s.includes(' ')) {
+  if (s.includes(' ') && !s.match(/[a-zA-Z]/)) {
     s = s.split(' ')[0].trim();
   }
   if (s.includes('T')) {
@@ -116,39 +131,74 @@ export function parseSpreadsheetDate(raw: any, lastValidDate = ''): string {
     return targetDate.toISOString().slice(0, 10);
   }
 
-  // 2. Format DD/MM/YYYY or D/M/YYYY (Standard in Indonesia and Google Sheets screenshot)
-  if (s.includes('/')) {
-    const parts = s.split('/');
-    if (parts.length === 3) {
-      const d = parts[0].trim().padStart(2, '0');
-      const m = parts[1].trim().padStart(2, '0');
-      let y = parts[2].trim();
-      if (y.length === 2) y = '20' + y;
-      const dayNum = parseInt(d, 10);
-      const monthNum = parseInt(m, 10);
-      if (monthNum >= 1 && monthNum <= 12 && dayNum >= 1 && dayNum <= 31) {
-        return `${y}-${m}-${d}`;
+  // 2. Check if already standard ISO YYYY-MM-DD
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+    return s;
+  }
+
+  // 3. Text format with month names: "1 Agustus 2026", "30 September 2026", "01-Agu-2026", "1-Aug-2026"
+  const textTokens = s.toLowerCase().split(/[\s,.-]+/);
+  if (textTokens.length >= 3) {
+    let day = '';
+    let month = '';
+    let year = '';
+
+    for (const token of textTokens) {
+      if (INDO_MONTH_NAMES[token]) {
+        month = INDO_MONTH_NAMES[token];
+      } else if (/^\d{4}$/.test(token)) {
+        year = token;
+      } else if (/^\d{1,2}$/.test(token)) {
+        if (!day) day = token.padStart(2, '0');
+        else if (!year) year = '20' + token.padStart(2, '0');
       }
+    }
+
+    if (day && month && year) {
+      return `${year}-${month}-${day}`;
     }
   }
 
-  // 3. Format YYYY-MM-DD or DD-MM-YYYY
+  // 4. Format DD/MM/YYYY or MM/DD/YYYY
+  if (s.includes('/')) {
+    const parts = s.split('/');
+    if (parts.length === 3) {
+      const p1 = parseInt(parts[0].trim(), 10);
+      const p2 = parseInt(parts[1].trim(), 10);
+      let y = parts[2].trim();
+      if (y.length === 2) y = '20' + y;
+
+      // Smart detection: If p2 > 12 and p1 <= 12, it is MM/DD/YYYY (e.g. 08/25/2026 or 09/30/2026)
+      if (p2 > 12 && p1 <= 12) {
+        return `${y}-${String(p1).padStart(2, '0')}-${String(p2).padStart(2, '0')}`;
+      }
+
+      // Default Indonesian DD/MM/YYYY (e.g. 01/08/2026 or 30/09/2026)
+      return `${y}-${String(p2).padStart(2, '0')}-${String(p1).padStart(2, '0')}`;
+    }
+  }
+
+  // 5. Format YYYY-MM-DD or DD-MM-YYYY
   if (s.includes('-')) {
     const parts = s.split('-');
     if (parts.length === 3) {
       if (parts[0].length === 4) {
         return s.slice(0, 10);
       } else {
-        const d = parts[0].trim().padStart(2, '0');
-        const m = parts[1].trim().padStart(2, '0');
+        const p1 = parseInt(parts[0].trim(), 10);
+        const p2 = parseInt(parts[1].trim(), 10);
         let y = parts[2].trim();
         if (y.length === 2) y = '20' + y;
-        return `${y}-${m}-${d}`;
+
+        if (p2 > 12 && p1 <= 12) {
+          return `${y}-${String(p1).padStart(2, '0')}-${String(p2).padStart(2, '0')}`;
+        }
+        return `${y}-${String(p2).padStart(2, '0')}-${String(p1).padStart(2, '0')}`;
       }
     }
   }
 
-  // 4. Format DD.MM.YYYY
+  // 6. Format DD.MM.YYYY
   if (s.includes('.')) {
     const parts = s.split('.');
     if (parts.length === 3) {
@@ -327,13 +377,44 @@ export function parseSpreadsheetText(rawText: string): ParseResult {
     steamOut: 10,
   };
 
+  let isDailyMatrixFormat = false;
+  const matrixColMap = {
+    tanggal: 0,
+    steamOut: 3,
+    cangkangQty: -1,
+    woodPelletQty: -1,
+    dustPelletQty: -1,
+    kopiPelletQty: -1,
+    cangkangHarga: -1,
+    woodPelletHarga: -1,
+    dustPelletHarga: -1,
+    kopiHarga: -1,
+  };
+
   for (let i = 0; i < Math.min(lines.length, 5); i++) {
     const cols = splitRow(lines[i]).map((c) => c.toUpperCase());
     const hasPt = cols.some((c) => c.includes('NAMA PT') || c.includes('VENDOR') || c.includes('PT') || c.includes('SUPPLIER'));
     const hasBahan = cols.some((c) => c.includes('BAHAN') || c.includes('FUEL') || c.includes('PELLET') || c.includes('CANGKANG'));
     const hasTgl = cols.some((c) => c.includes('TANGGAL') || c.includes('DATE'));
+    const isDailyMatrix = cols.some((c) => c.includes('TOTAL CANGKANG') || c.includes('TOTAL WOOD PELLET'));
 
-    if (hasPt || (hasBahan && hasTgl)) {
+    if (isDailyMatrix) {
+      headerRowIndex = i;
+      isDailyMatrixFormat = true;
+      cols.forEach((col, idx) => {
+        if (col.includes('DATE') || col.includes('TANGGAL') || col === 'TGL') matrixColMap.tanggal = idx;
+        else if (col.includes('STEAM OUT') || col === 'STEAM') matrixColMap.steamOut = idx;
+        else if (col.includes('TOTAL CANGKANG SAWIT') && !col.includes('HARGA') && !col.includes('%')) matrixColMap.cangkangQty = idx;
+        else if (col.includes('TOTAL WOOD PELLET') && !col.includes('HARGA') && !col.includes('%')) matrixColMap.woodPelletQty = idx;
+        else if (col.includes('TOTAL DUST PELLET') && !col.includes('HARGA') && !col.includes('%')) matrixColMap.dustPelletQty = idx;
+        else if (col.includes('TOTAL KOPI PELLET') && !col.includes('HARGA') && !col.includes('%')) matrixColMap.kopiPelletQty = idx;
+        else if (col.includes('TOTAL HARGA CANGKANG')) matrixColMap.cangkangHarga = idx;
+        else if (col.includes('TOTAL HARGA WOOD PELLET') && !col.includes('DUST')) matrixColMap.woodPelletHarga = idx;
+        else if (col.includes('TOTAL HARGA DUST PELLET')) matrixColMap.dustPelletHarga = idx;
+        else if (col.includes('TOTAL HARGA KOPI')) matrixColMap.kopiHarga = idx;
+      });
+      break;
+    } else if (hasPt || (hasBahan && hasTgl)) {
       headerRowIndex = i;
       // Map columns dynamically if headers match
       cols.forEach((col, idx) => {
@@ -366,7 +447,111 @@ export function parseSpreadsheetText(rawText: string): ParseResult {
 
   for (let i = headerRowIndex + 1; i < lines.length; i++) {
     const rawCols = splitRow(lines[i]);
-    if (rawCols.length < 4) continue;
+    if (rawCols.length < 3) continue;
+
+    if (isDailyMatrixFormat) {
+      const rawDate = rawCols[matrixColMap.tanggal] || rawCols[0] || '';
+      if (!rawDate || rawDate.toUpperCase().includes('TOTAL')) continue;
+      const parsedDate = parseSpreadsheetDate(rawDate, lastValidDate);
+      if (!parsedDate) continue;
+      lastValidDate = parsedDate;
+      datesSet.add(parsedDate);
+
+      const steamNum = cleanNumber(rawCols[matrixColMap.steamOut] || rawCols[3]);
+      if (steamNum > 0) {
+        steamData[parsedDate] = steamNum;
+      }
+
+      // Check Cangkang
+      const cQty = matrixColMap.cangkangQty >= 0 ? cleanNumber(rawCols[matrixColMap.cangkangQty]) : 0;
+      const cHrgTotal = matrixColMap.cangkangHarga >= 0 ? cleanNumber(rawCols[matrixColMap.cangkangHarga]) : 0;
+      if (cQty > 0 || cHrgTotal > 0) {
+        const unitHrg = cQty > 0 && cHrgTotal > 0 ? Math.round(cHrgTotal / cQty) : 1710;
+        entries.push({
+          id: `matrix-row-${Date.now()}-${rowCounter}`,
+          no: rowCounter++,
+          namaPt: 'SAMCA',
+          bahanBakar: 'CANGKANG',
+          tanggal: parsedDate,
+          mc: 18.2,
+          calori: 4100,
+          konsumsi: cQty,
+          harga: unitHrg,
+          totalHarga: cHrgTotal || cQty * unitHrg,
+        });
+        fuelCounts['CANGKANG'] = (fuelCounts['CANGKANG'] || 0) + 1;
+        totalKonsumsi += cQty;
+        totalHarga += cHrgTotal || cQty * unitHrg;
+      }
+
+      // Check Wood Pellet
+      const wQty = matrixColMap.woodPelletQty >= 0 ? cleanNumber(rawCols[matrixColMap.woodPelletQty]) : 0;
+      const wHrgTotal = matrixColMap.woodPelletHarga >= 0 ? cleanNumber(rawCols[matrixColMap.woodPelletHarga]) : 0;
+      if (wQty > 0 || wHrgTotal > 0) {
+        const unitHrg = wQty > 0 && wHrgTotal > 0 ? Math.round(wHrgTotal / wQty) : 1788;
+        entries.push({
+          id: `matrix-row-${Date.now()}-${rowCounter}`,
+          no: rowCounter++,
+          namaPt: 'WIRABUMI',
+          bahanBakar: 'WOOD PELLET',
+          tanggal: parsedDate,
+          mc: 6.8,
+          calori: 4320,
+          konsumsi: wQty,
+          harga: unitHrg,
+          totalHarga: wHrgTotal || wQty * unitHrg,
+        });
+        fuelCounts['WOOD PELLET'] = (fuelCounts['WOOD PELLET'] || 0) + 1;
+        totalKonsumsi += wQty;
+        totalHarga += wHrgTotal || wQty * unitHrg;
+      }
+
+      // Check Dust Pellet
+      const dQty = matrixColMap.dustPelletQty >= 0 ? cleanNumber(rawCols[matrixColMap.dustPelletQty]) : 0;
+      const dHrgTotal = matrixColMap.dustPelletHarga >= 0 ? cleanNumber(rawCols[matrixColMap.dustPelletHarga]) : 0;
+      if (dQty > 0 || dHrgTotal > 0) {
+        const unitHrg = dQty > 0 && dHrgTotal > 0 ? Math.round(dHrgTotal / dQty) : 1950;
+        entries.push({
+          id: `matrix-row-${Date.now()}-${rowCounter}`,
+          no: rowCounter++,
+          namaPt: 'INDOPELLET',
+          bahanBakar: 'DUST PELLET',
+          tanggal: parsedDate,
+          mc: 8.5,
+          calori: 4150,
+          konsumsi: dQty,
+          harga: unitHrg,
+          totalHarga: dHrgTotal || dQty * unitHrg,
+        });
+        fuelCounts['DUST PELLET'] = (fuelCounts['DUST PELLET'] || 0) + 1;
+        totalKonsumsi += dQty;
+        totalHarga += dHrgTotal || dQty * unitHrg;
+      }
+
+      // Check Kopi Pellet
+      const kQty = matrixColMap.kopiPelletQty >= 0 ? cleanNumber(rawCols[matrixColMap.kopiPelletQty]) : 0;
+      const kHrgTotal = matrixColMap.kopiHarga >= 0 ? cleanNumber(rawCols[matrixColMap.kopiHarga]) : 0;
+      if (kQty > 0 || kHrgTotal > 0) {
+        const unitHrg = kQty > 0 && kHrgTotal > 0 ? Math.round(kHrgTotal / kQty) : 2200;
+        entries.push({
+          id: `matrix-row-${Date.now()}-${rowCounter}`,
+          no: rowCounter++,
+          namaPt: 'MARSHARI',
+          bahanBakar: 'KOPI PELLET',
+          tanggal: parsedDate,
+          mc: 9.3,
+          calori: 3950,
+          konsumsi: kQty,
+          harga: unitHrg,
+          totalHarga: kHrgTotal || kQty * unitHrg,
+        });
+        fuelCounts['KOPI PELLET'] = (fuelCounts['KOPI PELLET'] || 0) + 1;
+        totalKonsumsi += kQty;
+        totalHarga += kHrgTotal || kQty * unitHrg;
+      }
+
+      continue;
+    }
 
     const ptCandidate = rawCols[colMap.namaPt] || rawCols[1] || '';
     if (!ptCandidate || ptCandidate.toUpperCase().includes('TOTAL') || ptCandidate.toUpperCase().includes('NAMA PT')) {

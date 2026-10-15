@@ -40,21 +40,71 @@ export function formatDisplayDate(dateStr: string): string {
   return dateStr;
 }
 
+const INDO_MONTHS: Record<string, string> = {
+  januari: '01', jan: '01', january: '01',
+  februari: '02', feb: '02', february: '02',
+  maret: '03', mar: '03', march: '03',
+  april: '04', apr: '04',
+  mei: '05', may: '05',
+  juni: '06', jun: '06', june: '06',
+  juli: '07', jul: '07', july: '07',
+  agustus: '08', agu: '08', ags: '08', aug: '08', august: '08',
+  september: '09', sep: '09', sept: '09',
+  oktober: '10', okt: '10', oct: '10', october: '10',
+  november: '11', nov: '11',
+  desember: '12', des: '12', dec: '12', december: '12',
+};
+
 export function parseDateToIso(dateStr: string): string {
   if (!dateStr) return '';
   let s = dateStr.trim();
   if (s.includes('T')) s = s.split('T')[0].trim();
-  if (s.includes(' ')) s = s.split(' ')[0].trim();
+  if (s.includes(' ') && !s.match(/[a-zA-Z]/)) s = s.split(' ')[0].trim();
 
-  // If DD/MM/YYYY or D/M/YYYY
+  // If already standard ISO YYYY-MM-DD
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+    return s;
+  }
+
+  // Check text format with month names like "1 Agustus 2026", "30 September 2026", "01-Agu-2026"
+  const textParts = s.toLowerCase().split(/[\s,.-]+/);
+  if (textParts.length >= 3) {
+    let day = '';
+    let month = '';
+    let year = '';
+
+    for (const part of textParts) {
+      if (INDO_MONTHS[part]) {
+        month = INDO_MONTHS[part];
+      } else if (/^\d{4}$/.test(part)) {
+        year = part;
+      } else if (/^\d{1,2}$/.test(part)) {
+        if (!day) day = part.padStart(2, '0');
+        else if (!year) year = '20' + part.padStart(2, '0');
+      }
+    }
+
+    if (day && month && year) {
+      return `${year}-${month}-${day}`;
+    }
+  }
+
+  // If DD/MM/YYYY or MM/DD/YYYY or D/M/YYYY
   if (s.includes('/')) {
     const parts = s.split('/');
     if (parts.length === 3) {
-      const d = parts[0].padStart(2, '0');
-      const m = parts[1].padStart(2, '0');
-      let y = parts[2];
+      const p1 = parseInt(parts[0].trim(), 10);
+      const p2 = parseInt(parts[1].trim(), 10);
+      let y = parts[2].trim();
       if (y.length === 2) y = '20' + y;
-      return `${y}-${m}-${d}`;
+
+      // Smart detection: If p2 > 12 and p1 <= 12, it is MM/DD/YYYY (e.g. 08/25/2026 or 09/30/2026)
+      if (p2 > 12 && p1 <= 12) {
+        return `${y}-${String(p1).padStart(2, '0')}-${String(p2).padStart(2, '0')}`;
+      }
+
+      // Standard Indonesian DD/MM/YYYY (e.g. 01/08/2026 or 30/09/2026)
+      return `${y}-${String(p2).padStart(2, '0')}-${String(p1).padStart(2, '0')}`;
     }
   }
 
@@ -65,11 +115,15 @@ export function parseDateToIso(dateStr: string): string {
       if (parts[0].length === 4) {
         return `${parts[0]}-${parts[1].padStart(2, '0')}-${parts[2].padStart(2, '0')}`;
       } else {
-        const d = parts[0].padStart(2, '0');
-        const m = parts[1].padStart(2, '0');
-        let y = parts[2];
+        const p1 = parseInt(parts[0].trim(), 10);
+        const p2 = parseInt(parts[1].trim(), 10);
+        let y = parts[2].trim();
         if (y.length === 2) y = '20' + y;
-        return `${y}-${m}-${d}`;
+
+        if (p2 > 12 && p1 <= 12) {
+          return `${y}-${String(p1).padStart(2, '0')}-${String(p2).padStart(2, '0')}`;
+        }
+        return `${y}-${String(p2).padStart(2, '0')}-${String(p1).padStart(2, '0')}`;
       }
     }
   }
@@ -144,17 +198,11 @@ export function calculateDailySummaries(
       breakdown['CANGKANG'].konsumsi = rec.cangkangQty;
       breakdown['CANGKANG'].hargaTotal = rec.cangkangHarga;
 
-      const totalWoodDustQty = rec.woodPelletQty + rec.dustPelletQty;
-      const woodShare = totalWoodDustQty > 0
-        ? Math.round(rec.woodDustHarga * (rec.woodPelletQty / totalWoodDustQty))
-        : rec.woodDustHarga;
-      const dustShare = rec.woodDustHarga - woodShare;
-
       breakdown['WOOD PELLET'].konsumsi = rec.woodPelletQty;
-      breakdown['WOOD PELLET'].hargaTotal = woodShare;
+      breakdown['WOOD PELLET'].hargaTotal = rec.woodPelletHarga;
 
       breakdown['DUST PELLET'].konsumsi = rec.dustPelletQty;
-      breakdown['DUST PELLET'].hargaTotal = dustShare;
+      breakdown['DUST PELLET'].hargaTotal = rec.dustPelletHarga;
 
       breakdown['KOPI PELLET'].konsumsi = rec.kopiPelletQty;
       breakdown['KOPI PELLET'].hargaTotal = rec.kopiHarga;
