@@ -2,21 +2,21 @@ import { FuelEntry, FuelType, DailyFuelSummary } from '../types/boiler';
 import { FUEL_TYPES, DAILY_CONSUMPTION_RECORDS } from '../data/initialData';
 
 export function formatRupiah(value: number, includeDecimals = false): string {
-  if (isNaN(value) || value === 0) return includeDecimals ? 'Rp0.00' : 'Rp0';
+  if (isNaN(value) || value === 0) return includeDecimals ? 'Rp 0,00' : 'Rp 0';
   if (includeDecimals) {
     const parts = value.toFixed(2).split('.');
-    const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return `Rp${integerPart}.${parts[1]}`;
+    const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `Rp ${integerPart},${parts[1]}`;
   }
   const rounded = Math.round(value);
-  return `Rp${rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+  return `Rp ${rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
 }
 
 export function formatCurrencyExcel(value: number, decimals = 2): string {
-  if (isNaN(value) || value === 0) return decimals > 0 ? 'Rp0.00' : 'Rp0';
+  if (isNaN(value) || value === 0) return decimals > 0 ? 'Rp 0,00' : 'Rp 0';
   const parts = value.toFixed(decimals).split('.');
-  const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  return decimals > 0 ? `Rp${integerPart}.${parts[1]}` : `Rp${integerPart}`;
+  const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  return decimals > 0 ? `Rp ${integerPart},${parts[1]}` : `Rp ${integerPart}`;
 }
 
 export function formatNumber(value: number, decimals = 0): string {

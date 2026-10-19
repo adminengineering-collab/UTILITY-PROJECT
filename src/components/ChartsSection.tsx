@@ -42,26 +42,56 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
     return map;
   }, []);
 
-  // Prepare chart dataset 100% synchronized with the spreadsheet table
+  // Prepare chart dataset 100% synchronized with the spreadsheet table and real-time data
   const chartData = useMemo(() => {
     return summaries.map((s) => {
       const match = preloadedRecordsMap.get(s.tanggal) || preloadedRecordsMap.get(s.displayTanggal);
 
-      const cangkangKg = match ? match.cangkangQty : (s.breakdown['CANGKANG']?.konsumsi || 0);
-      const woodKg = match ? match.woodPelletQty : (s.breakdown['WOOD PELLET']?.konsumsi || 0);
-      const dustKg = match ? match.dustPelletQty : (s.breakdown['DUST PELLET']?.konsumsi || 0);
-      const kopiKg = match ? match.kopiPelletQty : (s.breakdown['KOPI PELLET']?.konsumsi || 0);
-      const totalKonsumsi = match ? match.totalQty : s.totalKonsumsi;
+      // Check if we have live entries or real breakdown data from the spreadsheet sync
+      const hasLiveEntries = Boolean(s.entries && s.entries.length > 0);
+      const hasLiveBreakdown = (
+        (s.breakdown['CANGKANG']?.konsumsi || 0) > 0 ||
+        (s.breakdown['WOOD PELLET']?.konsumsi || 0) > 0 ||
+        (s.breakdown['DUST PELLET']?.konsumsi || 0) > 0 ||
+        (s.breakdown['KOPI PELLET']?.konsumsi || 0) > 0 ||
+        s.totalKonsumsi > 0 ||
+        s.totalHarga > 0
+      );
+      const useLive = hasLiveEntries || hasLiveBreakdown;
 
-      const cangkangCost = match ? match.cangkangHarga : (s.breakdown['CANGKANG']?.hargaTotal || 0);
-      const woodCost = match ? match.woodPelletHarga : (s.breakdown['WOOD PELLET']?.hargaTotal || 0);
-      const dustCost = match ? match.dustPelletHarga : (s.breakdown['DUST PELLET']?.hargaTotal || 0);
-      const kopiCost = match ? match.kopiHarga : (s.breakdown['KOPI PELLET']?.hargaTotal || 0);
-      const totalBiaya = match ? match.totalHarga : s.totalHarga;
+      const cangkangKg = useLive ? (s.breakdown['CANGKANG']?.konsumsi || 0) : (match ? match.cangkangQty : 0);
+      const woodKg = useLive ? (s.breakdown['WOOD PELLET']?.konsumsi || 0) : (match ? match.woodPelletQty : 0);
+      const dustKg = useLive ? (s.breakdown['DUST PELLET']?.konsumsi || 0) : (match ? match.dustPelletQty : 0);
+      const kopiKg = useLive ? (s.breakdown['KOPI PELLET']?.konsumsi || 0) : (match ? match.kopiPelletQty : 0);
 
-      const steamOut = match ? match.steamOut : s.steamOut;
-      const kgPerTonSteam = match ? match.kgPerTonSteam : s.kgPerTonSteam;
-      const rpPerTonSteam = match ? match.rpPerTonSteam : s.rpPerTonSteam;
+      const totalKonsumsi = useLive
+        ? (s.totalKonsumsi > 0 ? s.totalKonsumsi : (cangkangKg + woodKg + dustKg + kopiKg))
+        : (match ? match.totalQty : (cangkangKg + woodKg + dustKg + kopiKg));
+
+      const cangkangCost = useLive 
+        ? (s.breakdown['CANGKANG']?.hargaTotal || 0) 
+        : (match ? match.cangkangHarga : (cangkangKg > 0 ? cangkangKg * 1710 : 0));
+
+      const woodCost = useLive 
+        ? (s.breakdown['WOOD PELLET']?.hargaTotal || 0) 
+        : (match ? match.woodPelletHarga : (woodKg > 0 ? woodKg * 1788 : 0));
+
+      const dustCost = useLive 
+        ? (s.breakdown['DUST PELLET']?.hargaTotal || 0) 
+        : (match ? match.dustPelletHarga : (dustKg > 0 ? dustKg * 1950 : 0));
+
+      const kopiCost = useLive 
+        ? (s.breakdown['KOPI PELLET']?.hargaTotal || 0) 
+        : (match ? match.kopiHarga : (kopiKg > 0 ? kopiKg * 2200 : 0));
+
+      const calcTotalBiaya = cangkangCost + woodCost + dustCost + kopiCost;
+      const totalBiaya = useLive
+        ? (s.totalHarga > 0 ? s.totalHarga : calcTotalBiaya)
+        : (match ? match.totalHarga : calcTotalBiaya);
+
+      const steamOut = s.steamOut > 0 ? s.steamOut : (match ? match.steamOut : 0);
+      const kgPerTonSteam = steamOut > 0 ? Math.round(totalKonsumsi / steamOut) : (match ? match.kgPerTonSteam : 0);
+      const rpPerTonSteam = steamOut > 0 ? totalBiaya / steamOut : (match ? match.rpPerTonSteam : 0);
 
       const pctCangkang = totalKonsumsi > 0 ? (cangkangKg / totalKonsumsi) * 100 : 0;
       const pctWood = totalKonsumsi > 0 ? (woodKg / totalKonsumsi) * 100 : 0;

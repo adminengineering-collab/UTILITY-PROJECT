@@ -28,40 +28,61 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
     return map;
   }, []);
 
-  // Compute row data for each summary, preferring exact preloaded record if available or computing dynamically
+  // Compute row data for each summary, prioritizing LIVE synchronized spreadsheet data 1:1
   const tableRows = useMemo(() => {
     return summaries.map((s) => {
       const match = preloadedRecordsMap.get(s.tanggal) || preloadedRecordsMap.get(s.displayTanggal);
 
-      const cangkangQty = match ? match.cangkangQty : (s.breakdown['CANGKANG']?.konsumsi || 0);
-      const woodPelletQty = match ? match.woodPelletQty : (s.breakdown['WOOD PELLET']?.konsumsi || 0);
-      const dustPelletQty = match ? match.dustPelletQty : (s.breakdown['DUST PELLET']?.konsumsi || 0);
-      const kopiPelletQty = match ? match.kopiPelletQty : (s.breakdown['KOPI PELLET']?.konsumsi || 0);
+      // Check if we have live entries or real breakdown data from the spreadsheet sync
+      const hasLiveEntries = Boolean(s.entries && s.entries.length > 0);
+      const hasLiveBreakdown = (
+        (s.breakdown['CANGKANG']?.konsumsi || 0) > 0 ||
+        (s.breakdown['WOOD PELLET']?.konsumsi || 0) > 0 ||
+        (s.breakdown['DUST PELLET']?.konsumsi || 0) > 0 ||
+        (s.breakdown['KOPI PELLET']?.konsumsi || 0) > 0 ||
+        s.totalKonsumsi > 0 ||
+        s.totalHarga > 0
+      );
+      const useLive = hasLiveEntries || hasLiveBreakdown;
 
-      const rawCangkangHrg = match ? match.cangkangHarga : (s.breakdown['CANGKANG']?.hargaTotal || 0);
-      const cangkangHarga = rawCangkangHrg > 0 ? rawCangkangHrg : (cangkangQty > 0 ? cangkangQty * 1710 : 0);
+      const cangkangQty = useLive ? (s.breakdown['CANGKANG']?.konsumsi || 0) : (match ? match.cangkangQty : 0);
+      const woodPelletQty = useLive ? (s.breakdown['WOOD PELLET']?.konsumsi || 0) : (match ? match.woodPelletQty : 0);
+      const dustPelletQty = useLive ? (s.breakdown['DUST PELLET']?.konsumsi || 0) : (match ? match.dustPelletQty : 0);
+      const kopiPelletQty = useLive ? (s.breakdown['KOPI PELLET']?.konsumsi || 0) : (match ? match.kopiPelletQty : 0);
 
-      const rawWoodHrg = match ? match.woodPelletHarga : (s.breakdown['WOOD PELLET']?.hargaTotal || 0);
-      const woodPelletHarga = rawWoodHrg > 0 ? rawWoodHrg : (woodPelletQty > 0 ? woodPelletQty * 1788 : 0);
+      const cangkangHarga = useLive 
+        ? (s.breakdown['CANGKANG']?.hargaTotal || 0) 
+        : (match ? match.cangkangHarga : (cangkangQty > 0 ? cangkangQty * 1710 : 0));
 
-      const rawDustHrg = match ? match.dustPelletHarga : (s.breakdown['DUST PELLET']?.hargaTotal || 0);
-      const dustPelletHarga = rawDustHrg > 0 ? rawDustHrg : (dustPelletQty > 0 ? dustPelletQty * 1950 : 0);
+      const woodPelletHarga = useLive 
+        ? (s.breakdown['WOOD PELLET']?.hargaTotal || 0) 
+        : (match ? match.woodPelletHarga : (woodPelletQty > 0 ? woodPelletQty * 1788 : 0));
+
+      const dustPelletHarga = useLive 
+        ? (s.breakdown['DUST PELLET']?.hargaTotal || 0) 
+        : (match ? match.dustPelletHarga : (dustPelletQty > 0 ? dustPelletQty * 1950 : 0));
 
       const rawWoodDust = match ? match.woodDustHarga : undefined;
-      const woodPelletSpreadsheetHarga = rawWoodDust !== undefined && rawWoodDust > 0
+      const woodPelletSpreadsheetHarga = (!useLive && rawWoodDust !== undefined && rawWoodDust > 0)
         ? rawWoodDust
         : (woodPelletHarga + dustPelletHarga);
 
-      const rawKopiHrg = match ? match.kopiHarga : (s.breakdown['KOPI PELLET']?.hargaTotal || 0);
-      const kopiHarga = rawKopiHrg > 0 ? rawKopiHrg : (kopiPelletQty > 0 ? kopiPelletQty * 2200 : 0);
+      const kopiHarga = useLive 
+        ? (s.breakdown['KOPI PELLET']?.hargaTotal || 0) 
+        : (match ? match.kopiHarga : (kopiPelletQty > 0 ? kopiPelletQty * 2200 : 0));
 
-      const totalQty = match ? match.totalQty : (s.totalKonsumsi > 0 ? s.totalKonsumsi : (cangkangQty + woodPelletQty + dustPelletQty + kopiPelletQty));
+      const totalQty = useLive
+        ? (s.totalKonsumsi > 0 ? s.totalKonsumsi : (cangkangQty + woodPelletQty + dustPelletQty + kopiPelletQty))
+        : (match ? match.totalQty : (cangkangQty + woodPelletQty + dustPelletQty + kopiPelletQty));
+
       const calcTotalHarga = cangkangHarga + woodPelletHarga + dustPelletHarga + kopiHarga;
-      const totalHarga = match ? match.totalHarga : (s.totalHarga > 0 ? s.totalHarga : calcTotalHarga);
+      const totalHarga = useLive
+        ? (s.totalHarga > 0 ? s.totalHarga : calcTotalHarga)
+        : (match ? match.totalHarga : calcTotalHarga);
 
-      const steamOut = match ? match.steamOut : s.steamOut;
-      const kgPerTonSteam = match ? match.kgPerTonSteam : (steamOut > 0 ? Math.round(totalQty / steamOut) : 0);
-      const rpPerTonSteam = match ? match.rpPerTonSteam : (steamOut > 0 ? totalHarga / steamOut : 0);
+      const steamOut = s.steamOut > 0 ? s.steamOut : (match ? match.steamOut : 0);
+      const kgPerTonSteam = steamOut > 0 ? Math.round(totalQty / steamOut) : (match ? match.kgPerTonSteam : 0);
+      const rpPerTonSteam = steamOut > 0 ? totalHarga / steamOut : (match ? match.rpPerTonSteam : 0);
 
       // Percentage of total quantity
       const cangkangPct = totalQty > 0 ? Math.round((cangkangQty / totalQty) * 100) : 0;
@@ -444,18 +465,27 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
   return (
     <div className="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
       {/* Header and Controls */}
-      <div className="p-4 sm:p-5 border-b border-slate-200 bg-slate-50/70 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div className="p-4 sm:p-5 border-b border-slate-200 bg-gradient-to-r from-slate-50 via-white to-amber-50/30 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 shadow-2xs">
         <div>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center">
+          <div className="flex items-start sm:items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center shrink-0 mt-0.5 sm:mt-0 shadow-2xs">
               <Table className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-900 tracking-tight">
-                Data Harian Konsumsi Bahan Bakar & Steam Boiler
-              </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Format tabel identik dengan spreadsheet monitoring operasional boiler (Total QTY, Biaya, Steam Out, Rasio Efisiensi, & Rincian per Jenis).
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-base font-bold text-slate-900 tracking-tight">
+                  Lembar Data Real-Time Sinkron Spreadsheet
+                </h2>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-2xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span>Sinkron 1:1 Grafik Volume &amp; Spreadsheet</span>
+                </span>
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+                  {filteredRows.length} Hari Pengamatan
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                Tersinkronisasi 1:1 dengan Grafik Total Konsumsi Volume: <strong className="text-slate-700">TANGGAL</strong> · <strong className="text-slate-700">TOTAL QTY</strong> · <strong className="text-slate-700">TOTAL HARGA</strong> · <strong className="text-slate-700">STEAM OUT</strong> · <strong className="text-slate-700">KG/TON STEAM</strong> · <strong className="text-slate-700">RP/ TON STEAM</strong> · <strong className="text-emerald-700">TOTAL CANGKANG SAWIT</strong> · <strong className="text-amber-700">TOTAL WOOD PELLET</strong> · <strong className="text-sky-700">TOTAL DUST PELLET</strong> · <strong className="text-purple-700">TOTAL KOPI PELLET</strong> &amp; Seterusnya.
               </p>
             </div>
           </div>
@@ -548,8 +578,14 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
               <th className="py-2.5 px-3 text-right bg-slate-100 border-b border-slate-300">
                 TOTAL QTY
               </th>
-              <th className="py-2.5 px-3 text-right bg-slate-100 border-b border-slate-300">
-                TOTAL HARGA
+              {/* KOLOM TOTAL HARGA (RP) - Focused Element Selector 1 */}
+              <th className="py-2.5 px-3 text-right bg-emerald-50 text-emerald-950 border-b border-slate-300 font-black tracking-tight shadow-inner">
+                <div className="flex items-center justify-end gap-1.5">
+                  <span className="font-extrabold">TOTAL HARGA</span>
+                  <span className="px-1.5 py-0.5 text-[9px] bg-emerald-600 text-white rounded font-bold tracking-wider uppercase shadow-2xs">
+                    Rp (IDR)
+                  </span>
+                </div>
               </th>
               <th className="py-2.5 px-3 text-right bg-sky-50 text-sky-950 border-b border-slate-300">
                 STEAM OUT
@@ -557,8 +593,14 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
               <th className="py-2.5 px-3 text-right bg-slate-100 border-b border-slate-300">
                 KG/Ton Steam
               </th>
-              <th className="py-2.5 px-3 text-right bg-slate-100 border-b border-slate-300">
-                Rp/Ton Steam
+              {/* KOLOM RP/ TON STEAM - Focused Element Selector 2 */}
+              <th className="py-2.5 px-3 text-right bg-emerald-50 text-emerald-950 border-b border-slate-300 font-black tracking-tight shadow-inner">
+                <div className="flex items-center justify-end gap-1.5">
+                  <span className="font-extrabold">RP/ TON STEAM</span>
+                  <span className="px-1.5 py-0.5 text-[9px] bg-emerald-600 text-white rounded font-bold tracking-wider uppercase shadow-2xs">
+                    Rp/Ton
+                  </span>
+                </div>
               </th>
               <th className="py-2.5 px-3 text-right bg-emerald-50 text-emerald-950 border-b border-slate-300">
                 TOTAL CANGKANG SAWIT
@@ -572,20 +614,20 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
               <th className="py-2.5 px-3 text-right bg-purple-50 text-purple-950 border-b border-slate-300">
                 TOTAL KOPI PELLET
               </th>
-              {/* KOLOM TOTAL HARGA */}
-              <th className="py-2.5 px-3 text-right bg-emerald-50/80 text-emerald-950 border-b border-slate-300">
-                TOTAL HARGA CANGKANG SAWIT
+              {/* KOLOM TOTAL HARGA MATA UANG RUPIAH */}
+              <th className="py-2.5 px-3 text-right bg-emerald-50/90 text-emerald-950 border-b border-slate-300 font-extrabold">
+                TOTAL HARGA CANGKANG SAWIT (Rp)
               </th>
-              <th className="py-2.5 px-3 text-right bg-amber-50/80 text-amber-950 border-b border-slate-300">
-                TOTAL HARGA WOOD PELLET
+              <th className="py-2.5 px-3 text-right bg-amber-50/90 text-amber-950 border-b border-slate-300 font-extrabold">
+                TOTAL HARGA WOOD PELLET (Rp)
               </th>
               {priceColumnMode === 'separated' && (
-                <th className="py-2.5 px-3 text-right bg-sky-50/80 text-sky-950 border-b border-slate-300">
-                  TOTAL HARGA DUST PELLET
+                <th className="py-2.5 px-3 text-right bg-sky-50/90 text-sky-950 border-b border-slate-300 font-extrabold">
+                  TOTAL HARGA DUST PELLET (Rp)
                 </th>
               )}
-              <th className="py-2.5 px-3 text-right bg-purple-50/80 text-purple-950 border-b border-slate-300">
-                TOTAL HARGA KOPI PELLET
+              <th className="py-2.5 px-3 text-right bg-purple-50/90 text-purple-950 border-b border-slate-300 font-extrabold">
+                TOTAL HARGA KOPI PELLET (Rp)
               </th>
 
               {/* KOLOM PERSENTASE KOMPOSISI */}
@@ -649,7 +691,7 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
 
                     {/* 6. Rp/Ton Steam */}
                     <td className="py-2 px-3 text-right text-slate-800 tabular-nums">
-                      {row.rpPerTonSteam > 0 ? formatCurrencyExcel(row.rpPerTonSteam, 2) : 'Rp0'}
+                      {formatCurrencyExcel(row.rpPerTonSteam, 2)}
                     </td>
 
                     {/* 7. TOTAL CANGKANG SAWIT */}
@@ -674,28 +716,28 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
 
                     {/* 11. TOTAL HARGA CANGKANG SAWIT */}
                     <td className="py-2 px-3 text-right text-emerald-900 tabular-nums font-semibold">
-                      {row.cangkangHarga > 0 ? formatCurrencyExcel(row.cangkangHarga, 0) : 'Rp0'}
+                      {formatCurrencyExcel(row.cangkangHarga, 0)}
                     </td>
 
                     {/* 12. TOTAL HARGA WOOD PELLET (Sesuai Spreadsheet atau Terpisah) */}
                     {priceColumnMode === 'spreadsheet' ? (
                       <td className="py-2 px-3 text-right text-amber-900 tabular-nums font-semibold">
-                        {row.woodPelletSpreadsheetHarga > 0 ? formatCurrencyExcel(row.woodPelletSpreadsheetHarga, 0) : 'Rp0'}
+                        {formatCurrencyExcel(row.woodPelletSpreadsheetHarga, 0)}
                       </td>
                     ) : (
                       <>
-                        <td className="py-2 px-3 text-right text-amber-900 tabular-nums">
-                          {row.woodPelletHarga > 0 ? formatCurrencyExcel(row.woodPelletHarga, 0) : 'Rp0'}
+                        <td className="py-2 px-3 text-right text-amber-900 tabular-nums font-semibold">
+                          {formatCurrencyExcel(row.woodPelletHarga, 0)}
                         </td>
-                        <td className="py-2 px-3 text-right text-sky-900 tabular-nums">
-                          {row.dustPelletHarga > 0 ? formatCurrencyExcel(row.dustPelletHarga, 0) : 'Rp0'}
+                        <td className="py-2 px-3 text-right text-sky-900 tabular-nums font-semibold">
+                          {formatCurrencyExcel(row.dustPelletHarga, 0)}
                         </td>
                       </>
                     )}
 
                     {/* 13/14. TOTAL HARGA KOPI PELLET */}
                     <td className="py-2 px-3 text-right text-purple-900 tabular-nums font-semibold">
-                      {row.kopiHarga > 0 ? formatCurrencyExcel(row.kopiHarga, 0) : 'Rp0'}
+                      {formatCurrencyExcel(row.kopiHarga, 0)}
                     </td>
 
                     {/* % TOTAL CANGKANG SAWIT */}

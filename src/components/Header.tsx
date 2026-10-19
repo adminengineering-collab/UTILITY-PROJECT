@@ -104,24 +104,14 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-2">
             {/* Button 1: Dedicated Real-time Sync Button */}
             <button
-              onClick={() => {
-                if (hasGoogleSheetConnected) {
-                  onPerformSync();
-                } else {
-                  onOpenRealtimeSettings();
-                }
-              }}
+              onClick={onOpenRealtimeSettings}
               disabled={isSyncing}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold border rounded-lg transition-all whitespace-nowrap shadow-sm active:scale-95 ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold border rounded-lg transition-all whitespace-nowrap shadow-sm active:scale-95 cursor-pointer ${
                 hasGoogleSheetConnected
                   ? 'bg-emerald-950/80 hover:bg-emerald-900 border-emerald-600/80 text-emerald-300 ring-1 ring-emerald-500/40 hover:text-white'
                   : 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-300'
               } ${isSyncing ? 'opacity-80 cursor-wait' : ''}`}
-              title={
-                hasGoogleSheetConnected
-                  ? `Klik untuk sinkronisasi data langsung dari Google Sheets (Terakhir: ${lastSyncedAt || 'Belum ada'})`
-                  : 'Hubungkan tautan Google Sheets untuk sinkronisasi'
-              }
+              title="Buka Pengaturan Sinkronisasi Real-Time Google Sheets"
             >
               <RefreshCw
                 className={`w-3.5 h-3.5 text-emerald-400 ${isSyncing ? 'animate-spin' : ''}`}
@@ -134,7 +124,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Real-time Settings button */}
             <button
               onClick={onOpenRealtimeSettings}
-              className="p-1.5 text-slate-400 hover:text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-colors"
+              className="p-1.5 text-slate-400 hover:text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-colors cursor-pointer"
               title="Pengaturan URL Google Sheets"
             >
               <Settings className="w-3.5 h-3.5" />

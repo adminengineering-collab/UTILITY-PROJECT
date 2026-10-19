@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react'
 import { FuelEntry, DailyFuelSummary } from './types/boiler';
 import { INITIAL_ENTRIES, INITIAL_STEAM_DATA } from './data/initialData';
 import { calculateDailySummaries, formatDisplayDate, parseDateToIso } from './utils/calculations';
-import { convertToGoogleSheetsCsvUrl, parseSpreadsheetText } from './utils/spreadsheetSync';
+import { convertToGoogleSheetsCsvUrl, parseSpreadsheetText, fetchSpreadsheetContent } from './utils/spreadsheetSync';
 import { playSyncChime } from './utils/soundNotification';
 import { Header } from './components/Header';
 import { MetricCards } from './components/MetricCards';
@@ -269,39 +269,34 @@ export default function App() {
     showToast(`Tanggal baris berhasil disesuaikan menjadi ${formatDisplayDate(newDate)}.`);
   };
 
+  const handleResetOriginalData = () => {
+    setEntries(INITIAL_ENTRIES);
+    setSteamData(INITIAL_STEAM_DATA);
+    setDateFilterPreset('ALL');
+    const dates = Array.from(new Set(INITIAL_ENTRIES.map((e) => parseDateToIso(e.tanggal)).filter(Boolean))).sort();
+    if (dates.length > 0) {
+      setStartDate(dates[0]);
+      setEndDate(dates[dates.length - 1]);
+    }
+    showToast(`Data asli spreadsheet berhasil dimuat ulang (${INITIAL_ENTRIES.length} baris transaksi)!`);
+  };
+
   // REAL-TIME SYNC EXECUTION ENGINE
-  const handlePerformSync = useCallback(async (isSilent = false) => {
-    if (!sheetUrl.trim()) return;
+  const handlePerformSync = useCallback(async (isSilent = false, overrideUrl?: string) => {
+    const targetUrl = (overrideUrl || sheetUrl).trim();
+    if (!targetUrl) return;
 
     setIsSyncing(true);
     const startTime = Date.now();
     const timeFormatted = new Date().toLocaleTimeString('id-ID');
 
     try {
-      const baseCsvUrl = convertToGoogleSheetsCsvUrl(sheetUrl);
-      // High-performance cache buster for instant freshness
-      const csvUrlWithCacheBuster = `${baseCsvUrl}${baseCsvUrl.includes('?') ? '&' : '?'}_nocache=${Date.now()}&_rnd=${Math.random().toString(36).substring(2, 7)}`;
-
-      let response: Response;
-      try {
-        response = await fetch(csvUrlWithCacheBuster, {
-          cache: 'no-store',
-          headers: {
-            'Cache-Control': 'no-cache, no-store, must-revalidate',
-            'Pragma': 'no-cache',
-          },
-        });
-      } catch {
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrlWithCacheBuster)}&_t=${Date.now()}`;
-        response = await fetch(proxyUrl, { cache: 'no-store' });
-      }
-
-      if (!response.ok) {
-        throw new Error(`Koneksi Google Sheets gagal (Status ${response.status}).`);
-      }
-
-      const text = await response.text();
+      const text = await fetchSpreadsheetContent(targetUrl);
       const parseResult = parseSpreadsheetText(text);
+
+      if (parseResult.errors && parseResult.errors.length > 0 && parseResult.entries.length === 0) {
+        throw new Error(parseResult.errors[0]);
+      }
 
       if (parseResult.entries.length === 0) {
         throw new Error('Tidak ada baris data valid yang terbaca dari spreadsheet.');
@@ -322,18 +317,25 @@ export default function App() {
       if (mergeMode === 'replace') {
         setEntries(parseResult.entries);
       } else {
-        setEntries((prev) => [...prev, ...parseResult.entries]);
+        // Smart merge by date + fuel type: update existing matching records and add new ones
+        setEntries((prev) => {
+          const map = new Map<string, FuelEntry>();
+          prev.forEach((e) => map.set(`${e.tanggal}-${e.bahanBakar}-${e.namaPt}`, e));
+          parseResult.entries.forEach((e) => map.set(`${e.tanggal}-${e.bahanBakar}-${e.namaPt}`, e));
+          return Array.from(map.values());
+        });
       }
 
       if (Object.keys(parseResult.steamData).length > 0) {
         setSteamData((prev) => ({ ...prev, ...parseResult.steamData }));
       }
 
-      // Auto-align date filter range with spreadsheet if dates exist
-      if (parseResult.summary.datesFound.length > 0 && dateFilterPreset === 'ALL') {
+      // Auto-align date filter range with spreadsheet if dates exist so August & September data are immediately visible
+      if (parseResult.summary.datesFound.length > 0) {
         const dates = parseResult.summary.datesFound;
         setStartDate(dates[0]);
         setEndDate(dates[dates.length - 1]);
+        setDateFilterPreset('ALL');
       }
 
       prevEntryCountRef.current = newCount;
@@ -364,9 +366,9 @@ export default function App() {
         showToast(`⚡ Auto-Sync: Terdeteksi penambahan data di Spreadsheet (+${countDelta} baris baru)! Total: ${newCount} baris.`);
       } else if (hasModifiedData) {
         if (notifyOnDataChange) playSyncChime();
-        showToast(`⚡ Auto-Sync: Data transaksi di Spreadsheet berhasil disinkronkan.`);
+        showToast(`⚡ Auto-Sync: Data transaksi di Spreadsheet berhasil disinkronkan (${newCount} baris).`);
       } else if (!isSilent) {
-        showToast(`Data sudah mutakhir (tidak ada perubahan baru di Google Sheets).`);
+        showToast(`Data sudah mutakhir (terhubung ${newCount} baris).`);
       }
     } catch (err: any) {
       console.error('Realtime sync error:', err);
@@ -378,7 +380,7 @@ export default function App() {
       };
       setSyncLogs((prev) => [newLog, ...prev.slice(0, 19)]);
       if (!isSilent) {
-        showToast(`Gagal Sinkronisasi: ${err.message || 'Periksa koneksi Google Sheets'}`);
+        showToast(`Koneksi Gagal: ${err.message || 'Periksa izin akses Google Sheets.'}`);
       }
     } finally {
       setIsSyncing(false);
@@ -738,6 +740,30 @@ export default function App() {
         onToggleNotify={setNotifyOnDataChange}
         mergeMode={mergeMode}
         onSetMergeMode={setMergeMode}
+        onApplyData={(newEntries, newSteamData) => {
+          if (mergeMode === 'replace') {
+            setEntries(newEntries);
+          } else {
+            setEntries((prev) => {
+              const map = new Map<string, FuelEntry>();
+              prev.forEach((e) => map.set(`${e.tanggal}-${e.bahanBakar}-${e.namaPt}`, e));
+              newEntries.forEach((e) => map.set(`${e.tanggal}-${e.bahanBakar}-${e.namaPt}`, e));
+              return Array.from(map.values());
+            });
+          }
+          if (newSteamData && Object.keys(newSteamData).length > 0) {
+            setSteamData((prev) => ({ ...prev, ...newSteamData }));
+          }
+          // Align date filters so newly applied records (August & September) are visible immediately
+          const dates = Array.from(new Set(newEntries.map((e) => parseDateToIso(e.tanggal)).filter(Boolean))).sort();
+          if (dates.length > 0) {
+            setStartDate(dates[0]);
+            setEndDate(dates[dates.length - 1]);
+            setDateFilterPreset('ALL');
+          }
+          showToast(`Berhasil menerapkan ${newEntries.length} baris data transaksi ke dashboard!`);
+        }}
+        onResetOriginalData={handleResetOriginalData}
       />
     </div>
   );

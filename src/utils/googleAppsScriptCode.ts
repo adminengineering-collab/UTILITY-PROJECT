@@ -18,18 +18,34 @@ export const GOOGLE_APPS_SCRIPT_CODE = `/**
 var SHEET_NAME = 'Sheet1';
 
 /**
- * 1. Menu Tambahan di Google Sheets
+ * 0. Uji Coba Manual di Editor Apps Script
+ * Jika Anda menekan tombol "Jalankan" di editor, pilih fungsi testRun() ini.
+ */
+function testRun() {
+  Logger.log("✅ Script berhasil tersimpan dan siap digunakan!");
+  Logger.log("📌 CATATAN PENTING: Script Web App ini TIDAK PERLU dijalankan dengan tombol 'Jalankan'.");
+  Logger.log("👉 Silakan klik tombol biru 'Terapkan (Deploy)' > 'Penerapan baru (New deployment)' > 'Aplikasi Web (Web app)' > Akses: 'Siapa saja (Anyone)'.");
+  return "OK";
+}
+
+/**
+ * 1. Menu Tambahan di Google Sheets (Otomatis muncul saat sheet dibuka)
  */
 function onOpen() {
-  var ui = SpreadsheetApp.getUi();
-  ui.createMenu('🔥 Boiler Utility TACO')
-    .addItem('📊 Buat Template 18 Kolom (Format Lengkap)', 'setupDailyMatrixTemplate')
-    .addItem('📋 Buat Template Kolom Standar Log', 'setupTemplate')
-    .addItem('💰 Format Kolom Biaya & Harga ke Rupiah (Rp)', 'formatColumnsToRupiah')
-    .addItem('⚡ Format & Hitung Ulang Rumus Otomatis', 'autoCalculate')
-    .addSeparator()
-    .addItem('ℹ️ Panduan Koneksi ke Dashboard Web', 'showInstructions')
-    .addToUi();
+  try {
+    var ui = SpreadsheetApp.getUi();
+    if (!ui) return;
+    ui.createMenu('🔥 Boiler Utility TACO')
+      .addItem('📊 Buat Template 18 Kolom (Format Lengkap)', 'setupDailyMatrixTemplate')
+      .addItem('📋 Buat Template Kolom Standar Log', 'setupTemplate')
+      .addItem('💰 Format Kolom Biaya & Harga ke Rupiah (Rp)', 'formatColumnsToRupiah')
+      .addItem('⚡ Format & Hitung Ulang Rumus Otomatis', 'autoCalculate')
+      .addSeparator()
+      .addItem('ℹ️ Panduan Koneksi ke Dashboard Web', 'showInstructions')
+      .addToUi();
+  } catch (err) {
+    Logger.log("Info onOpen: " + err.message);
+  }
 }
 
 /**
@@ -38,8 +54,24 @@ function onOpen() {
  */
 function doGet(e) {
   try {
+    if (!e) e = { parameter: {} };
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var paramSheet = (e && e.parameter && e.parameter.sheet) ? e.parameter.sheet : '';
+    if (!ss) {
+      // Jika dibuat sebagai standalone script di script.google.com
+      var paramId = (e.parameter && e.parameter.id) ? e.parameter.id : '';
+      if (paramId) {
+        ss = SpreadsheetApp.openById(paramId);
+      }
+    }
+
+    if (!ss) {
+      return respondJson({
+        status: 'error',
+        message: 'Spreadsheet tidak terdeteksi. Pastikan script ini dibuat dari dalam Google Sheets (menu Ekstensi > Apps Script), bukan dibuat langsung di script.google.com.'
+      });
+    }
+
+    var paramSheet = (e.parameter && e.parameter.sheet) ? e.parameter.sheet : '';
     var sheet = paramSheet ? ss.getSheetByName(paramSheet) : (SHEET_NAME ? ss.getSheetByName(SHEET_NAME) : null);
     if (!sheet) {
       sheet = ss.getSheets()[0];
@@ -65,18 +97,38 @@ function doGet(e) {
 
     if (isMatrix) {
       // Mapping kolom matrix 18/17 kolom
-      var mCol = { date: 0, steam: 3, cQty: 6, wQty: 7, dQty: 8, kQty: 9, cHrg: 10, wHrg: 11, dHrg: 12, kHrg: 13 };
+      var mCol = { 
+        date: 0, 
+        totQty: 1, 
+        totHrg: 2, 
+        steam: 3, 
+        kgSteam: 4, 
+        rpSteam: 5, 
+        cQty: 6, 
+        wQty: 7, 
+        dQty: 8, 
+        kQty: 9, 
+        cHrg: 10, 
+        wHrg: 11, 
+        dHrg: 12, 
+        kHrg: 13 
+      };
+
       firstRowStr.forEach(function(h, idx) {
-        if (h === 'DATE' || h === 'TANGGAL') mCol.date = idx;
-        else if (h.indexOf('STEAM OUT') >= 0) mCol.steam = idx;
-        else if (h.indexOf('CANGKANG') >= 0 && h.indexOf('HARGA') === -1) mCol.cQty = idx;
-        else if (h.indexOf('WOOD') >= 0 && h.indexOf('HARGA') === -1 && h.indexOf('DUST') === -1) mCol.wQty = idx;
-        else if (h.indexOf('DUST') >= 0 && h.indexOf('HARGA') === -1) mCol.dQty = idx;
-        else if (h.indexOf('KOPI') >= 0 && h.indexOf('HARGA') === -1) mCol.kQty = idx;
-        else if (h.indexOf('HARGA CANGKANG') >= 0) mCol.cHrg = idx;
-        else if (h.indexOf('HARGA WOOD') >= 0) mCol.wHrg = idx;
-        else if (h.indexOf('HARGA DUST') >= 0) mCol.dHrg = idx;
-        else if (h.indexOf('HARGA KOPI') >= 0) mCol.kHrg = idx;
+        if (h === 'DATE' || h === 'TANGGAL' || h === 'TGL') mCol.date = idx;
+        else if (h.indexOf('TOTAL QTY') >= 0 || h.indexOf('TOTAL KONSUMSI') >= 0) mCol.totQty = idx;
+        else if ((h.indexOf('TOTAL HARGA') >= 0 || h.indexOf('TOTAL RP') || h.indexOf('TOTAL BIAYA')) && h.indexOf('CANGKANG') === -1 && h.indexOf('WOOD') === -1 && h.indexOf('TON') === -1) mCol.totHrg = idx;
+        else if (h.indexOf('STEAM OUT') >= 0 || h === 'STEAM') mCol.steam = idx;
+        else if (h.indexOf('KG/TON') >= 0 || h.indexOf('KG/TOM') >= 0) mCol.kgSteam = idx;
+        else if (h.indexOf('RP/ TON') >= 0 || h.indexOf('RP/TON') >= 0) mCol.rpSteam = idx;
+        else if (h.indexOf('CANGKANG') >= 0 && h.indexOf('HARGA') === -1 && h.indexOf('RP') === -1) mCol.cQty = idx;
+        else if (h.indexOf('WOOD') >= 0 && h.indexOf('HARGA') === -1 && h.indexOf('DUST') === -1 && h.indexOf('RP') === -1) mCol.wQty = idx;
+        else if (h.indexOf('DUST') >= 0 && h.indexOf('HARGA') === -1 && h.indexOf('RP') === -1) mCol.dQty = idx;
+        else if (h.indexOf('KOPI') >= 0 && h.indexOf('HARGA') === -1 && h.indexOf('RP') === -1) mCol.kQty = idx;
+        else if (h.indexOf('HARGA CANGKANG') >= 0 || (h.indexOf('CANGKANG') >= 0 && h.indexOf('RP') >= 0)) mCol.cHrg = idx;
+        else if (h.indexOf('HARGA WOOD') >= 0 || (h.indexOf('WOOD') >= 0 && h.indexOf('RP') >= 0 && h.indexOf('DUST') === -1)) mCol.wHrg = idx;
+        else if (h.indexOf('HARGA DUST') >= 0 || (h.indexOf('DUST') >= 0 && h.indexOf('RP') >= 0)) mCol.dHrg = idx;
+        else if (h.indexOf('HARGA KOPI') >= 0 || (h.indexOf('KOPI') >= 0 && h.indexOf('RP') >= 0)) mCol.kHrg = idx;
       });
 
       var counter = 1;
@@ -92,8 +144,31 @@ function doGet(e) {
         var steamVal = cleanNum(row[mCol.steam]);
         if (steamVal > 0) steamData[tglIso] = steamVal;
 
+        var explicitTotHrg = mCol.totHrg >= 0 ? cleanNum(row[mCol.totHrg]) : 0;
         var cQ = cleanNum(row[mCol.cQty]);
+        var wQ = cleanNum(row[mCol.wQty]);
+        var dQ = cleanNum(row[mCol.dQty]);
+        var kQ = cleanNum(row[mCol.kQty]);
+        var sumQ = cQ + wQ + dQ + kQ;
+
         var cH = cleanNum(row[mCol.cHrg]);
+        var wH = cleanNum(row[mCol.wHrg]);
+        var dH = cleanNum(row[mCol.dHrg]);
+        var kH = cleanNum(row[mCol.kHrg]);
+
+        if (explicitTotHrg > 0 && (cH + wH + dH + kH === 0) && sumQ > 0) {
+          cH = cQ > 0 ? Math.round((cQ / sumQ) * explicitTotHrg) : 0;
+          wH = wQ > 0 ? Math.round((wQ / sumQ) * explicitTotHrg) : 0;
+          dH = dQ > 0 ? Math.round((dQ / sumQ) * explicitTotHrg) : 0;
+          kH = explicitTotHrg - (cH + wH + dH);
+          if (kH < 0 || kQ === 0) {
+            var diff = explicitTotHrg - (cH + wH + dH + (kQ > 0 ? kH : 0));
+            if (wQ >= cQ && wQ > 0) wH += diff;
+            else if (cQ > 0) cH += diff;
+            kH = kQ > 0 ? Math.max(0, kH) : 0;
+          }
+        }
+
         if (cQ > 0 || cH > 0) {
           var uH = (cQ > 0 && cH > 0) ? Math.round(cH / cQ) : 1710;
           entries.push({
@@ -524,12 +599,62 @@ function showInstructions() {
   );
 }
 
-// Helper: Bersihkan Angka
+// Helper: Bersihkan Angka & Mata Uang Rupiah (Rp, Rp., IDR, titik ribuan)
 function cleanNum(val) {
-  if (typeof val === 'number') return val;
+  if (typeof val === 'number') return isNaN(val) ? 0 : val;
   if (!val) return 0;
-  var s = String(val).replace(/Rp|\\s/gi, '').replace(/,/g, '');
-  return parseFloat(s) || 0;
+  var s = String(val).trim();
+  if (!s || s === '-' || s === '--' || s === 'N/A') return 0;
+
+  // Hapus kurung akuntansi
+  var isNeg = false;
+  if (/^\\(.*\\)$/.test(s)) {
+    isNeg = true;
+    s = s.slice(1, -1).trim();
+  } else if (s.indexOf('-') === 0) {
+    isNeg = true;
+    s = s.slice(1).trim();
+  }
+
+  // Hapus Rp, Rp., IDR, /kg, %, spasi
+  s = s.replace(/^(Rp\\.|rp\\.|RP\\.|Rp|rp|RP|IDR|idr)\\s*/gi, '');
+  s = s.replace(/\\s*(IDR|idr|Rp|rp|RP)$/gi, '');
+  s = s.replace(/\\s*(\\/kg|\\/ton|kg|ton|%|rupiah)\\s*$/gi, '');
+  s = s.replace(/[\\s\\u00A0]/g, '');
+
+  if (!s || s === '-') return 0;
+
+  // Format Indonesia 1.234.567,89 vs US 1,234,567.89
+  if (s.indexOf('.') >= 0 && s.indexOf(',') >= 0) {
+    if (s.indexOf('.') < s.indexOf(',')) {
+      s = s.replace(/\\./g, '').replace(',', '.');
+    } else {
+      s = s.replace(/,/g, '');
+    }
+    var n = parseFloat(s) || 0;
+    return isNeg ? -n : n;
+  }
+
+  // Titik saja (108.130.980 atau 1.750)
+  if (s.indexOf('.') >= 0) {
+    var pDot = s.split('.');
+    if (pDot.length > 2 || (pDot.length === 2 && pDot[1].length === 3 && pDot[0] !== '0')) {
+      s = s.replace(/\\./g, '');
+    }
+  }
+
+  // Koma saja (108,130,980 atau 1500,50)
+  if (s.indexOf(',') >= 0) {
+    var pCom = s.split(',');
+    if (pCom.length > 2 || (pCom.length === 2 && pCom[1].length === 3 && pCom[0] !== '0')) {
+      s = s.replace(/,/g, '');
+    } else {
+      s = s.replace(',', '.');
+    }
+  }
+
+  var res = parseFloat(s) || 0;
+  return isNeg ? -res : res;
 }
 
 // Helper: Normalisasi Bahan Bakar
