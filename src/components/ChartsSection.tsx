@@ -17,7 +17,7 @@ import {
 import { DailyFuelSummary } from '../types/boiler';
 import { FUEL_CONFIG, DAILY_CONSUMPTION_RECORDS, DailyConsumptionRecord } from '../data/initialData';
 import { formatNumber, formatRupiah } from '../utils/calculations';
-import { BarChart3, Percent, TrendingUp, Activity, Fuel, PieChart as PieIcon, CircleDollarSign } from 'lucide-react';
+import { BarChart3, Percent, TrendingUp, Activity, Fuel, PieChart as PieIcon, CircleDollarSign, Eye, EyeOff } from 'lucide-react';
 
 interface ChartsSectionProps {
   summaries: DailyFuelSummary[];
@@ -31,6 +31,8 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
   // 4. steam_efficiency: Grafik Steam Out & Rasio Efisiensi
   const [chartMode, setChartMode] = useState<'volume' | 'percentage' | 'cost' | 'steam_efficiency'>('volume');
   const [barStyle, setBarStyle] = useState<'stacked' | 'grouped'>('stacked');
+  // Sembunyikan fitur: default true (fitur Presentase dan Biaya disembunyikan sesuai permintaan)
+  const [hideSecondaryFeatures, setHideSecondaryFeatures] = useState<boolean>(true);
 
   // Map pre-loaded spreadsheet records by date (YYYY-MM-DD and DD/MM/YYYY)
   const preloadedRecordsMap = useMemo(() => {
@@ -234,9 +236,9 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
           </div>
 
           <div className="space-y-1 pt-1.5 border-t border-slate-700/50 text-[10px] font-mono">
-            <div className="flex items-center justify-between text-emerald-300">
-              <span className="text-slate-300 font-sans">1. kg bahan bakar / ton steam:</span>
-              <span className="font-bold">{formatNumber(data['Kg per Ton Steam'])} kg/Ton</span>
+            <div className="flex items-center justify-between text-slate-200">
+              <span className="text-slate-300 font-sans">1. Kg/Ton steam:</span>
+              <span className="font-bold text-white">{formatNumber(data['Kg per Ton Steam'])} kg/Ton</span>
             </div>
             <div className="flex items-center justify-between text-orange-300">
               <span className="text-slate-300 font-sans">2. Rp ton steam:</span>
@@ -276,17 +278,17 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
 
         {/* 3 Item Utama yang Diminta */}
         <div className="space-y-2">
-          {/* 1. kg bahan bakar / ton steam */}
-          <div className="p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-800/60 flex items-center justify-between">
+          {/* 1. Kg/Ton steam */}
+          <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-700/80 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">
+              <span className="flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-100 text-[10px] font-bold border border-slate-600">
                 1
               </span>
               <span className="text-[11px] font-semibold text-slate-200">
-                kg bahan bakar / ton steam:
+                Kg/Ton steam:
               </span>
             </div>
-            <span className="font-mono font-bold text-xs text-emerald-300">
+            <span className="font-mono font-bold text-xs text-white">
               {formatNumber(data['Kg per Ton Steam'])} kg/Ton
             </span>
           </div>
@@ -439,7 +441,9 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
       {/* Chart Navigation and Toggles */}
       <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         {/* Toggle Mode: 1. Volume & Konsumsi, 2. Presentase, 3. Biaya, 4. Steam Out */}
-        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg flex-wrap">
+        {/* Toggle Mode: 1. Volume & Konsumsi, 2. Presentase, 3. Biaya, 4. Steam Out */}
+        <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-lg flex-wrap">
+          {/* Button 1: Total Konsumsi % & Total Biaya (CSS Selector 1) */}
           <button
             onClick={() => setChartMode('volume')}
             className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all whitespace-nowrap ${
@@ -449,12 +453,15 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
             }`}
           >
             <BarChart3 className="w-3.5 h-3.5 text-amber-500" />
-            <span>1. Total Konsumsi & Volume Spreadsheet (kg)</span>
+            <span>Total Konsumsi % &amp; Total Biaya</span>
           </button>
 
+          {/* Button 2 (CSS Selector 1): 2. Presentase (%) - Tersembunyi sesuai permintaan */}
           <button
             onClick={() => setChartMode('percentage')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all whitespace-nowrap ${
+            className={`${
+              hideSecondaryFeatures ? 'hidden' : 'flex'
+            } items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all whitespace-nowrap ${
               chartMode === 'percentage'
                 ? 'bg-white text-slate-900 shadow-sm font-semibold'
                 : 'text-slate-600 hover:text-slate-900'
@@ -464,9 +471,12 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
             <span>2. Presentase (%)</span>
           </button>
 
+          {/* Button 3 (CSS Selector 2): 3. Biaya per Day (Rp) - Tersembunyi sesuai permintaan */}
           <button
             onClick={() => setChartMode('cost')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all whitespace-nowrap ${
+            className={`${
+              hideSecondaryFeatures ? 'hidden' : 'flex'
+            } items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all whitespace-nowrap ${
               chartMode === 'cost'
                 ? 'bg-white text-slate-900 shadow-sm font-semibold'
                 : 'text-slate-600 hover:text-slate-900'
@@ -476,6 +486,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
             <span>3. Biaya per Day (Rp)</span>
           </button>
 
+          {/* Button 4: Steam Out */}
           <button
             onClick={() => setChartMode('steam_efficiency')}
             className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all whitespace-nowrap ${
@@ -485,7 +496,33 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
             }`}
           >
             <Activity className="w-3.5 h-3.5 text-sky-600" />
-            <span>4. Grafik Steam Out</span>
+            <span>Grafik Steam Out &amp; Efisiensi</span>
+          </button>
+
+          {/* Tombol Pengendali Sembunyikan / Tampilkan Fitur */}
+          <button
+            type="button"
+            onClick={() => {
+              const next = !hideSecondaryFeatures;
+              setHideSecondaryFeatures(next);
+              if (next && (chartMode === 'percentage' || chartMode === 'cost')) {
+                setChartMode('volume');
+              }
+            }}
+            className="flex items-center gap-1 px-2 py-1 text-[11px] text-slate-500 hover:text-slate-800 bg-white/60 hover:bg-white border border-slate-200 rounded-md transition-all ml-1 shadow-2xs"
+            title={hideSecondaryFeatures ? 'Tampilkan kembali fitur Presentase & Biaya' : 'Sembunyikan fitur Presentase & Biaya'}
+          >
+            {hideSecondaryFeatures ? (
+              <>
+                <Eye className="w-3 h-3 text-slate-400" />
+                <span>+ Fitur Lain</span>
+              </>
+            ) : (
+              <>
+                <EyeOff className="w-3 h-3 text-slate-400" />
+                <span>Sembunyikan Fitur</span>
+              </>
+            )}
           </button>
         </div>
 
@@ -524,13 +561,13 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
         <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
             <h3 className="text-sm font-bold text-slate-900">
-              {chartMode === 'volume' && '1. Total Konsumsi dan Volume Spreadsheet (kg)'}
-              {chartMode === 'percentage' && '2. Presentase Komposisi Bahan Bakar (% Total)'}
-              {chartMode === 'cost' && '3. Grafik Biaya Konsumsi Bahan Bakar per Day (Rp)'}
-              {chartMode === 'steam_efficiency' && '4. Grafik Produksi Steam Out (Ton) & Biaya per Ton Steam'}
+              {chartMode === 'volume' && 'Total Konsumsi % & Total Biaya'}
+              {chartMode === 'percentage' && 'Presentase Komposisi Bahan Bakar (% Total)'}
+              {chartMode === 'cost' && 'Grafik Biaya Konsumsi Bahan Bakar per Day (Rp)'}
+              {chartMode === 'steam_efficiency' && 'Grafik Produksi Steam Out (Ton) & Biaya per Ton Steam'}
             </h3>
             <p className="text-xs text-slate-500">
-              {chartMode === 'volume' && 'Menampilkan total konsumsi harian dan volume masing-masing bahan bakar tersinkronisasi dari spreadsheet.'}
+              {chartMode === 'volume' && 'Menampilkan total konsumsi harian (kg), persentase komposisi (%), dan total biaya bahan bakar boiler.'}
               {chartMode === 'percentage' && 'Menampilkan presentase % Total Cangkang Sawit, % Total Wood Pellet, % Total Dust Pellet, dan % Total Kopi Pellet.'}
               {chartMode === 'cost' && 'Menampilkan biaya pengeluaran harian per jenis bahan bakar dan total biaya operasional boiler.'}
               {chartMode === 'steam_efficiency' && 'Evaluasi performa efisiensi boiler: produksi steam harian (Ton), spesifik konsumsi (kg/Ton), dan unit cost (Rp/Ton).'}
@@ -766,11 +803,11 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                   yAxisId="left"
                   type="monotone"
                   dataKey="Kg per Ton Steam"
-                  name="Kg Bahan Bakar / Ton Steam"
-                  stroke="#16a34a"
-                  strokeWidth={2}
+                  name="Kg/Ton steam"
+                  stroke="#000000"
+                  strokeWidth={2.5}
                   strokeDasharray="4 4"
-                  dot={{ r: 3, fill: '#16a34a' }}
+                  dot={{ r: 3.5, fill: '#000000' }}
                 />
               </ComposedChart>
             </ResponsiveContainer>

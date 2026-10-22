@@ -5,6 +5,7 @@ import { calculateDailySummaries, formatDisplayDate, parseDateToIso } from './ut
 import { convertToGoogleSheetsCsvUrl, parseSpreadsheetText, fetchSpreadsheetContent } from './utils/spreadsheetSync';
 import { playSyncChime } from './utils/soundNotification';
 import { Header } from './components/Header';
+import { CentralRealtimeSyncBanner } from './components/CentralRealtimeSyncBanner';
 import { MetricCards } from './components/MetricCards';
 import { DailyCostBreakdown } from './components/DailyCostBreakdown';
 import { ChartsSection } from './components/ChartsSection';
@@ -13,6 +14,13 @@ import { AddRecordModal } from './components/AddRecordModal';
 import { AuditExportModal } from './components/AuditExportModal';
 import { RealtimeSyncSettingsModal, SyncLogItem } from './components/RealtimeSyncSettingsModal';
 import { exportDetailToCsv } from './utils/exportCsv';
+import {
+  fetchCentralStatus,
+  fetchCentralData,
+  saveCentralDataToServer,
+  saveCentralConfigToServer,
+  resetCentralDataOnServer,
+} from './utils/centralSyncClient';
 import { Filter, RotateCcw, CheckCircle, Radio, Calendar, X } from 'lucide-react';
 
 const STORAGE_KEY_ENTRIES = 'boiler_fuel_entries_v3_sync55_all';
@@ -121,6 +129,45 @@ export default function App() {
 
   // Ref to track previous count/total for change notifications
   const prevEntryCountRef = useRef(entries.length);
+  const lastServerUpdatedRef = useRef<number>(0);
+
+  // Initialize from Central Backend Server on mount so all visitors receive identical data
+  useEffect(() => {
+    let isMounted = true;
+    async function initCentralData() {
+      try {
+        const central = await fetchCentralData();
+        if (!isMounted) return;
+
+        if (central.success && central.entries && central.entries.length > 0) {
+          setEntries(central.entries);
+          if (central.steamData && Object.keys(central.steamData).length > 0) {
+            setSteamData(central.steamData);
+          }
+          if (central.sheetUrl) setSheetUrl(central.sheetUrl);
+          if (central.lastSyncedAt) setLastSyncedAt(central.lastSyncedAt);
+          if (central.lastUpdated) lastServerUpdatedRef.current = central.lastUpdated;
+          if (central.mergeMode) setMergeMode(central.mergeMode);
+        } else {
+          // Seed server with current initial entries so all visitors get them immediately
+          saveCentralDataToServer({
+            sheetUrl,
+            entries,
+            steamData,
+            lastSyncedAt,
+            mergeMode,
+          }).then((res) => {
+            if (res.lastUpdated) lastServerUpdatedRef.current = res.lastUpdated;
+          });
+        }
+      } catch (err) {
+        console.error('Initial central data fetch failed:', err);
+      }
+    }
+
+    initCentralData();
+    return () => { isMounted = false; };
+  }, []);
 
   // Save to localStorage
   useEffect(() => {
@@ -278,6 +325,15 @@ export default function App() {
       setStartDate(dates[0]);
       setEndDate(dates[dates.length - 1]);
     }
+    saveCentralDataToServer({
+      sheetUrl,
+      entries: INITIAL_ENTRIES,
+      steamData: INITIAL_STEAM_DATA,
+      lastSyncedAt: new Date().toLocaleTimeString('id-ID'),
+      mergeMode: 'replace',
+    }).then((res) => {
+      if (res.lastUpdated) lastServerUpdatedRef.current = res.lastUpdated;
+    });
     showToast(`Data asli spreadsheet berhasil dimuat ulang (${INITIAL_ENTRIES.length} baris transaksi)!`);
   };
 
@@ -350,6 +406,17 @@ export default function App() {
       });
       setLastSyncedAt(timestamp);
 
+      // Persist to central server so every visitor across any device immediately synchronizes
+      saveCentralDataToServer({
+        sheetUrl: targetUrl,
+        entries: parseResult.entries,
+        steamData: parseResult.steamData,
+        lastSyncedAt: timestamp,
+        mergeMode,
+      }).then((res) => {
+        if (res.lastUpdated) lastServerUpdatedRef.current = res.lastUpdated;
+      });
+
       // Add to log
       const newLog: SyncLogItem = {
         id: `log-${Date.now()}`,
@@ -388,14 +455,37 @@ export default function App() {
     }
   }, [sheetUrl, mergeMode, syncIntervalSeconds, entries, dateFilterPreset, notifyOnDataChange, showToast]);
 
-  // Active Background Auto-Sync Countdown Timer
+  // Active Background Auto-Sync Countdown Timer & Central Server Poller
   useEffect(() => {
-    if (!autoSync || !sheetUrl.trim()) return;
+    let pollerActive = true;
+
+    // Check central backend server for changes every 5 seconds so all visitors stay 100% in sync
+    const centralCheckInterval = setInterval(async () => {
+      if (!pollerActive) return;
+      try {
+        const status = await fetchCentralStatus();
+        if (status.success && status.lastUpdated > lastServerUpdatedRef.current) {
+          const fresh = await fetchCentralData();
+          if (fresh.success && fresh.entries && fresh.entries.length > 0) {
+            lastServerUpdatedRef.current = fresh.lastUpdated || status.lastUpdated;
+            setEntries(fresh.entries);
+            if (fresh.steamData) setSteamData(fresh.steamData);
+            if (fresh.sheetUrl) setSheetUrl(fresh.sheetUrl);
+            if (fresh.lastSyncedAt) setLastSyncedAt(fresh.lastSyncedAt);
+            if (fresh.mergeMode) setMergeMode(fresh.mergeMode);
+            if (notifyOnDataChange) playSyncChime();
+            showToast(`⚡ Sinkronisasi Terpusat: Seluruh pengunjung diperbarui (${fresh.entries.length} baris data).`);
+          }
+        }
+      } catch {
+        // Silent catch on network blip
+      }
+    }, 5000);
 
     const timer = setInterval(() => {
       setNextSyncCountdown((prev) => {
         if (prev <= 1) {
-          if (!isSyncing) {
+          if (!isSyncing && autoSync && sheetUrl.trim()) {
             handlePerformSync(true);
           }
           return syncIntervalSeconds;
@@ -404,8 +494,12 @@ export default function App() {
       });
     }, 1000);
 
-    return () => clearInterval(timer);
-  }, [autoSync, sheetUrl, syncIntervalSeconds, isSyncing, handlePerformSync]);
+    return () => {
+      pollerActive = false;
+      clearInterval(centralCheckInterval);
+      clearInterval(timer);
+    };
+  }, [autoSync, sheetUrl, syncIntervalSeconds, isSyncing, handlePerformSync, notifyOnDataChange, showToast]);
 
   // Instant Sync on Tab Focus / Window Visibility Change
   useEffect(() => {
@@ -449,6 +543,15 @@ export default function App() {
       setDateFilterPreset('ALL');
       setStartDate('');
       setEndDate('');
+      saveCentralDataToServer({
+        sheetUrl,
+        entries: INITIAL_ENTRIES,
+        steamData: INITIAL_STEAM_DATA,
+        lastSyncedAt: new Date().toLocaleTimeString('id-ID'),
+        mergeMode: 'replace',
+      }).then((res) => {
+        if (res.lastUpdated) lastServerUpdatedRef.current = res.lastUpdated;
+      });
       showToast('Data berhasil di-reset ke template spreadsheet awal.');
     }
   };
@@ -502,6 +605,16 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+        {/* Real-time Centralized Spreadsheet Synchronization Banner */}
+        <CentralRealtimeSyncBanner
+          entriesCount={entries.length}
+          isSyncing={isSyncing}
+          onPerformSync={() => handlePerformSync(false)}
+          onOpenSettings={() => setIsRealtimeModalOpen(true)}
+          lastSyncedAt={lastSyncedAt}
+          sheetUrl={sheetUrl}
+        />
+
         {/* Global Filter Bar */}
         <div className="bg-white border border-slate-200 rounded-xl p-3.5 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
@@ -722,7 +835,10 @@ export default function App() {
         isOpen={isRealtimeModalOpen}
         onClose={() => setIsRealtimeModalOpen(false)}
         sheetUrl={sheetUrl}
-        onSaveSheetUrl={setSheetUrl}
+        onSaveSheetUrl={(url) => {
+          setSheetUrl(url);
+          saveCentralConfigToServer({ sheetUrl: url, mergeMode }).catch(console.error);
+        }}
         autoSync={autoSync}
         onToggleAutoSync={(enabled, intervalSec) => {
           setAutoSync(enabled);
@@ -739,21 +855,40 @@ export default function App() {
         notifyOnDataChange={notifyOnDataChange}
         onToggleNotify={setNotifyOnDataChange}
         mergeMode={mergeMode}
-        onSetMergeMode={setMergeMode}
+        onSetMergeMode={(mode) => {
+          setMergeMode(mode);
+          saveCentralConfigToServer({ sheetUrl, mergeMode: mode }).catch(console.error);
+        }}
         onApplyData={(newEntries, newSteamData) => {
+          let finalEntries = newEntries;
           if (mergeMode === 'replace') {
             setEntries(newEntries);
           } else {
-            setEntries((prev) => {
-              const map = new Map<string, FuelEntry>();
-              prev.forEach((e) => map.set(`${e.tanggal}-${e.bahanBakar}-${e.namaPt}`, e));
-              newEntries.forEach((e) => map.set(`${e.tanggal}-${e.bahanBakar}-${e.namaPt}`, e));
-              return Array.from(map.values());
-            });
+            const map = new Map<string, FuelEntry>();
+            entries.forEach((e) => map.set(`${e.tanggal}-${e.bahanBakar}-${e.namaPt}`, e));
+            newEntries.forEach((e) => map.set(`${e.tanggal}-${e.bahanBakar}-${e.namaPt}`, e));
+            finalEntries = Array.from(map.values());
+            setEntries(finalEntries);
           }
+          let finalSteam = steamData;
           if (newSteamData && Object.keys(newSteamData).length > 0) {
-            setSteamData((prev) => ({ ...prev, ...newSteamData }));
+            finalSteam = { ...steamData, ...newSteamData };
+            setSteamData(finalSteam);
           }
+          const now = new Date().toLocaleTimeString('id-ID');
+          setLastSyncedAt(now);
+
+          // Persist to central backend server so all visitors immediately reflect the updated row count
+          saveCentralDataToServer({
+            sheetUrl,
+            entries: finalEntries,
+            steamData: finalSteam,
+            lastSyncedAt: now,
+            mergeMode,
+          }).then((res) => {
+            if (res.lastUpdated) lastServerUpdatedRef.current = res.lastUpdated;
+          });
+
           // Align date filters so newly applied records (August & September) are visible immediately
           const dates = Array.from(new Set(newEntries.map((e) => parseDateToIso(e.tanggal)).filter(Boolean))).sort();
           if (dates.length > 0) {
