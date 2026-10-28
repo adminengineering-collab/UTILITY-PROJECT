@@ -58,8 +58,8 @@ export const CentralRealtimeSyncBanner: React.FC<CentralRealtimeSyncBannerProps>
             )}
           </div>
 
-          {/* Description Text matching user brief & screenshot 1:1 */}
-          <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
+          {/* Description Text - Sembunyikan keterangan per permintaan */}
+          <p className="hidden text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
             Data terhubung langsung dengan Google Spreadsheet. Setiap penambahan atau pengurangan baris di spreadsheet langsung terlihat oleh seluruh pengunjung secara real-time tanpa perbedaan jumlah data.
           </p>
         </div>
