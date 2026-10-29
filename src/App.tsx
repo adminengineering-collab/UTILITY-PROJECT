@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import { FuelEntry, DailyFuelSummary } from './types/boiler';
-import { INITIAL_ENTRIES, INITIAL_STEAM_DATA } from './data/initialData';
+import { INITIAL_ENTRIES, INITIAL_STEAM_DATA, DEFAULT_GOOGLE_SHEET_URL } from './data/initialData';
 import { calculateDailySummaries, formatDisplayDate, parseDateToIso } from './utils/calculations';
 import { convertToGoogleSheetsCsvUrl, parseSpreadsheetText, fetchSpreadsheetContent } from './utils/spreadsheetSync';
 import { playSyncChime } from './utils/soundNotification';
@@ -33,24 +33,15 @@ const STORAGE_KEY_MERGE_MODE = 'boiler_merge_mode_v1';
 const STORAGE_KEY_NOTIFY = 'boiler_notify_change_v1';
 
 export default function App() {
-  // Persistent State or Initial Seed Data (with August & September coverage guaranteed)
+  // Persistent State or Initial Seed Data (Full 292 rows from official Google Sheet)
   const [entries, setEntries] = useState<FuelEntry[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_ENTRIES);
       if (saved) {
         const parsed: FuelEntry[] = JSON.parse(saved);
-        const hasAugSep = parsed.some((e) => {
-          const t = e.tanggal || '';
-          return t.includes('2026-08') || t.includes('2026-09') || t.includes('/08/') || t.includes('/09/');
-        });
-        if (!hasAugSep) {
-          const augSepEntries = INITIAL_ENTRIES.filter((e) => {
-            const t = e.tanggal || '';
-            return t.includes('2026-08') || t.includes('2026-09') || t.includes('/08/') || t.includes('/09/');
-          });
-          return [...parsed, ...augSepEntries];
+        if (Array.isArray(parsed) && parsed.length >= 200) {
+          return parsed;
         }
-        return parsed;
       }
     } catch (e) {
       console.error(e);
@@ -71,13 +62,15 @@ export default function App() {
     return INITIAL_STEAM_DATA;
   });
 
-  // Real-Time Spreadsheet Sync State
+  // Real-Time Spreadsheet Sync State - Defaults to official Google Sheet so all computers connect out-of-the-box
   const [sheetUrl, setSheetUrl] = useState<string>(() => {
     try {
-      return localStorage.getItem(STORAGE_KEY_SHEET_URL) || '';
+      const saved = localStorage.getItem(STORAGE_KEY_SHEET_URL);
+      if (saved && saved.trim()) return saved.trim();
     } catch {
-      return '';
+      return DEFAULT_GOOGLE_SHEET_URL;
     }
+    return DEFAULT_GOOGLE_SHEET_URL;
   });
 
   const [lastSyncedAt, setLastSyncedAt] = useState<string | null>(() => {
@@ -139,7 +132,7 @@ export default function App() {
         const central = await fetchCentralData();
         if (!isMounted) return;
 
-        if (central.success && central.entries && central.entries.length > 0) {
+        if (central.success && central.entries && central.entries.length >= 200) {
           setEntries(central.entries);
           if (central.steamData && Object.keys(central.steamData).length > 0) {
             setSteamData(central.steamData);
@@ -149,13 +142,13 @@ export default function App() {
           if (central.lastUpdated) lastServerUpdatedRef.current = central.lastUpdated;
           if (central.mergeMode) setMergeMode(central.mergeMode);
         } else {
-          // Seed server with current initial entries so all visitors get them immediately
+          // If server data was empty or smaller, upload our complete 292 dataset
           saveCentralDataToServer({
-            sheetUrl,
-            entries,
-            steamData,
-            lastSyncedAt,
-            mergeMode,
+            sheetUrl: sheetUrl || DEFAULT_GOOGLE_SHEET_URL,
+            entries: INITIAL_ENTRIES,
+            steamData: INITIAL_STEAM_DATA,
+            lastSyncedAt: new Date().toLocaleString('id-ID'),
+            mergeMode: 'replace',
           }).then((res) => {
             if (res.lastUpdated) lastServerUpdatedRef.current = res.lastUpdated;
           });
@@ -339,7 +332,7 @@ export default function App() {
 
   // REAL-TIME SYNC EXECUTION ENGINE
   const handlePerformSync = useCallback(async (isSilent = false, overrideUrl?: string) => {
-    const targetUrl = (overrideUrl || sheetUrl).trim();
+    const targetUrl = (overrideUrl || sheetUrl || DEFAULT_GOOGLE_SHEET_URL).trim();
     if (!targetUrl) return;
 
     setIsSyncing(true);
@@ -386,7 +379,7 @@ export default function App() {
         setSteamData((prev) => ({ ...prev, ...parseResult.steamData }));
       }
 
-      // Auto-align date filter range with spreadsheet if dates exist so August & September data are immediately visible
+      // Auto-align date filter range with spreadsheet if dates exist so all data are immediately visible
       if (parseResult.summary.datesFound.length > 0) {
         const dates = parseResult.summary.datesFound;
         setStartDate(dates[0]);
@@ -455,6 +448,16 @@ export default function App() {
     }
   }, [sheetUrl, mergeMode, syncIntervalSeconds, entries, dateFilterPreset, notifyOnDataChange, showToast]);
 
+  // Immediate live sync on mount from Google Spreadsheet so any computer is instantly up-to-date
+  const initialSyncTriggeredRef = useRef(false);
+  useEffect(() => {
+    if (!initialSyncTriggeredRef.current) {
+      initialSyncTriggeredRef.current = true;
+      const targetUrl = (sheetUrl || DEFAULT_GOOGLE_SHEET_URL).trim();
+      handlePerformSync(true, targetUrl).catch(console.warn);
+    }
+  }, [handlePerformSync, sheetUrl]);
+
   // Active Background Auto-Sync Countdown Timer & Central Server Poller
   useEffect(() => {
     let pollerActive = true;
@@ -466,7 +469,7 @@ export default function App() {
         const status = await fetchCentralStatus();
         if (status.success && status.lastUpdated > lastServerUpdatedRef.current) {
           const fresh = await fetchCentralData();
-          if (fresh.success && fresh.entries && fresh.entries.length > 0) {
+          if (fresh.success && fresh.entries && fresh.entries.length >= 200) {
             lastServerUpdatedRef.current = fresh.lastUpdated || status.lastUpdated;
             setEntries(fresh.entries);
             if (fresh.steamData) setSteamData(fresh.steamData);
@@ -485,7 +488,7 @@ export default function App() {
     const timer = setInterval(() => {
       setNextSyncCountdown((prev) => {
         if (prev <= 1) {
-          if (!isSyncing && autoSync && sheetUrl.trim()) {
+          if (!isSyncing && autoSync) {
             handlePerformSync(true);
           }
           return syncIntervalSeconds;
