@@ -13,11 +13,12 @@ import {
   PieChart,
   Pie,
   Cell,
+  ReferenceLine,
 } from 'recharts';
 import { DailyFuelSummary } from '../types/boiler';
 import { FUEL_CONFIG, DAILY_CONSUMPTION_RECORDS, DailyConsumptionRecord } from '../data/initialData';
 import { formatNumber, formatRupiah } from '../utils/calculations';
-import { BarChart3, Percent, TrendingUp, Activity, Fuel, PieChart as PieIcon, CircleDollarSign, Eye, EyeOff } from 'lucide-react';
+import { BarChart3, Percent, TrendingUp, Activity, Fuel, PieChart as PieIcon, CircleDollarSign, Eye, EyeOff, Gauge } from 'lucide-react';
 
 interface ChartsSectionProps {
   summaries: DailyFuelSummary[];
@@ -25,11 +26,12 @@ interface ChartsSectionProps {
 
 export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
   // Chart modes:
-  // 1. volume: Total Konsumsi & Volume Spreadsheet (kg)
-  // 2. percentage: Presentase (%) Komposisi (% Total Cangkang, Wood, Dust, Kopi)
-  // 3. cost: Total Biaya per Hari (Rp)
-  // 4. steam_efficiency: Grafik Steam Out & Rasio Efisiensi
-  const [chartMode, setChartMode] = useState<'volume' | 'percentage' | 'cost' | 'steam_efficiency'>('volume');
+  // 1. kg_steam: GRAFIK SENDIRI: HANYA MENAMPILKAN GRAFIK KG/TON STEAM
+  // 2. volume: Total Konsumsi & Volume Spreadsheet (kg)
+  // 3. percentage: Presentase (%) Komposisi (% Total Cangkang, Wood, Dust, Kopi)
+  // 4. cost: Total Biaya per Hari (Rp)
+  // 5. steam_efficiency: Grafik Steam Out & Rasio Efisiensi
+  const [chartMode, setChartMode] = useState<'kg_steam' | 'volume' | 'percentage' | 'cost' | 'steam_efficiency'>('kg_steam');
   const [barStyle, setBarStyle] = useState<'stacked' | 'grouped'>('stacked');
   // Sembunyikan fitur: default true (fitur Presentase dan Biaya disembunyikan sesuai permintaan)
   const [hideSecondaryFeatures, setHideSecondaryFeatures] = useState<boolean>(true);
@@ -272,7 +274,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
             <span className="text-sm font-bold text-white">{data.tanggal}</span>
           </div>
           <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/40">
-            Grafik Steam Out
+            Produksi Steam Out &amp; Biaya Steam
           </span>
         </div>
 
@@ -332,6 +334,56 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
       </div>
     );
   };
+
+  // Dedicated Tooltip khusus grafik Kg/Ton Steam
+  const CustomKgSteamTooltip = ({ active, payload }: any) => {
+    if (!active || !payload || !payload.length) return null;
+    const data = payload[0]?.payload;
+    if (!data) return null;
+
+    return (
+      <div className="bg-slate-900/95 text-white p-3.5 rounded-xl border border-slate-700 shadow-2xl text-xs min-w-[280px] max-w-sm backdrop-blur-md">
+        <div className="border-b border-slate-800 pb-2 mb-2.5 flex items-center justify-between">
+          <div>
+            <span className="text-[10px] font-mono text-slate-400 block uppercase">Tanggal Pengamatan</span>
+            <span className="text-sm font-bold text-white">{data.tanggal}</span>
+          </div>
+          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-600">
+            Rasio Efisiensi
+          </span>
+        </div>
+
+        <div className="p-3 rounded-lg bg-black/70 border border-slate-700 space-y-1">
+          <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
+            KG/TON STEAM
+          </span>
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-2xl font-black font-mono text-white tracking-tight">
+              {formatNumber(data['Kg per Ton Steam'])}
+            </span>
+            <span className="text-xs text-slate-300 font-medium">kg bahan bakar / Ton steam</span>
+          </div>
+        </div>
+
+        <div className="mt-2.5 pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+          <span>Steam Out: {formatNumber(data['Steam Out'])} Ton</span>
+          <span>Bahan Bakar: {formatNumber(data.totalKonsumsi)} kg</span>
+        </div>
+      </div>
+    );
+  };
+
+  // KPI Statistik khusus Kg/Ton Steam
+  const kgSteamStats = useMemo(() => {
+    const valid = chartData.filter((d) => d['Kg per Ton Steam'] > 0);
+    if (valid.length === 0) return { avg: 0, min: 0, max: 0, count: 0 };
+    const values = valid.map((d) => d['Kg per Ton Steam']);
+    const sum = values.reduce((a, b) => a + b, 0);
+    const avg = Math.round(sum / values.length);
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    return { avg, min, max, count: valid.length };
+  }, [chartData]);
 
   // Donut data for aggregate fuel consumption, percentages, and costs
   const fuelAggregates = useMemo(() => {
@@ -441,9 +493,54 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
       {/* Chart Navigation and Toggles */}
       <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         {/* Toggle Mode: 1. Volume & Konsumsi, 2. Presentase, 3. Biaya, 4. Steam Out */}
-        {/* Toggle Mode: 1. Volume & Konsumsi, 2. Presentase, 3. Biaya, 4. Steam Out */}
+        {/* Toggle Mode Urutan: 1. GRAFIK KG.TON STEAM, 2. RP/ TON STEAM & STEAM OUT, 3. ALL GRAFIK, 4. TOTAL KONSUMSI */}
         <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-lg flex-wrap">
-          {/* Button 1: Total Konsumsi % & Total Biaya (CSS Selector 1) */}
+          {/* 1. GRAFIK KG.TON STEAM */}
+          <button
+            onClick={() => setChartMode('kg_steam')}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-md transition-all whitespace-nowrap ${
+              chartMode === 'kg_steam'
+                ? 'bg-slate-900 text-white shadow-sm ring-1 ring-slate-800'
+                : 'bg-white text-slate-700 hover:text-slate-950 border border-slate-200'
+            }`}
+            title="Grafik tersendiri khusus hanya menampilkan rasio Kg/Ton steam"
+          >
+            <Gauge className={`w-3.5 h-3.5 ${chartMode === 'kg_steam' ? 'text-emerald-400' : 'text-slate-700'}`} />
+            <span>GRAFIK KG.TON STEAM</span>
+            <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono font-bold ${
+              chartMode === 'kg_steam' ? 'bg-emerald-500 text-slate-950' : 'bg-slate-200 text-slate-700'
+            }`}>
+              Grafik Sendiri
+            </span>
+          </button>
+
+          {/* 2. RP/ TON STEAM & STEAM OUT */}
+          <button
+            onClick={() => setChartMode('cost')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all whitespace-nowrap ${
+              chartMode === 'cost'
+                ? 'bg-white text-slate-900 shadow-sm font-semibold ring-1 ring-teal-500/30'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <TrendingUp className="w-3.5 h-3.5 text-teal-600" />
+            <span>RP/ TON STEAM &amp; STEAM OUT</span>
+          </button>
+
+          {/* 3. ALL GRAFIK (CSS Selector 1) */}
+          <button
+            onClick={() => setChartMode('steam_efficiency')}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-md transition-all whitespace-nowrap ${
+              chartMode === 'steam_efficiency'
+                ? 'bg-white text-sky-950 shadow-sm font-bold ring-1 ring-sky-500/40'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <Activity className="w-3.5 h-3.5 text-sky-600" />
+            <span>ALL GRAFIK</span>
+          </button>
+
+          {/* 4. TOTAL KONSUMSI */}
           <button
             onClick={() => setChartMode('volume')}
             className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all whitespace-nowrap ${
@@ -453,81 +550,12 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
             }`}
           >
             <BarChart3 className="w-3.5 h-3.5 text-amber-500" />
-            <span>Total Konsumsi % &amp; Total Biaya</span>
-          </button>
-
-          {/* Button 2 (CSS Selector 1): 2. Presentase (%) - Tersembunyi sesuai permintaan */}
-          <button
-            onClick={() => setChartMode('percentage')}
-            className={`${
-              hideSecondaryFeatures ? 'hidden' : 'flex'
-            } items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all whitespace-nowrap ${
-              chartMode === 'percentage'
-                ? 'bg-white text-slate-900 shadow-sm font-semibold'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <Percent className="w-3.5 h-3.5 text-emerald-500" />
-            <span>2. Presentase (%)</span>
-          </button>
-
-          {/* Button 3 (CSS Selector 2): 3. Biaya per Day (Rp) - Tersembunyi sesuai permintaan */}
-          <button
-            onClick={() => setChartMode('cost')}
-            className={`${
-              hideSecondaryFeatures ? 'hidden' : 'flex'
-            } items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all whitespace-nowrap ${
-              chartMode === 'cost'
-                ? 'bg-white text-slate-900 shadow-sm font-semibold'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <TrendingUp className="w-3.5 h-3.5 text-teal-600" />
-            <span>3. Biaya per Day (Rp)</span>
-          </button>
-
-          {/* Button 4: Steam Out */}
-          <button
-            onClick={() => setChartMode('steam_efficiency')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all whitespace-nowrap ${
-              chartMode === 'steam_efficiency'
-                ? 'bg-white text-slate-900 shadow-sm font-semibold'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <Activity className="w-3.5 h-3.5 text-sky-600" />
-            <span>Grafik Steam Out &amp; Efisiensi</span>
-          </button>
-
-          {/* Tombol Pengendali Sembunyikan / Tampilkan Fitur */}
-          <button
-            type="button"
-            onClick={() => {
-              const next = !hideSecondaryFeatures;
-              setHideSecondaryFeatures(next);
-              if (next && (chartMode === 'percentage' || chartMode === 'cost')) {
-                setChartMode('volume');
-              }
-            }}
-            className="flex items-center gap-1 px-2 py-1 text-[11px] text-slate-500 hover:text-slate-800 bg-white/60 hover:bg-white border border-slate-200 rounded-md transition-all ml-1 shadow-2xs"
-            title={hideSecondaryFeatures ? 'Tampilkan kembali fitur Presentase & Biaya' : 'Sembunyikan fitur Presentase & Biaya'}
-          >
-            {hideSecondaryFeatures ? (
-              <>
-                <Eye className="w-3 h-3 text-slate-400" />
-                <span>+ Fitur Lain</span>
-              </>
-            ) : (
-              <>
-                <EyeOff className="w-3 h-3 text-slate-400" />
-                <span>Sembunyikan Fitur</span>
-              </>
-            )}
+            <span>TOTAL KONSUMSI</span>
           </button>
         </div>
 
         {/* Bar layout toggle (Stacked vs Grouped) */}
-        {chartMode !== 'steam_efficiency' && (
+        {chartMode !== 'steam_efficiency' && chartMode !== 'kg_steam' && (
           <div className="flex items-center gap-2 text-xs">
             <span className="text-slate-500 font-medium">Tampilan Bar:</span>
             <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg border border-slate-200">
@@ -561,16 +589,16 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
         <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
             <h3 className="text-sm font-bold text-slate-900">
-              {chartMode === 'volume' && 'Total Konsumsi % & Total Biaya'}
-              {chartMode === 'percentage' && 'Presentase Komposisi Bahan Bakar (% Total)'}
-              {chartMode === 'cost' && 'Grafik Biaya Konsumsi Bahan Bakar per Day (Rp)'}
-              {chartMode === 'steam_efficiency' && 'Grafik Produksi Steam Out (Ton) & Biaya per Ton Steam'}
+              {chartMode === 'kg_steam' && 'Grafik Kg/Ton steam (HANYA MENAMPILKAN GRAFIK KG/TON STEAM)'}
+              {chartMode === 'cost' && 'Grafik RP/ TON STEAM & STEAM OUT'}
+              {chartMode === 'steam_efficiency' && 'ALL GRAFIK (Produksi Steam Out & Biaya per Ton Steam)'}
+              {chartMode === 'volume' && 'Total Konsumsi Bahan Bakar'}
             </h3>
             <p className="text-xs text-slate-500">
-              {chartMode === 'volume' && 'Menampilkan total konsumsi harian (kg), persentase komposisi (%), dan total biaya bahan bakar boiler.'}
-              {chartMode === 'percentage' && 'Menampilkan presentase % Total Cangkang Sawit, % Total Wood Pellet, % Total Dust Pellet, dan % Total Kopi Pellet.'}
-              {chartMode === 'cost' && 'Menampilkan biaya pengeluaran harian per jenis bahan bakar dan total biaya operasional boiler.'}
+              {chartMode === 'kg_steam' && 'Grafik independen yang dikhususkan hanya untuk memantau performa Kg/Ton steam (kg bahan bakar per Ton steam yang dihasilkan) berwarna hitam.'}
+              {chartMode === 'cost' && 'Menampilkan perbandingan biaya pengeluaran bahan bakar harian (Rp) dengan garis Data Steam Out (Ton) berwarna hitam.'}
               {chartMode === 'steam_efficiency' && 'Evaluasi performa efisiensi boiler: produksi steam harian (Ton), spesifik konsumsi (kg/Ton), dan unit cost (Rp/Ton).'}
+              {chartMode === 'volume' && 'Menampilkan volume konsumsi bahan bakar harian (kg).'}
             </p>
           </div>
 
@@ -579,11 +607,108 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
           </div>
         </div>
 
+        {/* GRAFIK SENDIRI: HANYA MENAMPILKAN GRAFIK KG/TON STEAM */}
+        {chartMode === 'kg_steam' && (
+          <div className="space-y-4">
+            {/* KPI Cards Ringkasan Khusus Kg/Ton Steam */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
+              <div className="bg-white p-3 rounded-lg border border-slate-200/80 shadow-2xs">
+                <span className="text-[11px] font-semibold text-slate-500 block">Rata-rata Kg/Ton Steam</span>
+                <div className="flex items-baseline gap-1 mt-0.5">
+                  <span className="text-xl font-black font-mono text-slate-900">{kgSteamStats.avg}</span>
+                  <span className="text-xs text-slate-500 font-medium">kg/Ton</span>
+                </div>
+              </div>
+              <div className="bg-white p-3 rounded-lg border border-slate-200/80 shadow-2xs">
+                <span className="text-[11px] font-semibold text-emerald-600 block">Paling Efisien (Min)</span>
+                <div className="flex items-baseline gap-1 mt-0.5">
+                  <span className="text-xl font-black font-mono text-emerald-700">{kgSteamStats.min}</span>
+                  <span className="text-xs text-emerald-600 font-medium">kg/Ton</span>
+                </div>
+              </div>
+              <div className="bg-white p-3 rounded-lg border border-slate-200/80 shadow-2xs">
+                <span className="text-[11px] font-semibold text-amber-600 block">Konsumsi Tertinggi (Max)</span>
+                <div className="flex items-baseline gap-1 mt-0.5">
+                  <span className="text-xl font-black font-mono text-amber-700">{kgSteamStats.max}</span>
+                  <span className="text-xs text-amber-600 font-medium">kg/Ton</span>
+                </div>
+              </div>
+              <div className="bg-white p-3 rounded-lg border border-slate-200/80 shadow-2xs">
+                <span className="text-[11px] font-semibold text-slate-500 block">Total Pengamatan</span>
+                <div className="flex items-baseline gap-1 mt-0.5">
+                  <span className="text-xl font-black font-mono text-slate-900">{kgSteamStats.count}</span>
+                  <span className="text-xs text-slate-500 font-medium">Hari</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Kanvas Grafik Mandiri: Hanya menampilkan Kg/Ton Steam (Warna Hitam) */}
+            <div className="h-96 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <ComposedChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+                  <XAxis dataKey="tanggal" tick={{ fontSize: 11, fill: '#64748b' }} />
+                  <YAxis
+                    domain={['dataMin - 15', 'dataMax + 15']}
+                    tick={{ fontSize: 11, fill: '#64748b' }}
+                    label={{
+                      value: 'Kg/Ton steam (kg bahan bakar / Ton steam)',
+                      angle: -90,
+                      position: 'insideLeft',
+                      style: { fill: '#0f172a', fontSize: 11, fontWeight: 700 },
+                    }}
+                  />
+                  <Tooltip
+                    content={<CustomKgSteamTooltip />}
+                    wrapperStyle={{ zIndex: 9999, pointerEvents: 'none' }}
+                  />
+                  <Legend
+                    verticalAlign="top"
+                    align="right"
+                    wrapperStyle={{ paddingBottom: '14px', fontSize: '12px', zIndex: 1 }}
+                  />
+                  <ReferenceLine
+                    y={kgSteamStats.avg}
+                    stroke="#16a34a"
+                    strokeDasharray="4 4"
+                    strokeWidth={1.5}
+                    label={{
+                      value: `Rata-rata: ${kgSteamStats.avg} kg/Ton`,
+                      position: 'top',
+                      fill: '#15803d',
+                      fontSize: 11,
+                      fontWeight: 600,
+                    }}
+                  />
+                  {/* Bar: Warna Hitam (#000000) sesuai permintaan user */}
+                  <Bar
+                    dataKey="Kg per Ton Steam"
+                    name="Kg/Ton steam"
+                    fill="#000000"
+                    radius={[4, 4, 0, 0]}
+                    barSize={24}
+                  />
+                  {/* Line Trend: Garis Hitam (#000000) */}
+                  <Line
+                    type="monotone"
+                    dataKey="Kg per Ton Steam"
+                    name="Tren Kg/Ton steam"
+                    stroke="#000000"
+                    strokeWidth={2.5}
+                    dot={{ r: 4, fill: '#000000', stroke: '#ffffff', strokeWidth: 1.5 }}
+                    activeDot={{ r: 6, fill: '#000000' }}
+                  />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
         {/* 1. TOTAL KONSUMSI DAN VOLUME SPREADSHEET */}
         {chartMode === 'volume' && (
           <div className="h-96 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <ComposedChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+              <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
                 <XAxis dataKey="tanggal" tick={{ fontSize: 11, fill: '#64748b' }} />
                 <YAxis
@@ -628,15 +753,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                   fill={FUEL_CONFIG['KOPI PELLET'].color}
                   radius={barStyle === 'stacked' ? [4, 4, 0, 0] : [4, 4, 0, 0]}
                 />
-                <Line
-                  type="monotone"
-                  dataKey="Total Konsumsi"
-                  name="Total Konsumsi Spreadsheet"
-                  stroke="#0f172a"
-                  strokeWidth={2.5}
-                  dot={{ r: 3.5, fill: '#0f172a' }}
-                />
-              </ComposedChart>
+              </BarChart>
             </ResponsiveContainer>
           </div>
         )}
@@ -696,17 +813,28 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
           </div>
         )}
 
-        {/* 3. BIAYA PER DAY (RP) */}
+        {/* 3. BIAYA PER DAY (RP) & STEAM OUT */}
         {chartMode === 'cost' && (
           <div className="h-96 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <ComposedChart data={chartData} margin={{ top: 20, right: 30, left: 30, bottom: 20 }}>
+              <ComposedChart data={chartData} margin={{ top: 20, right: 35, left: 30, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
                 <XAxis dataKey="tanggal" tick={{ fontSize: 11, fill: '#64748b' }} />
+                {/* Sumbu Y Kiri: Biaya Bahan Bakar (Rp) */}
                 <YAxis
+                  yAxisId="left"
                   tick={{ fontSize: 11, fill: '#64748b' }}
                   tickFormatter={(val) => `Rp${(val / 1000000).toFixed(0)}jt`}
                   label={{ value: 'Total Biaya (Rp)', angle: -90, position: 'insideLeft', style: { fill: '#94a3b8', fontSize: 11 } }}
+                />
+                {/* Sumbu Y Kanan: Garis Data Steam Out (Ton) */}
+                <YAxis
+                  yAxisId="right"
+                  orientation="right"
+                  domain={['dataMin - 30', 'dataMax + 30']}
+                  tick={{ fontSize: 11, fill: '#000000' }}
+                  tickFormatter={(val) => `${val} T`}
+                  label={{ value: 'Data Steam Out (Ton)', angle: 90, position: 'insideRight', style: { fill: '#000000', fontSize: 11, fontWeight: 700 } }}
                 />
                 <Tooltip
                   content={<CustomConsumptionTooltip />}
@@ -718,43 +846,50 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                   wrapperStyle={{ paddingBottom: '14px', fontSize: '12px', zIndex: 1 }}
                 />
                 <Bar
+                  yAxisId="left"
                   dataKey="CANGKANG_COST"
                   name="Cangkang Sawit"
                   stackId={barStyle === 'stacked' ? 'cost' : undefined}
                   fill={FUEL_CONFIG['CANGKANG'].color}
                 />
                 <Bar
+                  yAxisId="left"
                   dataKey="WOOD_PELLET_COST"
                   name="Wood Pellet"
                   stackId={barStyle === 'stacked' ? 'cost' : undefined}
                   fill={FUEL_CONFIG['WOOD PELLET'].color}
                 />
                 <Bar
+                  yAxisId="left"
                   dataKey="DUST_PELLET_COST"
                   name="Dust Pellet"
                   stackId={barStyle === 'stacked' ? 'cost' : undefined}
                   fill={FUEL_CONFIG['DUST PELLET'].color}
                 />
                 <Bar
+                  yAxisId="left"
                   dataKey="KOPI_PELLET_COST"
                   name="Kopi Pellet"
                   stackId={barStyle === 'stacked' ? 'cost' : undefined}
                   fill={FUEL_CONFIG['KOPI PELLET'].color}
                 />
+                {/* Garis grafik DATA STEAM OUT warna HITAM (#000000) dan di urutan sebelah PALING KANAN legend */}
                 <Line
+                  yAxisId="right"
                   type="monotone"
-                  dataKey="Total Biaya"
-                  name="Total Biaya Harian"
-                  stroke="#0f172a"
+                  dataKey="Steam Out"
+                  name="Data Steam Out (Ton)"
+                  stroke="#000000"
                   strokeWidth={2.5}
-                  dot={{ r: 4, fill: '#0f172a' }}
+                  dot={{ r: 4, fill: '#000000', stroke: '#ffffff', strokeWidth: 1.5 }}
+                  activeDot={{ r: 6, fill: '#000000' }}
                 />
               </ComposedChart>
             </ResponsiveContainer>
           </div>
         )}
 
-        {/* 4. GRAFIK STEAM OUT & EFISIENSI */}
+        {/* 3. GRAFIK PRODUKSI STEAM OUT & BIAYA PER TON STEAM (Persis Sesuai Screenshot) */}
         {chartMode === 'steam_efficiency' && (
           <div className="h-96 w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -763,12 +898,16 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                 <XAxis dataKey="tanggal" tick={{ fontSize: 11, fill: '#64748b' }} />
                 <YAxis
                   yAxisId="left"
+                  domain={[0, 600]}
+                  ticks={[0, 150, 300, 450, 600]}
                   tick={{ fontSize: 11, fill: '#64748b' }}
                   label={{ value: 'Steam Out (Ton)', angle: -90, position: 'insideLeft', style: { fill: '#64748b', fontSize: 11 } }}
                 />
                 <YAxis
                   yAxisId="right"
                   orientation="right"
+                  domain={[0, 800000]}
+                  ticks={[0, 200000, 400000, 600000, 800000]}
                   tick={{ fontSize: 11, fill: '#64748b' }}
                   tickFormatter={(val) => `Rp${(val / 1000).toFixed(0)}k`}
                   label={{ value: 'Biaya Steam (Rp/Ton)', angle: 90, position: 'insideRight', style: { fill: '#64748b', fontSize: 11 } }}
@@ -782,23 +921,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                   align="right"
                   wrapperStyle={{ paddingBottom: '14px', fontSize: '12px', zIndex: 1 }}
                 />
-                <Bar
-                  yAxisId="left"
-                  dataKey="Steam Out"
-                  name="Steam Out (Ton)"
-                  fill="#0284c7"
-                  radius={[4, 4, 0, 0]}
-                  barSize={32}
-                />
-                <Line
-                  yAxisId="right"
-                  type="monotone"
-                  dataKey="Rp per Ton Steam"
-                  name="Rp per Ton Steam"
-                  stroke="#ea580c"
-                  strokeWidth={2.5}
-                  dot={{ r: 4, fill: '#ea580c' }}
-                />
+                {/* 1. Kg/Ton steam (garis hitam putus-putus dengan dot hitam) */}
                 <Line
                   yAxisId="left"
                   type="monotone"
@@ -808,6 +931,25 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                   strokeWidth={2.5}
                   strokeDasharray="4 4"
                   dot={{ r: 3.5, fill: '#000000' }}
+                />
+                {/* 2. Rp per Ton Steam (garis oranye dengan dot oranye) */}
+                <Line
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="Rp per Ton Steam"
+                  name="Rp per Ton Steam"
+                  stroke="#ea580c"
+                  strokeWidth={2.5}
+                  dot={{ r: 4, fill: '#ea580c' }}
+                />
+                {/* 3. Steam Out (Ton) (bar warna biru #0284c7) */}
+                <Bar
+                  yAxisId="left"
+                  dataKey="Steam Out"
+                  name="Steam Out (Ton)"
+                  fill="#0284c7"
+                  radius={[4, 4, 0, 0]}
+                  barSize={32}
                 />
               </ComposedChart>
             </ResponsiveContainer>
