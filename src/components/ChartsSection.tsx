@@ -510,15 +510,10 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                 ? 'bg-slate-900 text-white shadow-sm ring-1 ring-slate-800'
                 : 'bg-white text-slate-700 hover:text-slate-950 border border-slate-200'
             }`}
-            title="Grafik tersendiri khusus hanya menampilkan rasio Kg/Ton steam"
+            title="Grafik rasio Kg/Ton steam"
           >
             <Gauge className={`w-3.5 h-3.5 ${chartMode === 'kg_steam' ? 'text-emerald-400' : 'text-slate-700'}`} />
             <span>GRAFIK KG.TON STEAM</span>
-            <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono font-bold ${
-              chartMode === 'kg_steam' ? 'bg-emerald-500 text-slate-950' : 'bg-slate-200 text-slate-700'
-            }`}>
-              Grafik Sendiri
-            </span>
           </button>
 
           {/* 2. RP/ TON STEAM & STEAM OUT */}
@@ -596,13 +591,13 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
         <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
             <h3 className="text-sm font-bold text-slate-900">
-              {chartMode === 'kg_steam' && 'Grafik Kg/Ton steam (HANYA MENAMPILKAN GRAFIK KG/TON STEAM)'}
+              {chartMode === 'kg_steam' && 'Grafik Kg/Ton steam'}
               {chartMode === 'cost' && 'Grafik RP/ TON STEAM & STEAM OUT'}
               {chartMode === 'steam_efficiency' && 'ALL GRAFIK (Produksi Steam Out & Biaya per Ton Steam)'}
               {chartMode === 'volume' && 'Total Konsumsi Bahan Bakar'}
             </h3>
             <p className="text-xs text-slate-500">
-              {chartMode === 'kg_steam' && 'Grafik independen yang dikhususkan hanya untuk memantau performa Kg/Ton steam (kg bahan bakar per Ton steam yang dihasilkan) berwarna hitam.'}
+              {chartMode === 'kg_steam' && 'Memantau performa Kg/Ton steam (kg bahan bakar per Ton steam yang dihasilkan) berwarna hitam.'}
               {chartMode === 'cost' && 'Menampilkan perbandingan biaya pengeluaran bahan bakar harian (Rp) dengan garis Data Steam Out (Ton) berwarna hitam.'}
               {chartMode === 'steam_efficiency' && 'Evaluasi performa efisiensi boiler: produksi steam harian (Ton), spesifik konsumsi (kg/Ton), dan unit cost (Rp/Ton).'}
               {chartMode === 'volume' && 'Menampilkan volume konsumsi bahan bakar harian (kg).'}
