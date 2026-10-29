@@ -17,7 +17,7 @@ import {
 } from 'recharts';
 import { DailyFuelSummary } from '../types/boiler';
 import { FUEL_CONFIG, DAILY_CONSUMPTION_RECORDS, DailyConsumptionRecord } from '../data/initialData';
-import { formatNumber, formatRupiah } from '../utils/calculations';
+import { formatNumber, formatRupiah, parseDateToIso } from '../utils/calculations';
 import { BarChart3, Percent, TrendingUp, Activity, Fuel, PieChart as PieIcon, CircleDollarSign, Eye, EyeOff, Gauge } from 'lucide-react';
 
 interface ChartsSectionProps {
@@ -47,8 +47,15 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
   }, []);
 
   // Prepare chart dataset 100% synchronized with the spreadsheet table and real-time data
+  // URUTAN TANGGAL: Tanggal paling terakhir berada di sebelah kiri (Terbaru -> Terlama)
   const chartData = useMemo(() => {
-    return summaries.map((s) => {
+    const sortedSummaries = [...summaries].sort((a, b) => {
+      const isoA = parseDateToIso(a.tanggal) || parseDateToIso(a.displayTanggal) || a.tanggal || '';
+      const isoB = parseDateToIso(b.tanggal) || parseDateToIso(b.displayTanggal) || b.tanggal || '';
+      return isoB.localeCompare(isoA); // Tanggal terbaru berada di sebelah kiri (index 0)
+    });
+
+    return sortedSummaries.map((s) => {
       const match = preloadedRecordsMap.get(s.tanggal) || preloadedRecordsMap.get(s.displayTanggal);
 
       // Check if we have live entries or real breakdown data from the spreadsheet sync
