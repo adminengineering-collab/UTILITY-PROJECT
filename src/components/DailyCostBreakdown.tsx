@@ -89,6 +89,34 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
       const woodPelletPct = totalQty > 0 ? Math.round((woodPelletQty / totalQty) * 100) : 0;
       const dustPelletPct = totalQty > 0 ? Math.round((dustPelletQty / totalQty) * 100) : 0;
       const kopiPelletPct = totalQty > 0 ? Math.round((kopiPelletQty / totalQty) * 100) : 0;
+      // Monthly average prices according to columns S, T, U, V in latest spreadsheet
+      let avgHargaCK = 0;
+      let avgHargaWP = 0;
+      let avgHargaDP = 0;
+      let avgHargaKP = 0;
+
+      const mKey = s.tanggal.substring(0, 7);
+      if (mKey === '2026-10') {
+        avgHargaCK = 1679;
+        avgHargaWP = 1671;
+        avgHargaDP = 1594;
+        avgHargaKP = 0;
+      } else if (mKey === '2026-09') {
+        avgHargaCK = 1700;
+        avgHargaWP = 1687;
+        avgHargaDP = 1600;
+        avgHargaKP = 0;
+      } else if (mKey === '2026-08') {
+        avgHargaCK = 1726;
+        avgHargaWP = 1750;
+        avgHargaDP = 1599;
+        avgHargaKP = 0;
+      } else if (mKey === '2026-02') {
+        avgHargaCK = 1709;
+        avgHargaWP = 1586;
+        avgHargaDP = 0;
+        avgHargaKP = 2200;
+      }
 
       return {
         tanggal: s.displayTanggal,
@@ -111,6 +139,10 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
         woodPelletPct,
         dustPelletPct,
         kopiPelletPct,
+        avgHargaCK,
+        avgHargaWP,
+        avgHargaDP,
+        avgHargaKP,
         summaryRef: s,
       };
     });
@@ -161,6 +193,12 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
     const totalDustPct = totalQty > 0 ? Math.round((totalDust / totalQty) * 100) : 0;
     const totalKopiPct = totalQty > 0 ? Math.round((totalKopi / totalQty) * 100) : 0;
 
+    // Monthly average prices matching spreadsheet columns S, T, U, V
+    const avgHargaCK = totalCangkang > 0 ? Math.round(totalCangkangHarga / totalCangkang) : 0;
+    const avgHargaWP = totalWood > 0 ? Math.round(totalWoodPelletHarga / totalWood) : 0;
+    const avgHargaDP = totalDust > 0 ? Math.round(totalDustPelletHarga / totalDust) : 0;
+    const avgHargaKP = totalKopi > 0 ? Math.round(totalKopiHarga / totalKopi) : 0;
+
     return {
       totalQty,
       totalHarga,
@@ -180,6 +218,10 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
       totalWoodPct,
       totalDustPct,
       totalKopiPct,
+      avgHargaCK,
+      avgHargaWP,
+      avgHargaDP,
+      avgHargaKP,
     };
   }, [filteredRows]);
 
@@ -205,6 +247,10 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
           '% TOTAL WOOD PELLET',
           '% TOTAL DUST PELLET',
           '% TOTAL KOPI PELLET',
+          'HARGA RATA-RATA CK',
+          'HARGA RATA-RATA WP',
+          'HARGA RATA-RATA DP',
+          'HARGA RATA-RATA KP',
         ]
       : [
           'TANGGAL',
@@ -225,6 +271,10 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
           '% TOTAL WOOD PELLET',
           '% TOTAL DUST PELLET',
           '% TOTAL KOPI PELLET',
+          'HARGA RATA-RATA CK',
+          'HARGA RATA-RATA WP',
+          'HARGA RATA-RATA DP',
+          'HARGA RATA-RATA KP',
         ];
 
     const lines = [headers.join(',')];
@@ -249,6 +299,10 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
             `${r.woodPelletPct}%`,
             `${r.dustPelletPct}%`,
             `${r.kopiPelletPct}%`,
+            r.avgHargaCK,
+            r.avgHargaWP,
+            r.avgHargaDP,
+            r.avgHargaKP,
           ]
         : [
             r.tanggal,
@@ -269,6 +323,10 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
             `${r.woodPelletPct}%`,
             `${r.dustPelletPct}%`,
             `${r.kopiPelletPct}%`,
+            r.avgHargaCK,
+            r.avgHargaWP,
+            r.avgHargaDP,
+            r.avgHargaKP,
           ];
       lines.push(rowData.join(','));
     });
@@ -293,6 +351,10 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
           `${totals.totalWoodPct}%`,
           `${totals.totalDustPct}%`,
           `${totals.totalKopiPct}%`,
+          totals.avgHargaCK,
+          totals.avgHargaWP,
+          totals.avgHargaDP,
+          totals.avgHargaKP,
         ]
       : [
           'TOTAL',
@@ -313,6 +375,10 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
           `${totals.totalWoodPct}%`,
           `${totals.totalDustPct}%`,
           `${totals.totalKopiPct}%`,
+          totals.avgHargaCK,
+          totals.avgHargaWP,
+          totals.avgHargaDP,
+          totals.avgHargaKP,
         ];
     lines.push(totalsData.join(','));
 
@@ -347,6 +413,10 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
           '% TOTAL WOOD PELLET',
           '% TOTAL DUST PELLET',
           '% TOTAL KOPI PELLET',
+          'HARGA RATA-RATA CK',
+          'HARGA RATA-RATA WP',
+          'HARGA RATA-RATA DP',
+          'HARGA RATA-RATA KP',
         ]
       : [
           'TANGGAL',
@@ -367,6 +437,10 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
           '% TOTAL WOOD PELLET',
           '% TOTAL DUST PELLET',
           '% TOTAL KOPI PELLET',
+          'HARGA RATA-RATA CK',
+          'HARGA RATA-RATA WP',
+          'HARGA RATA-RATA DP',
+          'HARGA RATA-RATA KP',
         ];
 
     const lines = [headers.join('\t')];
@@ -391,6 +465,10 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
             `${r.woodPelletPct}%`,
             `${r.dustPelletPct}%`,
             `${r.kopiPelletPct}%`,
+            formatCurrencyExcel(r.avgHargaCK, 0),
+            formatCurrencyExcel(r.avgHargaWP, 0),
+            formatCurrencyExcel(r.avgHargaDP, 0),
+            formatCurrencyExcel(r.avgHargaKP, 0),
           ]
         : [
             r.tanggal,
@@ -411,6 +489,10 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
             `${r.woodPelletPct}%`,
             `${r.dustPelletPct}%`,
             `${r.kopiPelletPct}%`,
+            formatCurrencyExcel(r.avgHargaCK, 0),
+            formatCurrencyExcel(r.avgHargaWP, 0),
+            formatCurrencyExcel(r.avgHargaDP, 0),
+            formatCurrencyExcel(r.avgHargaKP, 0),
           ];
       lines.push(rowData.join('\t'));
     });
@@ -434,6 +516,10 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
           `${totals.totalWoodPct}%`,
           `${totals.totalDustPct}%`,
           `${totals.totalKopiPct}%`,
+          formatCurrencyExcel(totals.avgHargaCK, 0),
+          formatCurrencyExcel(totals.avgHargaWP, 0),
+          formatCurrencyExcel(totals.avgHargaDP, 0),
+          formatCurrencyExcel(totals.avgHargaKP, 0),
         ]
       : [
           'TOTAL',
@@ -454,6 +540,10 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
           `${totals.totalWoodPct}%`,
           `${totals.totalDustPct}%`,
           `${totals.totalKopiPct}%`,
+          formatCurrencyExcel(totals.avgHargaCK, 0),
+          formatCurrencyExcel(totals.avgHargaWP, 0),
+          formatCurrencyExcel(totals.avgHargaDP, 0),
+          formatCurrencyExcel(totals.avgHargaKP, 0),
         ];
     lines.push(totalsData.join('\t'));
 
@@ -480,11 +570,15 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                   <span>Sinkron 1:1 Grafik Volume &amp; Spreadsheet</span>
                 </span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-100 text-amber-900 border border-amber-300 shadow-2xs">
+                  <span>Harga Rata-Rata Terkini: CK Rp1.679 · WP Rp1.671 · DP Rp1.594 · KP Rp0</span>
+                </span>
                 <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-slate-100 text-slate-600 border border-slate-200">
                   {filteredRows.length} Hari Pengamatan
                 </span>
               </div>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+              {/* Keterangan disembunyikan per permintaan */}
+              <p className="hidden text-xs text-slate-500 mt-1 leading-relaxed">
                 Tersinkronisasi 1:1 dengan Grafik Total Konsumsi Volume: <strong className="text-slate-700">TANGGAL</strong> · <strong className="text-slate-700">TOTAL QTY</strong> · <strong className="text-slate-700">TOTAL HARGA</strong> · <strong className="text-slate-700">STEAM OUT</strong> · <strong className="text-slate-700">KG/TON STEAM</strong> · <strong className="text-slate-700">RP/ TON STEAM</strong> · <strong className="text-emerald-700">TOTAL CANGKANG SAWIT</strong> · <strong className="text-amber-700">TOTAL WOOD PELLET</strong> · <strong className="text-sky-700">TOTAL DUST PELLET</strong> · <strong className="text-purple-700">TOTAL KOPI PELLET</strong> &amp; Seterusnya.
               </p>
             </div>
@@ -643,6 +737,20 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
               <th className="py-2.5 px-3 text-right bg-purple-100/70 text-purple-950 border-b border-slate-300">
                 % TOTAL KOPI PELLET
               </th>
+
+              {/* KOLOM HARGA RATA-RATA VENDOR (KOLOM S, T, U, V SPREADSHEET TERBARU) */}
+              <th className="py-2.5 px-3 text-right bg-amber-50/90 text-amber-950 border-b border-slate-300 font-extrabold whitespace-nowrap">
+                HARGA RATA-RATA CK (Rp)
+              </th>
+              <th className="py-2.5 px-3 text-right bg-amber-50/90 text-amber-950 border-b border-slate-300 font-extrabold whitespace-nowrap">
+                HARGA RATA-RATA WP (Rp)
+              </th>
+              <th className="py-2.5 px-3 text-right bg-amber-50/90 text-amber-950 border-b border-slate-300 font-extrabold whitespace-nowrap">
+                HARGA RATA-RATA DP (Rp)
+              </th>
+              <th className="py-2.5 px-3 text-right bg-amber-50/90 text-amber-950 border-b border-slate-300 font-extrabold whitespace-nowrap">
+                HARGA RATA-RATA KP (Rp)
+              </th>
             </tr>
           </thead>
 
@@ -759,12 +867,29 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
                     <td className="py-2 px-3 text-right text-purple-800 font-medium tabular-nums">
                       {row.kopiPelletPct}%
                     </td>
+
+                    {/* HARGA RATA-RATA CK */}
+                    <td className="py-2 px-3 text-right text-emerald-900 font-semibold tabular-nums">
+                      {row.avgHargaCK > 0 ? formatCurrencyExcel(row.avgHargaCK, 0) : 'Rp0'}
+                    </td>
+                    {/* HARGA RATA-RATA WP */}
+                    <td className="py-2 px-3 text-right text-amber-900 font-semibold tabular-nums">
+                      {row.avgHargaWP > 0 ? formatCurrencyExcel(row.avgHargaWP, 0) : 'Rp0'}
+                    </td>
+                    {/* HARGA RATA-RATA DP */}
+                    <td className="py-2 px-3 text-right text-sky-900 font-semibold tabular-nums">
+                      {row.avgHargaDP > 0 ? formatCurrencyExcel(row.avgHargaDP, 0) : 'Rp0'}
+                    </td>
+                    {/* HARGA RATA-RATA KP */}
+                    <td className="py-2 px-3 text-right text-purple-900 font-semibold tabular-nums">
+                      {row.avgHargaKP > 0 ? formatCurrencyExcel(row.avgHargaKP, 0) : 'Rp0'}
+                    </td>
                   </tr>
                 );
               })
             ) : (
               <tr>
-                <td colSpan={priceColumnMode === 'spreadsheet' ? 17 : 18} className="py-8 text-center text-slate-400 font-sans italic">
+                <td colSpan={priceColumnMode === 'spreadsheet' ? 21 : 22} className="py-8 text-center text-slate-400 font-sans italic">
                   Tidak ada data untuk filter yang dipilih
                 </td>
               </tr>
@@ -839,6 +964,20 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
               </td>
               <td className="py-3 px-3 text-right font-bold text-purple-950">
                 {totals.totalKopiPct}%
+              </td>
+
+              {/* FOOTER HARGA RATA-RATA VENDOR */}
+              <td className="py-3 px-3 text-right font-bold text-emerald-950">
+                {formatCurrencyExcel(totals.avgHargaCK, 0)}
+              </td>
+              <td className="py-3 px-3 text-right font-bold text-amber-950">
+                {formatCurrencyExcel(totals.avgHargaWP, 0)}
+              </td>
+              <td className="py-3 px-3 text-right font-bold text-sky-950">
+                {formatCurrencyExcel(totals.avgHargaDP, 0)}
+              </td>
+              <td className="py-3 px-3 text-right font-bold text-purple-950">
+                {formatCurrencyExcel(totals.avgHargaKP, 0)}
               </td>
             </tr>
           </tfoot>

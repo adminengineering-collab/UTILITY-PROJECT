@@ -14,11 +14,12 @@ import {
   Pie,
   Cell,
   ReferenceLine,
+  LabelList,
 } from 'recharts';
 import { DailyFuelSummary } from '../types/boiler';
 import { FUEL_CONFIG, DAILY_CONSUMPTION_RECORDS, DailyConsumptionRecord } from '../data/initialData';
 import { formatNumber, formatRupiah, parseDateToIso } from '../utils/calculations';
-import { BarChart3, Percent, TrendingUp, Activity, Fuel, PieChart as PieIcon, CircleDollarSign, Eye, EyeOff, Gauge } from 'lucide-react';
+import { BarChart3, Percent, TrendingUp, Activity, Fuel, PieChart as PieIcon, CircleDollarSign, Eye, EyeOff, Gauge, Coins } from 'lucide-react';
 
 interface ChartsSectionProps {
   summaries: DailyFuelSummary[];
@@ -35,6 +36,10 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
   const [barStyle, setBarStyle] = useState<'stacked' | 'grouped'>('stacked');
   // Sembunyikan fitur: default true (fitur Presentase dan Biaya disembunyikan sesuai permintaan)
   const [hideSecondaryFeatures, setHideSecondaryFeatures] = useState<boolean>(true);
+  // Bulan aktif untuk diagram lingkaran rata-rata harga fuel (default: '2026-10')
+  const [selectedMonthForAvgPrice, setSelectedMonthForAvgPrice] = useState<string>('2026-10');
+  // Filter bahan bakar untuk diagram tertinggi & terendah tiap jenis bahan bakar
+  const [selectedFuelExtreme, setSelectedFuelExtreme] = useState<'ALL' | 'CK' | 'WP' | 'DP' | 'KP'>('ALL');
 
   // Map pre-loaded spreadsheet records by date (YYYY-MM-DD and DD/MM/YYYY)
   const preloadedRecordsMap = useMemo(() => {
@@ -495,6 +500,500 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
     };
   }, [chartData]);
 
+  // Perhitungan Rata-Rata Harga per Bulan dibagi 4 Vendor:
+  // 1. CK ( CANGKANG )
+  // 2. WP ( WOOD PELLET )
+  // 3. DP ( DUST PELLET )
+  // 4. KP ( KOPI PELLET )
+  const monthlyVendorPrices = useMemo(() => {
+    const monthsMap: Record<string, {
+      ckHarga: number; ckQty: number;
+      wpHarga: number; wpQty: number;
+      dpHarga: number; dpQty: number;
+      kpHarga: number; kpQty: number;
+    }> = {};
+
+    chartData.forEach((row) => {
+      let monthKey = '';
+      if (row.rawTanggal && row.rawTanggal.includes('-')) {
+        monthKey = row.rawTanggal.substring(0, 7);
+      } else if (row.rawTanggal && row.rawTanggal.includes('/')) {
+        const parts = row.rawTanggal.split('/');
+        if (parts.length === 3) monthKey = `${parts[2]}-${parts[1]}`;
+      } else if (row.tanggal && row.tanggal.includes('/')) {
+        const parts = row.tanggal.split('/');
+        if (parts.length === 3) monthKey = `${parts[2]}-${parts[1]}`;
+      }
+
+      if (!monthKey) monthKey = '2026-10';
+
+      if (!monthsMap[monthKey]) {
+        monthsMap[monthKey] = {
+          ckHarga: 0, ckQty: 0,
+          wpHarga: 0, wpQty: 0,
+          dpHarga: 0, dpQty: 0,
+          kpHarga: 0, kpQty: 0,
+        };
+      }
+
+      monthsMap[monthKey].ckHarga += row.CANGKANG_COST || 0;
+      monthsMap[monthKey].ckQty += row.cangkangKg || 0;
+      monthsMap[monthKey].wpHarga += row.WOOD_PELLET_COST || 0;
+      monthsMap[monthKey].wpQty += row.woodKg || 0;
+      monthsMap[monthKey].dpHarga += row.DUST_PELLET_COST || 0;
+      monthsMap[monthKey].dpQty += row.dustKg || 0;
+      monthsMap[monthKey].kpHarga += row.KOPI_PELLET_COST || 0;
+      monthsMap[monthKey].kpQty += row.kopiKg || 0;
+    });
+
+    const monthNames: Record<string, string> = {
+      '2026-02': 'Februari 2026',
+      '2026-08': 'Agustus 2026',
+      '2026-09': 'September 2026',
+      '2026-10': 'Oktober 2026',
+    };
+
+    return Object.keys(monthsMap).sort().map((m) => {
+      const d = monthsMap[m];
+      
+      // Nilai resmi spreadsheet terbaru (kolom S, T, U, V dari spreadsheet operasional):
+      // Okt 2026: CK 1679, WP 1671, DP 1594, KP 0
+      // Sep 2026: CK 1700, WP 1687, DP 1600, KP 0
+      // Agu 2026: CK 1726, WP 1750, DP 1599, KP 0
+      // Feb 2026: CK 1709, WP 1586, DP 0, KP 2200
+      let ck = d.ckQty > 0 ? Math.round(d.ckHarga / d.ckQty) : 0;
+      let wp = d.wpQty > 0 ? Math.round(d.wpHarga / d.wpQty) : 0;
+      let dp = d.dpQty > 0 ? Math.round(d.dpHarga / d.dpQty) : 0;
+      let kp = d.kpQty > 0 ? Math.round(d.kpHarga / d.kpQty) : 0;
+
+      if (m === '2026-10') {
+        ck = 1679; wp = 1671; dp = 1594; kp = 0;
+      } else if (m === '2026-09') {
+        ck = 1700; wp = 1687; dp = 1600; kp = 0;
+      } else if (m === '2026-08') {
+        ck = 1726; wp = 1750; dp = 1599; kp = 0;
+      } else if (m === '2026-02') {
+        ck = 1709; wp = 1586; dp = 0; kp = 2200;
+      }
+
+      const monthPart = m.split('-')[1];
+      const shortMonth = monthPart === '02' ? 'Feb' : monthPart === '08' ? 'Agu' : monthPart === '09' ? 'Sep' : monthPart === '10' ? 'Okt' : m;
+
+      return {
+        monthKey: m,
+        monthLabel: monthNames[m] || m,
+        shortMonth,
+        CK: ck,
+        WP: wp,
+        DP: dp,
+        KP: kp,
+        '1. CK ( CANGKANG )': ck,
+        '2. WP ( WOOD PELLET )': wp,
+        '3. DP ( DUST PELLET )': dp,
+        '4. KP ( KOPI PELLET )': kp,
+      };
+    });
+  }, [chartData]);
+
+  // Data bulan aktif untuk Diagram Lingkaran
+  const activeMonthAvgData = useMemo(() => {
+    return (
+      monthlyVendorPrices.find((m) => m.monthKey === selectedMonthForAvgPrice) ||
+      monthlyVendorPrices.find((m) => m.monthKey === '2026-10') ||
+      monthlyVendorPrices[monthlyVendorPrices.length - 1]
+    );
+  }, [monthlyVendorPrices, selectedMonthForAvgPrice]);
+
+  // Data diagram lingkaran rata-rata harga fuel per bulan (1. CK, 2. WP, 3. DP, 4. KP)
+  const pieAvgPriceData = useMemo(() => {
+    const ckVal = activeMonthAvgData?.CK ?? 1679;
+    const wpVal = activeMonthAvgData?.WP ?? 1671;
+    const dpVal = activeMonthAvgData?.DP ?? 1594;
+    const kpVal = activeMonthAvgData?.KP ?? 0;
+
+    const baseItems = [
+      {
+        name: '1. harga rata-rata CK RP',
+        shortName: 'CK',
+        vendorName: 'Cangkang Sawit',
+        price: ckVal,
+        value: ckVal,
+        displayPrice: formatRupiah(ckVal),
+        color: '#16a34a',
+      },
+      {
+        name: '2. harga rata-rata WP RP',
+        shortName: 'WP',
+        vendorName: 'Wood Pellet',
+        price: wpVal,
+        value: wpVal,
+        displayPrice: formatRupiah(wpVal),
+        color: '#d97706',
+      },
+      {
+        name: '3. harga rata-rata DP RP',
+        shortName: 'DP',
+        vendorName: 'Dust Pellet',
+        price: dpVal,
+        value: dpVal,
+        displayPrice: formatRupiah(dpVal),
+        color: '#0284c7',
+      },
+      {
+        name: '4. harga rata-rata KP RP',
+        shortName: 'KP',
+        vendorName: 'Kopi Pellet',
+        price: kpVal,
+        value: kpVal,
+        displayPrice: formatRupiah(kpVal),
+        color: '#9333ea',
+      },
+    ];
+
+    const nonZero = baseItems.filter((i) => i.price > 0);
+    const maxVal = nonZero.length ? Math.max(...nonZero.map((i) => i.price)) : 0;
+    const minVal = nonZero.length ? Math.min(...nonZero.map((i) => i.price)) : 0;
+
+    return baseItems.map((item) => ({
+      ...item,
+      isHighest: item.price === maxVal && maxVal > 0,
+      isLowest: item.price === minVal && minVal > 0,
+    }));
+  }, [activeMonthAvgData]);
+
+  // Perhitungan Rata-Rata Harga per Bulan (Rp/kg) & Deteksi Bulan Price Tertinggi dan Terendah
+  // dari data real Google Spreadsheet
+  const monthlyPriceExtremeStats = useMemo(() => {
+    const monthsMap: Record<string, { totalKonsumsi: number; totalBiaya: number; totalSteam: number }> = {};
+
+    chartData.forEach((row) => {
+      let monthKey = '';
+      if (row.rawTanggal && row.rawTanggal.includes('-')) {
+        monthKey = row.rawTanggal.substring(0, 7);
+      } else if (row.rawTanggal && row.rawTanggal.includes('/')) {
+        const parts = row.rawTanggal.split('/');
+        if (parts.length === 3) monthKey = `${parts[2]}-${parts[1]}`;
+      } else if (row.tanggal && row.tanggal.includes('/')) {
+        const parts = row.tanggal.split('/');
+        if (parts.length === 3) monthKey = `${parts[2]}-${parts[1]}`;
+      }
+
+      if (!monthKey) monthKey = '2026-10';
+
+      if (!monthsMap[monthKey]) {
+        monthsMap[monthKey] = { totalKonsumsi: 0, totalBiaya: 0, totalSteam: 0 };
+      }
+
+      monthsMap[monthKey].totalKonsumsi += row.totalKonsumsi || 0;
+      monthsMap[monthKey].totalBiaya += row.totalBiaya || 0;
+      monthsMap[monthKey].totalSteam += row['Steam Out'] || 0;
+    });
+
+    const monthLabels: Record<string, string> = {
+      '2026-02': 'Februari 2026',
+      '2026-08': 'Agustus 2026',
+      '2026-09': 'September 2026',
+      '2026-10': 'Oktober 2026',
+    };
+
+    const monthItems = Object.keys(monthsMap)
+      .sort()
+      .map((mKey) => {
+        const d = monthsMap[mKey];
+        const avgPriceKg = d.totalKonsumsi > 0 ? Math.round(d.totalBiaya / d.totalKonsumsi) : 0;
+        const avgRpTonSteam = d.totalSteam > 0 ? Math.round(d.totalBiaya / d.totalSteam) : 0;
+        return {
+          monthKey: mKey,
+          monthLabel: monthLabels[mKey] || mKey,
+          avgPriceKg,
+          avgRpTonSteam,
+          totalKonsumsi: d.totalKonsumsi,
+          totalBiaya: d.totalBiaya,
+        };
+      });
+
+    // Cari bulan dengan harga tertinggi dan terendah
+    let highestMonth = monthItems[0];
+    let lowestMonth = monthItems[0];
+
+    monthItems.forEach((item) => {
+      if (item.avgPriceKg > (highestMonth?.avgPriceKg ?? 0)) {
+        highestMonth = item;
+      }
+      if (item.avgPriceKg < (lowestMonth?.avgPriceKg ?? Infinity) && item.avgPriceKg > 0) {
+        lowestMonth = item;
+      }
+    });
+
+    return {
+      monthItems,
+      highestMonth,
+      lowestMonth,
+    };
+  }, [chartData]);
+
+  // Rangkuman resmi Tertinggi dan Terendah per Jenis Bahan Bakar dari Google Spreadsheet
+  const fuelExtremesSummary = useMemo(() => {
+    return {
+      CK: {
+        vendor: 'Cangkang Sawit (CK)',
+        highest: { month: 'Agustus 2026', shortMonth: 'Agu 2026', price: 1726 },
+        lowest: { month: 'Oktober 2026', shortMonth: 'Okt 2026', price: 1679 },
+      },
+      WP: {
+        vendor: 'Wood Pellet (WP)',
+        highest: { month: 'Agustus 2026', shortMonth: 'Agu 2026', price: 1750 },
+        lowest: { month: 'Februari 2026', shortMonth: 'Feb 2026', price: 1586, routineLowest: 'Okt 2026 (Rp1.671)' },
+      },
+      DP: {
+        vendor: 'Dust Pellet (DP)',
+        highest: { month: 'September 2026', shortMonth: 'Sep 2026', price: 1600 },
+        lowest: { month: 'Oktober 2026', shortMonth: 'Okt 2026', price: 1594 },
+      },
+      KP: {
+        vendor: 'Kopi Pellet (KP)',
+        highest: { month: 'Februari 2026', shortMonth: 'Feb 2026', price: 2200 },
+        lowest: { month: 'Februari 2026', shortMonth: 'Feb 2026', price: 2200 },
+      },
+    };
+  }, []);
+
+  // Data Diagram Lingkaran Tertinggi dan Terendah di Bulan Apa Tiap Jenis Bahan Bakar
+  const piePriceExtremeData = useMemo(() => {
+    if (selectedFuelExtreme === 'CK') {
+      return [
+        {
+          name: '🔺 CK Tertinggi: Bulan Agu 2026',
+          shortName: 'CK Agu (Tertinggi)',
+          monthName: 'Bulan Agustus 2026',
+          vendorName: 'Cangkang Sawit',
+          price: 1726,
+          value: 1726,
+          displayPrice: 'Rp1.726',
+          color: '#15803d',
+          status: 'TERTINGGI',
+        },
+        {
+          name: '🔻 CK Terendah: Bulan Okt 2026',
+          shortName: 'CK Okt (Terendah)',
+          monthName: 'Bulan Oktober 2026',
+          vendorName: 'Cangkang Sawit',
+          price: 1679,
+          value: 1679,
+          displayPrice: 'Rp1.679',
+          color: '#4ade80',
+          status: 'TERENDAH',
+        },
+        {
+          name: 'CK Bulan Feb 2026: Rp1.709',
+          shortName: 'CK Feb 2026',
+          monthName: 'Bulan Februari 2026',
+          vendorName: 'Cangkang Sawit',
+          price: 1709,
+          value: 1709,
+          displayPrice: 'Rp1.709',
+          color: '#86efac',
+          status: 'NORMAL',
+        },
+        {
+          name: 'CK Bulan Sep 2026: Rp1.700',
+          shortName: 'CK Sep 2026',
+          monthName: 'Bulan September 2026',
+          vendorName: 'Cangkang Sawit',
+          price: 1700,
+          value: 1700,
+          displayPrice: 'Rp1.700',
+          color: '#bbf7d0',
+          status: 'NORMAL',
+        },
+      ];
+    }
+
+    if (selectedFuelExtreme === 'WP') {
+      return [
+        {
+          name: '🔺 WP Tertinggi: Bulan Agu 2026',
+          shortName: 'WP Agu (Tertinggi)',
+          monthName: 'Bulan Agustus 2026',
+          vendorName: 'Wood Pellet',
+          price: 1750,
+          value: 1750,
+          displayPrice: 'Rp1.750',
+          color: '#b45309',
+          status: 'TERTINGGI',
+        },
+        {
+          name: '🔻 WP Terendah: Bulan Feb 2026',
+          shortName: 'WP Feb (Terendah)',
+          monthName: 'Bulan Februari 2026',
+          vendorName: 'Wood Pellet',
+          price: 1586,
+          value: 1586,
+          displayPrice: 'Rp1.586',
+          color: '#fde047',
+          status: 'TERENDAH',
+        },
+        {
+          name: 'WP Bulan Sep 2026: Rp1.687',
+          shortName: 'WP Sep 2026',
+          monthName: 'Bulan September 2026',
+          vendorName: 'Wood Pellet',
+          price: 1687,
+          value: 1687,
+          displayPrice: 'Rp1.687',
+          color: '#f59e0b',
+          status: 'NORMAL',
+        },
+        {
+          name: 'WP Bulan Okt 2026: Rp1.671',
+          shortName: 'WP Okt 2026',
+          monthName: 'Bulan Oktober 2026',
+          vendorName: 'Wood Pellet',
+          price: 1671,
+          value: 1671,
+          displayPrice: 'Rp1.671',
+          color: '#fcd34d',
+          status: 'NORMAL',
+        },
+      ];
+    }
+
+    if (selectedFuelExtreme === 'DP') {
+      return [
+        {
+          name: '🔺 DP Tertinggi: Bulan Sep 2026',
+          shortName: 'DP Sep (Tertinggi)',
+          monthName: 'Bulan September 2026',
+          vendorName: 'Dust Pellet',
+          price: 1600,
+          value: 1600,
+          displayPrice: 'Rp1.600',
+          color: '#0369a1',
+          status: 'TERTINGGI',
+        },
+        {
+          name: '🔻 DP Terendah: Bulan Okt 2026',
+          shortName: 'DP Okt (Terendah)',
+          monthName: 'Bulan Oktober 2026',
+          vendorName: 'Dust Pellet',
+          price: 1594,
+          value: 1594,
+          displayPrice: 'Rp1.594',
+          color: '#7dd3fc',
+          status: 'TERENDAH',
+        },
+        {
+          name: 'DP Bulan Agu 2026: Rp1.599',
+          shortName: 'DP Agu 2026',
+          monthName: 'Bulan Agustus 2026',
+          vendorName: 'Dust Pellet',
+          price: 1599,
+          value: 1599,
+          displayPrice: 'Rp1.599',
+          color: '#38bdf8',
+          status: 'NORMAL',
+        },
+      ];
+    }
+
+    if (selectedFuelExtreme === 'KP') {
+      return [
+        {
+          name: '☕ KP Tertinggi: Bulan Feb 2026',
+          shortName: 'KP Feb (Tertinggi)',
+          monthName: 'Bulan Februari 2026',
+          vendorName: 'Kopi Pellet',
+          price: 2200,
+          value: 2200,
+          displayPrice: 'Rp2.200',
+          color: '#9333ea',
+          status: 'TERTINGGI',
+        },
+      ];
+    }
+
+    // Default: 'ALL' -> Menampilkan Tertinggi dan Terendah di Bulan Apa Tiap Jenis Bahan Bakar
+    return [
+      {
+        name: '🔺 CK Tertinggi: Agu 2026',
+        fuelLabel: 'CK (Cangkang)',
+        vendorName: 'Cangkang Sawit',
+        monthName: 'Bulan Agustus 2026',
+        price: 1726,
+        value: 1726,
+        displayPrice: 'Rp1.726',
+        color: '#15803d',
+        status: 'TERTINGGI',
+      },
+      {
+        name: '🔻 CK Terendah: Okt 2026',
+        fuelLabel: 'CK (Cangkang)',
+        vendorName: 'Cangkang Sawit',
+        monthName: 'Bulan Oktober 2026',
+        price: 1679,
+        value: 1679,
+        displayPrice: 'Rp1.679',
+        color: '#4ade80',
+        status: 'TERENDAH',
+      },
+      {
+        name: '🔺 WP Tertinggi: Agu 2026',
+        fuelLabel: 'WP (Wood Pellet)',
+        vendorName: 'Wood Pellet',
+        monthName: 'Bulan Agustus 2026',
+        price: 1750,
+        value: 1750,
+        displayPrice: 'Rp1.750',
+        color: '#b45309',
+        status: 'TERTINGGI',
+      },
+      {
+        name: '🔻 WP Terendah: Feb 2026',
+        fuelLabel: 'WP (Wood Pellet)',
+        vendorName: 'Wood Pellet',
+        monthName: 'Bulan Februari 2026',
+        price: 1586,
+        value: 1586,
+        displayPrice: 'Rp1.586',
+        color: '#fde047',
+        status: 'TERENDAH',
+      },
+      {
+        name: '🔺 DP Tertinggi: Sep 2026',
+        fuelLabel: 'DP (Dust Pellet)',
+        vendorName: 'Dust Pellet',
+        monthName: 'Bulan September 2026',
+        price: 1600,
+        value: 1600,
+        displayPrice: 'Rp1.600',
+        color: '#0369a1',
+        status: 'TERTINGGI',
+      },
+      {
+        name: '🔻 DP Terendah: Okt 2026',
+        fuelLabel: 'DP (Dust Pellet)',
+        vendorName: 'Dust Pellet',
+        monthName: 'Bulan Oktober 2026',
+        price: 1594,
+        value: 1594,
+        displayPrice: 'Rp1.594',
+        color: '#7dd3fc',
+        status: 'TERENDAH',
+      },
+      {
+        name: '☕ KP Tertinggi: Feb 2026',
+        fuelLabel: 'KP (Kopi Pellet)',
+        vendorName: 'Kopi Pellet',
+        monthName: 'Bulan Februari 2026',
+        price: 2200,
+        value: 2200,
+        displayPrice: 'Rp2.200',
+        color: '#9333ea',
+        status: 'TERTINGGI',
+      },
+    ];
+  }, [fuelExtremesSummary, selectedFuelExtreme]);
+
   return (
     <div className="space-y-6">
       {/* Chart Navigation and Toggles */}
@@ -557,7 +1056,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
         </div>
 
         {/* Bar layout toggle (Stacked vs Grouped) */}
-        {chartMode !== 'steam_efficiency' && chartMode !== 'kg_steam' && (
+        {chartMode !== 'steam_efficiency' && (
           <div className="flex items-center gap-2 text-xs">
             <span className="text-slate-500 font-medium">Tampilan Bar:</span>
             <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg border border-slate-200">
@@ -591,13 +1090,13 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
         <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
             <h3 className="text-sm font-bold text-slate-900">
-              {chartMode === 'kg_steam' && 'Grafik Kg/Ton steam'}
+              {chartMode === 'kg_steam' && 'Grafik Pemakaian Konsumsi Harian & Kg/Ton Steam'}
               {chartMode === 'cost' && 'Grafik RP/ TON STEAM & STEAM OUT'}
               {chartMode === 'steam_efficiency' && 'ALL GRAFIK (Produksi Steam Out & Biaya per Ton Steam)'}
               {chartMode === 'volume' && 'Total Konsumsi Bahan Bakar'}
             </h3>
             <p className="text-xs text-slate-500">
-              {chartMode === 'kg_steam' && 'Memantau performa Kg/Ton steam (kg bahan bakar per Ton steam yang dihasilkan) berwarna hitam.'}
+              {chartMode === 'kg_steam' && 'Memantau pemakaian konsumsi harian bahan bakar (kg) per tanggal digabung dengan grafik rasio Kg/Ton steam berwarna hitam.'}
               {chartMode === 'cost' && 'Menampilkan perbandingan biaya pengeluaran bahan bakar harian (Rp) dengan garis Data Steam Out (Ton) berwarna hitam.'}
               {chartMode === 'steam_efficiency' && 'Evaluasi performa efisiensi boiler: produksi steam harian (Ton), spesifik konsumsi (kg/Ton), dan unit cost (Rp/Ton).'}
               {chartMode === 'volume' && 'Menampilkan volume konsumsi bahan bakar harian (kg).'}
@@ -609,7 +1108,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
           </div>
         </div>
 
-        {/* GRAFIK SENDIRI: HANYA MENAMPILKAN GRAFIK KG/TON STEAM */}
+        {/* GRAFIK PEMAKAIAN KONSUMSI HARIAN DIGABUNG DENGAN GRAFIK KG/TON STEAM */}
         {chartMode === 'kg_steam' && (
           <div className="space-y-4">
             {/* KPI Cards Ringkasan Khusus Kg/Ton Steam */}
@@ -644,24 +1143,39 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
               </div>
             </div>
 
-            {/* Kanvas Grafik Mandiri: Hanya menampilkan Kg/Ton Steam (Warna Hitam) */}
+            {/* Kanvas Grafik: Pemakaian Konsumsi Harian digabung dengan Kg/Ton Steam */}
             <div className="h-96 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <ComposedChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                <ComposedChart data={chartData} margin={{ top: 20, right: 35, left: 30, bottom: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
                   <XAxis dataKey="tanggal" tick={{ fontSize: 11, fill: '#64748b' }} />
+                  {/* Sumbu Y Kiri: Pemakaian Konsumsi Harian (kg) */}
                   <YAxis
-                    domain={['dataMin - 15', 'dataMax + 15']}
+                    yAxisId="left"
                     tick={{ fontSize: 11, fill: '#64748b' }}
+                    tickFormatter={(val) => `${(val / 1000).toFixed(0)}k`}
                     label={{
-                      value: 'Kg/Ton steam (kg bahan bakar / Ton steam)',
+                      value: 'Pemakaian Konsumsi Harian (kg)',
                       angle: -90,
                       position: 'insideLeft',
-                      style: { fill: '#0f172a', fontSize: 11, fontWeight: 700 },
+                      style: { fill: '#64748b', fontSize: 11 },
+                    }}
+                  />
+                  {/* Sumbu Y Kanan: Garis Rasio Kg/Ton Steam */}
+                  <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    domain={['dataMin - 15', 'dataMax + 15']}
+                    tick={{ fontSize: 11, fill: '#000000', fontWeight: 600 }}
+                    label={{
+                      value: 'Kg/Ton steam',
+                      angle: 90,
+                      position: 'insideRight',
+                      style: { fill: '#000000', fontSize: 11, fontWeight: 700 },
                     }}
                   />
                   <Tooltip
-                    content={<CustomKgSteamTooltip />}
+                    content={<CustomConsumptionTooltip />}
                     wrapperStyle={{ zIndex: 9999, pointerEvents: 'none' }}
                   />
                   <Legend
@@ -670,6 +1184,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                     wrapperStyle={{ paddingBottom: '14px', fontSize: '12px', zIndex: 1 }}
                   />
                   <ReferenceLine
+                    yAxisId="right"
                     y={kgSteamStats.avg}
                     stroke="#16a34a"
                     strokeDasharray="4 4"
@@ -682,19 +1197,45 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                       fontWeight: 600,
                     }}
                   />
-                  {/* Bar: Warna Hitam (#000000) sesuai permintaan user */}
+                  {/* Batang Konsumsi Bahan Bakar Harian per jenis */}
                   <Bar
-                    dataKey="Kg per Ton Steam"
-                    name="Kg/Ton steam"
-                    fill="#000000"
-                    radius={[4, 4, 0, 0]}
-                    barSize={24}
+                    yAxisId="left"
+                    dataKey="CANGKANG"
+                    name="Cangkang Sawit"
+                    stackId={barStyle === 'stacked' ? 'fuel' : undefined}
+                    fill={FUEL_CONFIG['CANGKANG'].color}
+                    radius={barStyle === 'stacked' ? [0, 0, 0, 0] : [4, 4, 0, 0]}
                   />
-                  {/* Line Trend: Garis Hitam (#000000) */}
+                  <Bar
+                    yAxisId="left"
+                    dataKey="WOOD PELLET"
+                    name="Wood Pellet"
+                    stackId={barStyle === 'stacked' ? 'fuel' : undefined}
+                    fill={FUEL_CONFIG['WOOD PELLET'].color}
+                    radius={barStyle === 'stacked' ? [0, 0, 0, 0] : [4, 4, 0, 0]}
+                  />
+                  <Bar
+                    yAxisId="left"
+                    dataKey="DUST PELLET"
+                    name="Dust Pellet"
+                    stackId={barStyle === 'stacked' ? 'fuel' : undefined}
+                    fill={FUEL_CONFIG['DUST PELLET'].color}
+                    radius={barStyle === 'stacked' ? [0, 0, 0, 0] : [4, 4, 0, 0]}
+                  />
+                  <Bar
+                    yAxisId="left"
+                    dataKey="KOPI PELLET"
+                    name="Kopi Pellet"
+                    stackId={barStyle === 'stacked' ? 'fuel' : undefined}
+                    fill={FUEL_CONFIG['KOPI PELLET'].color}
+                    radius={barStyle === 'stacked' ? [4, 4, 0, 0] : [4, 4, 0, 0]}
+                  />
+                  {/* Garis Kg/Ton Steam Warna Hitam (#000000) */}
                   <Line
+                    yAxisId="right"
                     type="monotone"
                     dataKey="Kg per Ton Steam"
-                    name="Tren Kg/Ton steam"
+                    name="Kg/Ton steam"
                     stroke="#000000"
                     strokeWidth={2.5}
                     dot={{ r: 4, fill: '#000000', stroke: '#ffffff', strokeWidth: 1.5 }}
@@ -1002,86 +1543,232 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
           </div>
         </div>
 
-        {/* Donut 2: Presentase Komposisi (%) */}
-        <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-          <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
-            <div className="flex items-center gap-2">
-              <Percent className="w-4 h-4 text-emerald-500" />
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">
-                2. Presentase (%) Komposisi
-              </h4>
+        {/* Card 2: Diagram Lingkaran Rata-Rata Harga Fuel per Bulan (1. CK, 2. WP, 3. DP, 4. KP) */}
+        <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-2 border-b border-slate-100 pb-2">
+              <div className="flex items-center gap-2">
+                <PieIcon className="w-4 h-4 text-emerald-600" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                  2. Rata-Rata Harga Fuel per Bulan
+                </h4>
+              </div>
+              {/* Pemilih Bulan Interaktif */}
+              <select
+                value={selectedMonthForAvgPrice}
+                onChange={(e) => setSelectedMonthForAvgPrice(e.target.value)}
+                className="text-[10px] font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 rounded px-1.5 py-0.5 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer shadow-2xs"
+              >
+                <option value="2026-10">Bulan Okt 2026</option>
+                <option value="2026-09">Bulan Sep 2026</option>
+                <option value="2026-08">Bulan Agu 2026</option>
+                <option value="2026-02">Bulan Feb 2026</option>
+              </select>
             </div>
-            <span className="text-[11px] text-slate-500 font-mono font-semibold">
-              100% Komposisi
-            </span>
+
+            {/* Sub-indikator status ekstrim antar vendor */}
+            <div className="mb-2 p-1 bg-amber-50/70 border border-amber-200/60 rounded text-[9.5px] text-amber-900 flex items-center justify-between font-mono">
+              <span>Spreadsheet: 🔺 Agu (Rp1.750)</span>
+              <span>🔻 Okt (Rp1.594)</span>
+            </div>
           </div>
 
           <div className="h-56 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={fuelAggregates.percentageData}
+                  data={pieAvgPriceData}
                   dataKey="value"
                   nameKey="name"
                   cx="50%"
-                  cy="50%"
-                  innerRadius={45}
-                  outerRadius={75}
+                  cy="46%"
+                  innerRadius={44}
+                  outerRadius={72}
                   paddingAngle={3}
                 >
-                  {fuelAggregates.percentageData.map((entry, index) => (
-                    <Cell key={`cell-pct-${index}`} fill={entry.color} />
+                  {pieAvgPriceData.map((entry, index) => (
+                    <Cell key={`cell-avg-price-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
                 <Tooltip
                   formatter={(val: any, _name: any, item: any) => [
-                    `${val}% (${formatNumber(item.payload.kg)} kg)`,
-                    item.payload.name
+                    `${item.payload.displayPrice} / kg`,
+                    `${item.payload.name} ${item.payload.isHighest ? '(🔺 Tertinggi)' : item.payload.isLowest ? '(🔻 Terendah)' : ''}`
                   ]}
-                  contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '12px' }}
+                  contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
                 />
-                <Legend wrapperStyle={{ fontSize: '10px' }} />
+                <Legend
+                  formatter={(value: any) => {
+                    const item = pieAvgPriceData.find((p) => p.name === value);
+                    return (
+                      <span className="text-[10px] font-medium text-slate-700 inline-flex items-center gap-1">
+                        <span>{value}:</span>
+                        <strong className="font-mono text-slate-900">{item?.displayPrice}</strong>
+                        {item?.isHighest && (
+                          <span className="text-[8.5px] px-1 py-0.2 rounded bg-rose-100 text-rose-700 font-bold">
+                            🔺 Tertinggi
+                          </span>
+                        )}
+                        {item?.isLowest && (
+                          <span className="text-[8.5px] px-1 py-0.2 rounded bg-emerald-100 text-emerald-700 font-bold">
+                            🔻 Terendah
+                          </span>
+                        )}
+                      </span>
+                    );
+                  }}
+                  wrapperStyle={{ fontSize: '10px' }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Donut 3: Biaya Pengeluaran (RP) */}
-        <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-          <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
-            <div className="flex items-center gap-2">
-              <CircleDollarSign className="w-4 h-4 text-teal-600" />
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">
-                3. Distribusi Biaya (RP)
-              </h4>
+        {/* Card 3: Grafik Lingkaran Price Tertinggi CK, WP, DP, KP di Bulan Apa dari Data Spreadsheet (CSS Selector 1) */}
+        <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-2 border-b border-slate-100 pb-2">
+              <div className="flex items-center gap-2">
+                <PieIcon className="w-4 h-4 text-emerald-600" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                  3. Tertinggi &amp; Terendah Tiap Jenis Bahan Bakar
+                </h4>
+              </div>
+              {/* Filter Tampilan Mode */}
+              <select
+                value={selectedFuelExtreme}
+                onChange={(e: any) => setSelectedFuelExtreme(e.target.value)}
+                className="text-[10px] font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 rounded px-1.5 py-0.5 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer shadow-2xs"
+                title="Pilih bahan bakar yang ingin dianalisis"
+              >
+                <option value="ALL">Semua Bahan Bakar (CK, WP, DP, KP)</option>
+                <option value="CK">🌿 Cangkang Sawit (CK)</option>
+                <option value="WP">🪵 Wood Pellet (WP)</option>
+                <option value="DP">💨 Dust Pellet (DP)</option>
+                <option value="KP">☕ Kopi Pellet (KP)</option>
+              </select>
             </div>
-            <span className="text-[11px] text-slate-500 font-mono font-semibold">
-              Total {formatRupiah(fuelAggregates.totalCost)}
-            </span>
+
+            {/* Rangkuman Tertinggi dan Terendah di Bulan Apa Tiap Jenis Bahan Bakar */}
+            <div className="mb-2 p-1.5 rounded-lg bg-slate-50 border border-slate-200 text-[10px] space-y-1 font-mono">
+              <div
+                onClick={() => setSelectedFuelExtreme(selectedFuelExtreme === 'CK' ? 'ALL' : 'CK')}
+                className={`flex items-center justify-between px-2 py-0.5 rounded cursor-pointer transition-colors border ${
+                  selectedFuelExtreme === 'CK'
+                    ? 'bg-emerald-100 border-emerald-400 font-extrabold text-emerald-950 shadow-2xs'
+                    : 'bg-emerald-50/70 border-emerald-200/80 text-emerald-950 hover:bg-emerald-100/60'
+                }`}
+                title="Klik untuk fokus ke Cangkang Sawit (CK)"
+              >
+                <span className="font-bold flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block"></span>
+                  <span>1. Cangkang (CK):</span>
+                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-rose-700 font-bold">🔺 Agu: Rp1.726</span>
+                  <span className="text-slate-400">·</span>
+                  <span className="text-emerald-700 font-bold">🔻 Okt: Rp1.679</span>
+                </div>
+              </div>
+
+              <div
+                onClick={() => setSelectedFuelExtreme(selectedFuelExtreme === 'WP' ? 'ALL' : 'WP')}
+                className={`flex items-center justify-between px-2 py-0.5 rounded cursor-pointer transition-colors border ${
+                  selectedFuelExtreme === 'WP'
+                    ? 'bg-amber-100 border-amber-400 font-extrabold text-amber-950 shadow-2xs'
+                    : 'bg-amber-50/70 border-amber-200/80 text-amber-950 hover:bg-amber-100/60'
+                }`}
+                title="Klik untuk fokus ke Wood Pellet (WP)"
+              >
+                <span className="font-bold flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-amber-600 inline-block"></span>
+                  <span>2. Wood Pellet (WP):</span>
+                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-rose-700 font-bold">🔺 Agu: Rp1.750</span>
+                  <span className="text-slate-400">·</span>
+                  <span className="text-emerald-700 font-bold">🔻 Feb: Rp1.586</span>
+                </div>
+              </div>
+
+              <div
+                onClick={() => setSelectedFuelExtreme(selectedFuelExtreme === 'DP' ? 'ALL' : 'DP')}
+                className={`flex items-center justify-between px-2 py-0.5 rounded cursor-pointer transition-colors border ${
+                  selectedFuelExtreme === 'DP'
+                    ? 'bg-sky-100 border-sky-400 font-extrabold text-sky-950 shadow-2xs'
+                    : 'bg-sky-50/70 border-sky-200/80 text-sky-950 hover:bg-sky-100/60'
+                }`}
+                title="Klik untuk fokus ke Dust Pellet (DP)"
+              >
+                <span className="font-bold flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-sky-600 inline-block"></span>
+                  <span>3. Dust Pellet (DP):</span>
+                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-rose-700 font-bold">🔺 Sep: Rp1.600</span>
+                  <span className="text-slate-400">·</span>
+                  <span className="text-emerald-700 font-bold">🔻 Okt: Rp1.594</span>
+                </div>
+              </div>
+
+              <div
+                onClick={() => setSelectedFuelExtreme(selectedFuelExtreme === 'KP' ? 'ALL' : 'KP')}
+                className={`flex items-center justify-between px-2 py-0.5 rounded cursor-pointer transition-colors border ${
+                  selectedFuelExtreme === 'KP'
+                    ? 'bg-purple-100 border-purple-400 font-extrabold text-purple-950 shadow-2xs'
+                    : 'bg-purple-50/70 border-purple-200/80 text-purple-950 hover:bg-purple-100/60'
+                }`}
+                title="Klik untuk fokus ke Kopi Pellet (KP)"
+              >
+                <span className="font-bold flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-purple-600 inline-block"></span>
+                  <span>4. Kopi Pellet (KP):</span>
+                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-rose-700 font-bold">🔺 Feb: Rp2.200</span>
+                  <span className="text-slate-400">·</span>
+                  <span className="text-purple-700 font-bold">Uji Coba Feb</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="h-56 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={fuelAggregates.costData}
-                  dataKey="valueCost"
+                  data={piePriceExtremeData}
+                  dataKey="value"
                   nameKey="name"
                   cx="50%"
-                  cy="50%"
-                  innerRadius={45}
-                  outerRadius={75}
+                  cy="46%"
+                  innerRadius={44}
+                  outerRadius={72}
                   paddingAngle={3}
                 >
-                  {fuelAggregates.costData.map((entry, index) => (
-                    <Cell key={`cell-cost-${index}`} fill={entry.color} />
+                  {piePriceExtremeData.map((entry, index) => (
+                    <Cell key={`cell-extreme-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(val: any) => [formatRupiah(Number(val)), 'Total Biaya']}
-                  contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '12px' }}
+                  formatter={(val: any, _name: any, item: any) => [
+                    `${item.payload.displayPrice} / kg`,
+                    `${item.payload.name} (${item.payload.vendorName || item.payload.monthName || ''})`
+                  ]}
+                  contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
                 />
-                <Legend wrapperStyle={{ fontSize: '10px' }} />
+                <Legend
+                  formatter={(value: any) => {
+                    const item = piePriceExtremeData.find((p) => p.name === value);
+                    return (
+                      <span className="text-[10px] font-medium text-slate-700 inline-flex items-center gap-1">
+                        <span>{value}:</span>
+                        <strong className="font-mono text-slate-900">{item?.displayPrice}</strong>
+                      </span>
+                    );
+                  }}
+                  wrapperStyle={{ fontSize: '10px' }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
