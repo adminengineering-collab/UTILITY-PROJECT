@@ -1,22 +1,35 @@
 import React, { useState, useMemo } from 'react';
-import { DailyFuelSummary } from '../types/boiler';
+import { DailyFuelSummary, FuelType } from '../types/boiler';
 import { formatNumber, formatCurrencyExcel } from '../utils/calculations';
 import { DAILY_CONSUMPTION_RECORDS, DailyConsumptionRecord } from '../data/initialData';
-import { Calendar, Search, Download, Copy, Check, Table, ChevronRight } from 'lucide-react';
+import { Calendar, Search, Download, Copy, Check, Table, ChevronRight, Edit2, X, Sparkles } from 'lucide-react';
 
 interface DailyCostBreakdownProps {
   summaries: DailyFuelSummary[];
   onSelectDayForDetail?: (day: DailyFuelSummary) => void;
+  onUpdateDailySteam?: (date: string, newSteamOut: number) => void;
+  onUpdateDailyFuel?: (date: string, fuelType: FuelType, newKonsumsi: number) => void;
 }
 
 export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
   summaries,
   onSelectDayForDetail,
+  onUpdateDailySteam,
+  onUpdateDailyFuel,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [copied, setCopied] = useState(false);
   // Mode kolom: 'separated' (Default 18 Kolom: Total Harga Dust Pellet disertakan) vs 'spreadsheet' (17 Kolom)
   const [priceColumnMode, setPriceColumnMode] = useState<'separated' | 'spreadsheet'>('separated');
+
+  // Inline Steam Out Editing state
+  const [editingSteamRow, setEditingSteamRow] = useState<{
+    isoDate: string;
+    tanggal: string;
+    steamOut: number;
+    totalQty: number;
+  } | null>(null);
+  const [tempSteamVal, setTempSteamVal] = useState<string>('');
 
   // Map pre-loaded spreadsheet records by date (YYYY-MM-DD and DD/MM/YYYY)
   const preloadedRecordsMap = useMemo(() => {
@@ -787,9 +800,25 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
                       {formatCurrencyExcel(row.totalHarga, 2)}
                     </td>
 
-                    {/* 4. STEAM OUT */}
-                    <td className="py-2 px-3 text-right font-bold text-sky-800 tabular-nums">
-                      {row.steamOut > 0 ? formatNumber(row.steamOut) : '0'}
+                    {/* 4. STEAM OUT - Interaktif & Otomatis Sinkron ke Grafik */}
+                    <td
+                      className="py-2 px-3 text-right font-bold text-sky-800 tabular-nums cursor-pointer hover:bg-sky-100/70 transition-colors group relative"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditingSteamRow({
+                          isoDate: row.isoDate,
+                          tanggal: row.tanggal,
+                          steamOut: row.steamOut,
+                          totalQty: row.totalQty,
+                        });
+                        setTempSteamVal(String(row.steamOut || 0));
+                      }}
+                      title="Klik untuk mengubah nilai Steam Out & otomatis mengupdate kurva Kg/Ton Steam di grafik"
+                    >
+                      <div className="flex items-center justify-end gap-1.5">
+                        <span>{row.steamOut > 0 ? formatNumber(row.steamOut) : '0'}</span>
+                        <Edit2 className="w-2.5 h-2.5 opacity-40 group-hover:opacity-100 text-sky-600 transition-opacity" />
+                      </div>
                     </td>
 
                     {/* 5. KG/Ton Steam */}
@@ -1008,6 +1037,93 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
           </span>
         </div>
       </div>
+
+      {/* Modal Cepat Edit Steam Out: Langsung Mengubah Grafik Kg/Ton Steam */}
+      {editingSteamRow && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-xs">
+          <div className="bg-white rounded-xl shadow-2xl border border-slate-200 max-w-sm w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            <div className="bg-slate-900 text-white px-4 py-3 flex items-center justify-between">
+              <div>
+                <h4 className="text-xs font-bold flex items-center gap-1.5">
+                  <Edit2 className="w-3.5 h-3.5 text-sky-400" />
+                  <span>Ubah Data Steam Out</span>
+                </h4>
+                <p className="text-[11px] text-slate-400">
+                  Tanggal: <strong className="text-white font-mono">{editingSteamRow.tanggal}</strong>
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingSteamRow(null)}
+                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="p-4 space-y-3.5">
+              <div className="p-2.5 bg-sky-50 rounded-lg border border-sky-200 text-xs text-sky-900">
+                <p className="text-[11px] leading-relaxed">
+                  ⚡ <strong>Sinkronisasi Langsung:</strong> Nilai rasio Kg/Ton Steam dihitung otomatis dari Total Konsumsi ({formatNumber(editingSteamRow.totalQty)} kg) ÷ Steam Out (Ton).
+                </p>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-700 block mb-1">
+                  Steam Out (Ton):
+                </label>
+                <input
+                  type="number"
+                  step="any"
+                  value={tempSteamVal}
+                  onChange={(e) => setTempSteamVal(e.target.value)}
+                  className="w-full px-3 py-2 text-sm font-mono font-bold border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white"
+                  placeholder="Contoh: 341"
+                  autoFocus
+                />
+              </div>
+
+              {/* Perhitungan rasio Kg/Ton Steam baru */}
+              {(() => {
+                const sNum = parseFloat(tempSteamVal) || 0;
+                const newRatio = sNum > 0 ? Math.round(editingSteamRow.totalQty / sNum) : 0;
+                return (
+                  <div className="p-2.5 bg-slate-900 text-white rounded-lg font-mono text-xs flex items-center justify-between">
+                    <span className="text-slate-400">Rasio Baru:</span>
+                    <strong className="text-emerald-400 text-sm">
+                      {newRatio > 0 ? `${formatNumber(newRatio)} kg/Ton` : '0 kg/Ton'}
+                    </strong>
+                  </div>
+                );
+              })()}
+
+              <div className="flex items-center justify-end gap-2 pt-1 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setEditingSteamRow(null)}
+                  className="px-3 py-1.5 text-xs text-slate-600 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors font-medium"
+                >
+                  Batal
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const sNum = parseFloat(tempSteamVal);
+                    if (!isNaN(sNum) && onUpdateDailySteam) {
+                      onUpdateDailySteam(editingSteamRow.isoDate, sNum);
+                    }
+                    setEditingSteamRow(null);
+                  }}
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-sky-600 hover:bg-sky-500 rounded-lg shadow-sm transition-colors"
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  <span>Terapkan</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

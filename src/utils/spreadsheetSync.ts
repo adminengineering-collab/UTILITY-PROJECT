@@ -671,6 +671,7 @@ export function parseSpreadsheetText(rawText: string): ParseResult {
       const steamNum = cleanNumber(rawCols[matrixColMap.steamOut >= 0 ? matrixColMap.steamOut : 3]);
       if (steamNum > 0) {
         steamData[parsedDate] = steamNum;
+        if (rawDate) steamData[rawDate] = steamNum;
       }
 
       // Read exact TOTAL HARGA (Rp) if present in matrix column 2 or designated column
@@ -679,10 +680,23 @@ export function parseSpreadsheetText(rawText: string): ParseResult {
         : (rawCols.length > 2 && !rawCols[2].includes('/') ? cleanNumber(rawCols[2]) : 0);
 
       // Quantities
+      const explicitTotalQty = matrixColMap.totalQty >= 0 
+        ? cleanNumber(rawCols[matrixColMap.totalQty]) 
+        : (rawCols.length > 1 && !rawCols[1].includes('/') ? cleanNumber(rawCols[1]) : 0);
+
       const cQty = matrixColMap.cangkangQty >= 0 ? cleanNumber(rawCols[matrixColMap.cangkangQty]) : 0;
-      const wQty = matrixColMap.woodPelletQty >= 0 ? cleanNumber(rawCols[matrixColMap.woodPelletQty]) : 0;
+      let wQty = matrixColMap.woodPelletQty >= 0 ? cleanNumber(rawCols[matrixColMap.woodPelletQty]) : 0;
       const dQty = matrixColMap.dustPelletQty >= 0 ? cleanNumber(rawCols[matrixColMap.dustPelletQty]) : 0;
       const kQty = matrixColMap.kopiPelletQty >= 0 ? cleanNumber(rawCols[matrixColMap.kopiPelletQty]) : 0;
+
+      // Critical reconciliation: If spreadsheet Column B specifies TOTAL QTY (e.g. 69071 kg on 12/02),
+      // ensure fuel sub-quantities add up exactly to TOTAL QTY by assigning remainder to Wood Pellet (the main bulk fuel)
+      if (explicitTotalQty > 0) {
+        const sumSubFuels = cQty + wQty + dQty + kQty;
+        if (sumSubFuels < explicitTotalQty) {
+          wQty += (explicitTotalQty - sumSubFuels);
+        }
+      }
       const sumQty = cQty + wQty + dQty + kQty;
 
       // Fuel-specific prices if available
@@ -691,19 +705,18 @@ export function parseSpreadsheetText(rawText: string): ParseResult {
       let dHrgTotal = matrixColMap.dustPelletHarga >= 0 ? cleanNumber(rawCols[matrixColMap.dustPelletHarga]) : 0;
       let kHrgTotal = matrixColMap.kopiHarga >= 0 ? cleanNumber(rawCols[matrixColMap.kopiHarga]) : 0;
 
-      // If individual fuel prices are 0 but explicitTotalHarga is present in spreadsheet (e.g. column TOTAL HARGA Rp):
-      // Distribute explicitTotalHarga proportionally to each active fuel so the sum matches 1:1 down to the Rupiah!
-      if (explicitTotalHarga > 0 && (cHrgTotal + wHrgTotal + dHrgTotal + kHrgTotal === 0) && sumQty > 0) {
-        cHrgTotal = cQty > 0 ? Math.round((cQty / sumQty) * explicitTotalHarga) : 0;
-        wHrgTotal = wQty > 0 ? Math.round((wQty / sumQty) * explicitTotalHarga) : 0;
-        dHrgTotal = dQty > 0 ? Math.round((dQty / sumQty) * explicitTotalHarga) : 0;
-        kHrgTotal = explicitTotalHarga - (cHrgTotal + wHrgTotal + dHrgTotal);
-        if (kHrgTotal < 0 || kQty === 0) {
-          // Adjust to whichever has the highest quantity
-          const diff = explicitTotalHarga - (cHrgTotal + wHrgTotal + dHrgTotal + (kQty > 0 ? kHrgTotal : 0));
-          if (wQty >= cQty && wQty > 0) wHrgTotal += diff;
-          else if (cQty > 0) cHrgTotal += diff;
-          kHrgTotal = kQty > 0 ? Math.max(0, kHrgTotal) : 0;
+      // If explicitTotalHarga is present (e.g. Rp 125,015,945 on 12/02) and sub-totals are lower or zero:
+      if (explicitTotalHarga > 0) {
+        const currentSumHrg = cHrgTotal + wHrgTotal + dHrgTotal + kHrgTotal;
+        if (currentSumHrg === 0 && sumQty > 0) {
+          // Distribute proportionally if individual prices not provided
+          cHrgTotal = cQty > 0 ? Math.round((cQty / sumQty) * explicitTotalHarga) : 0;
+          wHrgTotal = wQty > 0 ? Math.round((wQty / sumQty) * explicitTotalHarga) : 0;
+          dHrgTotal = dQty > 0 ? Math.round((dQty / sumQty) * explicitTotalHarga) : 0;
+          kHrgTotal = explicitTotalHarga - (cHrgTotal + wHrgTotal + dHrgTotal);
+        } else if (currentSumHrg < explicitTotalHarga) {
+          // Add remainder to Wood Pellet
+          wHrgTotal += (explicitTotalHarga - currentSumHrg);
         }
       }
 
@@ -820,8 +833,9 @@ export function parseSpreadsheetText(rawText: string): ParseResult {
     // Steam out if available
     const rawSteam = rawCols[colMap.steamOut] || (rawCols.length > 9 ? rawCols[9] : '');
     const steamNum = cleanNumber(rawSteam);
-    if (steamNum > 0 && !steamData[parsedDate]) {
-      steamData[parsedDate] = steamNum;
+    if (steamNum > 0) {
+      if (parsedDate) steamData[parsedDate] = steamNum;
+      if (rawDate) steamData[rawDate] = steamNum;
     }
 
     if (konsumsi > 0 || harga > 0) {

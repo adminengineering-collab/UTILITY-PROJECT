@@ -18,14 +18,45 @@ import {
 } from 'recharts';
 import { DailyFuelSummary } from '../types/boiler';
 import { FUEL_CONFIG, DAILY_CONSUMPTION_RECORDS, DailyConsumptionRecord } from '../data/initialData';
-import { formatNumber, formatRupiah, parseDateToIso } from '../utils/calculations';
-import { BarChart3, Percent, TrendingUp, Activity, Fuel, PieChart as PieIcon, CircleDollarSign, Eye, EyeOff, Gauge, Coins } from 'lucide-react';
+import { formatNumber, formatRupiah, parseDateToIso, formatDisplayDate } from '../utils/calculations';
+import {
+  BarChart3,
+  Percent,
+  TrendingUp,
+  Activity,
+  Fuel,
+  PieChart as PieIcon,
+  CircleDollarSign,
+  Eye,
+  EyeOff,
+  Gauge,
+  Coins,
+  RefreshCw,
+  Edit3,
+  ArrowUpDown,
+  Check,
+  X,
+  Sparkles,
+} from 'lucide-react';
+import { FuelType } from '../types/boiler';
 
 interface ChartsSectionProps {
   summaries: DailyFuelSummary[];
+  onUpdateDailySteam?: (date: string, newSteamOut: number) => void;
+  onUpdateDailyFuel?: (date: string, fuelType: FuelType, newKonsumsi: number) => void;
+  onPerformSync?: () => void;
+  isSyncing?: boolean;
+  lastSyncedAt?: string | null;
 }
 
-export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
+export const ChartsSection: React.FC<ChartsSectionProps> = ({
+  summaries,
+  onUpdateDailySteam,
+  onUpdateDailyFuel,
+  onPerformSync,
+  isSyncing = false,
+  lastSyncedAt,
+}) => {
   // Chart modes:
   // 1. kg_steam: GRAFIK SENDIRI: HANYA MENAMPILKAN GRAFIK KG/TON STEAM
   // 2. volume: Total Konsumsi & Volume Spreadsheet (kg)
@@ -41,6 +72,26 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
   // Filter bahan bakar untuk diagram tertinggi & terendah tiap jenis bahan bakar
   const [selectedFuelExtreme, setSelectedFuelExtreme] = useState<'ALL' | 'CK' | 'WP' | 'DP' | 'KP'>('ALL');
 
+  // Urutan Tanggal: 'asc' (01 -> 31, Sesuai Urutan Baris Spreadsheet 1:1) vs 'desc' (Terbaru -> Terlama)
+  const [chartDateSort, setChartDateSort] = useState<'asc' | 'desc'>('asc');
+
+  // Quick Edit Modal state for editing a day's steam & fuel on the fly
+  const [editingDay, setEditingDay] = useState<{
+    date: string;
+    displayTanggal: string;
+    steamOut: number;
+    totalKonsumsi: number;
+    cangkang: number;
+    wood: number;
+    dust: number;
+    kopi: number;
+  } | null>(null);
+  const [editSteamInput, setEditSteamInput] = useState<string>('');
+  const [editCangkangInput, setEditCangkangInput] = useState<string>('');
+  const [editWoodInput, setEditWoodInput] = useState<string>('');
+  const [editDustInput, setEditDustInput] = useState<string>('');
+  const [editKopiInput, setEditKopiInput] = useState<string>('');
+
   // Map pre-loaded spreadsheet records by date (YYYY-MM-DD and DD/MM/YYYY)
   const preloadedRecordsMap = useMemo(() => {
     const map = new Map<string, DailyConsumptionRecord>();
@@ -52,12 +103,12 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
   }, []);
 
   // Prepare chart dataset 100% synchronized with the spreadsheet table and real-time data
-  // URUTAN TANGGAL: Tanggal paling terakhir berada di sebelah kiri (Terbaru -> Terlama)
+  // URUTAN TANGGAL: Default 'asc' sesuai urutan baris spreadsheet (01/10/2026 s/d 26/10/2026)
   const chartData = useMemo(() => {
     const sortedSummaries = [...summaries].sort((a, b) => {
       const isoA = parseDateToIso(a.tanggal) || parseDateToIso(a.displayTanggal) || a.tanggal || '';
       const isoB = parseDateToIso(b.tanggal) || parseDateToIso(b.displayTanggal) || b.tanggal || '';
-      return isoB.localeCompare(isoA); // Tanggal terbaru berada di sebelah kiri (index 0)
+      return chartDateSort === 'asc' ? isoA.localeCompare(isoB) : isoB.localeCompare(isoA);
     });
 
     return sortedSummaries.map((s) => {
@@ -758,7 +809,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
     };
   }, []);
 
-  // Data Diagram Lingkaran Tertinggi dan Terendah di Bulan Apa Tiap Jenis Bahan Bakar
+  // Data Diagram Lingkaran Tertinggi dan Terendah di Bulan Apa Tiap Jenis Bahan Bakar (HANYA Tertinggi & Terendah)
   const piePriceExtremeData = useMemo(() => {
     if (selectedFuelExtreme === 'CK') {
       return [
@@ -783,28 +834,6 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
           displayPrice: 'Rp1.679',
           color: '#4ade80',
           status: 'TERENDAH',
-        },
-        {
-          name: 'CK Bulan Feb 2026: Rp1.709',
-          shortName: 'CK Feb 2026',
-          monthName: 'Bulan Februari 2026',
-          vendorName: 'Cangkang Sawit',
-          price: 1709,
-          value: 1709,
-          displayPrice: 'Rp1.709',
-          color: '#86efac',
-          status: 'NORMAL',
-        },
-        {
-          name: 'CK Bulan Sep 2026: Rp1.700',
-          shortName: 'CK Sep 2026',
-          monthName: 'Bulan September 2026',
-          vendorName: 'Cangkang Sawit',
-          price: 1700,
-          value: 1700,
-          displayPrice: 'Rp1.700',
-          color: '#bbf7d0',
-          status: 'NORMAL',
         },
       ];
     }
@@ -833,28 +862,6 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
           color: '#fde047',
           status: 'TERENDAH',
         },
-        {
-          name: 'WP Bulan Sep 2026: Rp1.687',
-          shortName: 'WP Sep 2026',
-          monthName: 'Bulan September 2026',
-          vendorName: 'Wood Pellet',
-          price: 1687,
-          value: 1687,
-          displayPrice: 'Rp1.687',
-          color: '#f59e0b',
-          status: 'NORMAL',
-        },
-        {
-          name: 'WP Bulan Okt 2026: Rp1.671',
-          shortName: 'WP Okt 2026',
-          monthName: 'Bulan Oktober 2026',
-          vendorName: 'Wood Pellet',
-          price: 1671,
-          value: 1671,
-          displayPrice: 'Rp1.671',
-          color: '#fcd34d',
-          status: 'NORMAL',
-        },
       ];
     }
 
@@ -881,17 +888,6 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
           displayPrice: 'Rp1.594',
           color: '#7dd3fc',
           status: 'TERENDAH',
-        },
-        {
-          name: 'DP Bulan Agu 2026: Rp1.599',
-          shortName: 'DP Agu 2026',
-          monthName: 'Bulan Agustus 2026',
-          vendorName: 'Dust Pellet',
-          price: 1599,
-          value: 1599,
-          displayPrice: 'Rp1.599',
-          color: '#38bdf8',
-          status: 'NORMAL',
         },
       ];
     }
@@ -1108,9 +1104,84 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
           </div>
         </div>
 
-        {/* GRAFIK PEMAKAIAN KONSUMSI HARIAN DIGABUNG DENGAN GRAFIK KG/TON STEAM */}
+        {/* GRAFIK PEMAKAIAN KONSUMSI HARIAN DIGABUNG DENGAN GRAFIK KG/TON STEAM (SINKRON SPREADSHEET OTOMATIS) */}
         {chartMode === 'kg_steam' && (
           <div className="space-y-4">
+            {/* Realtime Synchronization & Action Toolbar */}
+            <div className="flex flex-wrap items-center justify-between gap-2.5 p-3 rounded-xl bg-gradient-to-r from-emerald-50/90 via-slate-50 to-amber-50/50 border border-emerald-200/80 shadow-2xs">
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
+                </span>
+                <span className="text-xs font-bold text-slate-800">
+                  Sinkronisasi Otomatis Spreadsheet Aktif
+                </span>
+                <span className="hidden sm:inline-block text-[11px] text-slate-500 font-medium">
+                  · Saat data konsumsi atau steam diubah, kurva Kg/Ton Steam otomatis terkalkulasi
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2 flex-wrap">
+                {/* Toggle Urutan Tanggal: Sesuai Urutan Spreadsheet (01 -> 31) vs Terbaru (31 -> 01) */}
+                <button
+                  type="button"
+                  onClick={() => setChartDateSort((prev) => (prev === 'asc' ? 'desc' : 'asc'))}
+                  className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg bg-white text-slate-700 hover:text-slate-900 border border-slate-300 shadow-2xs hover:bg-slate-50 transition-colors"
+                  title="Ubah urutan tanggal pada sumbu X grafik"
+                >
+                  <ArrowUpDown className="w-3.5 h-3.5 text-amber-600" />
+                  <span>
+                    Urutan: {chartDateSort === 'asc' ? '01 → 31 (Spreadsheet)' : '31 → 01 (Terbaru)'}
+                  </span>
+                </button>
+
+                {/* Tombol Ubah / Edit Cepat Data Steam Out atau Konsumsi */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const first = chartData[0];
+                    if (first) {
+                      setEditingDay({
+                        date: first.rawTanggal || first.tanggal,
+                        displayTanggal: first.tanggal,
+                        steamOut: first['Steam Out'] || 320,
+                        totalKonsumsi: first.totalKonsumsi || 0,
+                        cangkang: first.CANGKANG || 0,
+                        wood: first['WOOD PELLET'] || 0,
+                        dust: first['DUST PELLET'] || 0,
+                        kopi: first['KOPI PELLET'] || 0,
+                      });
+                      setEditSteamInput(String(first['Steam Out'] || 320));
+                      setEditCangkangInput(String(first.CANGKANG || 0));
+                      setEditWoodInput(String(first['WOOD PELLET'] || 0));
+                      setEditDustInput(String(first['DUST PELLET'] || 0));
+                      setEditKopiInput(String(first['KOPI PELLET'] || 0));
+                    }
+                  }}
+                  className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-900 text-white hover:bg-slate-800 shadow-2xs transition-colors"
+                  title="Ubah nilai Steam Out atau Konsumsi harian untuk menguji otomatisasi grafik secara langsung"
+                >
+                  <Edit3 className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Ubah Data Steam / Konsumsi</span>
+                </button>
+
+                {/* Tombol Sinkronkan Sekarang dari Spreadsheet */}
+                {onPerformSync && (
+                  <button
+                    type="button"
+                    onClick={onPerformSync}
+                    disabled={isSyncing}
+                    className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white shadow-2xs transition-colors disabled:opacity-50"
+                    title="Perbarui data langsung dari Google Sheets"
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
+                    <span>{isSyncing ? 'Menyinkronkan...' : 'Sinkronkan Sekarang'}</span>
+                  </button>
+                )}
+              </div>
+            </div>
+
             {/* KPI Cards Ringkasan Khusus Kg/Ton Steam */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
               <div className="bg-white p-3 rounded-lg border border-slate-200/80 shadow-2xs">
@@ -1146,7 +1217,32 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
             {/* Kanvas Grafik: Pemakaian Konsumsi Harian digabung dengan Kg/Ton Steam */}
             <div className="h-96 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <ComposedChart data={chartData} margin={{ top: 20, right: 35, left: 30, bottom: 20 }}>
+                <ComposedChart
+                  data={chartData}
+                  margin={{ top: 20, right: 35, left: 30, bottom: 20 }}
+                  onClick={(e: any) => {
+                    if (e && e.activePayload && e.activePayload.length > 0) {
+                      const item = e.activePayload[0].payload;
+                      if (item) {
+                        setEditingDay({
+                          date: item.rawTanggal || item.tanggal,
+                          displayTanggal: item.tanggal,
+                          steamOut: item['Steam Out'] || 0,
+                          totalKonsumsi: item.totalKonsumsi || 0,
+                          cangkang: item.CANGKANG || 0,
+                          wood: item['WOOD PELLET'] || 0,
+                          dust: item['DUST PELLET'] || 0,
+                          kopi: item['KOPI PELLET'] || 0,
+                        });
+                        setEditSteamInput(String(item['Steam Out'] || 0));
+                        setEditCangkangInput(String(item.CANGKANG || 0));
+                        setEditWoodInput(String(item['WOOD PELLET'] || 0));
+                        setEditDustInput(String(item['DUST PELLET'] || 0));
+                        setEditKopiInput(String(item['KOPI PELLET'] || 0));
+                      }
+                    }
+                  }}
+                >
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
                   <XAxis dataKey="tanggal" tick={{ fontSize: 11, fill: '#64748b' }} />
                   {/* Sumbu Y Kiri: Pemakaian Konsumsi Harian (kg) */}
@@ -1197,7 +1293,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                       fontWeight: 600,
                     }}
                   />
-                  {/* Batang Konsumsi Bahan Bakar Harian per jenis */}
+                  {/* Batang Konsumsi Bahan Bakar Harian per jenis - isAnimationActive={false} untuk respon seketika */}
                   <Bar
                     yAxisId="left"
                     dataKey="CANGKANG"
@@ -1205,6 +1301,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                     stackId={barStyle === 'stacked' ? 'fuel' : undefined}
                     fill={FUEL_CONFIG['CANGKANG'].color}
                     radius={barStyle === 'stacked' ? [0, 0, 0, 0] : [4, 4, 0, 0]}
+                    isAnimationActive={false}
                   />
                   <Bar
                     yAxisId="left"
@@ -1213,6 +1310,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                     stackId={barStyle === 'stacked' ? 'fuel' : undefined}
                     fill={FUEL_CONFIG['WOOD PELLET'].color}
                     radius={barStyle === 'stacked' ? [0, 0, 0, 0] : [4, 4, 0, 0]}
+                    isAnimationActive={false}
                   />
                   <Bar
                     yAxisId="left"
@@ -1221,6 +1319,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                     stackId={barStyle === 'stacked' ? 'fuel' : undefined}
                     fill={FUEL_CONFIG['DUST PELLET'].color}
                     radius={barStyle === 'stacked' ? [0, 0, 0, 0] : [4, 4, 0, 0]}
+                    isAnimationActive={false}
                   />
                   <Bar
                     yAxisId="left"
@@ -1229,8 +1328,9 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                     stackId={barStyle === 'stacked' ? 'fuel' : undefined}
                     fill={FUEL_CONFIG['KOPI PELLET'].color}
                     radius={barStyle === 'stacked' ? [4, 4, 0, 0] : [4, 4, 0, 0]}
+                    isAnimationActive={false}
                   />
-                  {/* Garis Kg/Ton Steam Warna Hitam (#000000) */}
+                  {/* Garis Kg/Ton Steam Warna Hitam (#000000) - Terhubung Langsung & Real-Time */}
                   <Line
                     yAxisId="right"
                     type="monotone"
@@ -1240,10 +1340,14 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
                     strokeWidth={2.5}
                     dot={{ r: 4, fill: '#000000', stroke: '#ffffff', strokeWidth: 1.5 }}
                     activeDot={{ r: 6, fill: '#000000' }}
+                    isAnimationActive={false}
                   />
                 </ComposedChart>
               </ResponsiveContainer>
             </div>
+            <p className="text-[11px] text-slate-500 italic text-center">
+              💡 Tips: Klik pada salah satu titik grafik atau batang untuk mengedit Steam Out dan melihat kurva Kg/Ton Steam langsung berubah secara instan.
+            </p>
           </div>
         )}
 
@@ -1774,6 +1878,105 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({ summaries }) => {
           </div>
         </div>
       </div>
+
+      {/* Quick Edit Modal: Ubah Steam Out / Konsumsi Harian & Langsung Berubah Otomatis */}
+      {editingDay && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-xs">
+          <div className="bg-white rounded-xl shadow-2xl border border-slate-200 max-w-md w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            <div className="bg-slate-900 text-white px-5 py-3.5 flex items-center justify-between">
+              <div>
+                <h3 className="text-sm font-bold flex items-center gap-2">
+                  <Edit3 className="w-4 h-4 text-emerald-400" />
+                  <span>Ubah Data Steam Out &amp; Konsumsi</span>
+                </h3>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Tanggal: <strong className="text-white font-mono">{editingDay.displayTanggal}</strong>
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingDay(null)}
+                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="p-5 space-y-4">
+              <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-200 text-xs text-emerald-900">
+                <p className="font-semibold flex items-center gap-1.5 mb-1">
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Otomatisasi Real-Time 1:1</span>
+                </p>
+                <p className="text-[11px] text-emerald-800 leading-relaxed">
+                  Begitu nilai Steam Out atau Konsumsi disimpan, rasio <strong>Kg/Ton Steam</strong> langsung dikalkulasi ulang dan kurva garis pada grafik berubah seketika.
+                </p>
+              </div>
+
+              {/* Steam Out Input */}
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
+                  <span>Steam Out (Ton):</span>
+                  <span className="text-[10px] text-slate-500 font-mono">Nilai Produksi Uap</span>
+                </label>
+                <input
+                  type="number"
+                  step="any"
+                  value={editSteamInput}
+                  onChange={(e) => setEditSteamInput(e.target.value)}
+                  className="w-full px-3 py-2 text-sm font-mono font-bold border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                  placeholder="Contoh: 340"
+                />
+              </div>
+
+              {/* Simulasi Perhitungan Langsung */}
+              {(() => {
+                const sVal = parseFloat(editSteamInput) || 0;
+                const totalKg = editingDay.totalKonsumsi;
+                const newRatio = sVal > 0 ? Math.round(totalKg / sVal) : 0;
+                return (
+                  <div className="p-3 bg-slate-900 text-white rounded-lg font-mono text-xs flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] text-slate-400 uppercase block">Kalkulasi Kg/Ton Steam Baru:</span>
+                      <span className="text-lg font-black text-emerald-400">
+                        {newRatio > 0 ? `${formatNumber(newRatio)} kg/Ton` : '0 kg/Ton'}
+                      </span>
+                    </div>
+                    <div className="text-right text-[11px] text-slate-300">
+                      <div>Konsumsi: {formatNumber(totalKg)} kg</div>
+                      <div>Steam: {sVal} Ton</div>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setEditingDay(null)}
+                  className="px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+                >
+                  Batal
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const sVal = parseFloat(editSteamInput);
+                    if (!isNaN(sVal) && onUpdateDailySteam) {
+                      onUpdateDailySteam(editingDay.date, sVal);
+                    }
+                    setEditingDay(null);
+                  }}
+                  className="flex items-center gap-1.5 px-4 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg shadow-sm transition-colors"
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  <span>Terapkan ke Grafik</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

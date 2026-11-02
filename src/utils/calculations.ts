@@ -218,7 +218,13 @@ export function calculateDailySummaries(
       }
     }
 
-    const steamOut = steamDataMap[date] ?? (rec ? rec.steamOut : (totalKonsumsi > 0 ? Math.round(totalKonsumsi / 160) : 0));
+    const displayDate = formatDisplayDate(date);
+    const steamOut =
+      (steamDataMap[date] !== undefined && steamDataMap[date] > 0)
+        ? steamDataMap[date]
+        : (steamDataMap[displayDate] !== undefined && steamDataMap[displayDate] > 0)
+        ? steamDataMap[displayDate]
+        : (rec ? rec.steamOut : (totalKonsumsi > 0 ? Math.round(totalKonsumsi / 160) : 0));
     const kgPerTonSteam = steamOut > 0 ? Math.round(totalKonsumsi / steamOut) : (rec ? rec.kgPerTonSteam : 0);
     const rpPerTonSteam = steamOut > 0 ? totalHarga / steamOut : (rec ? rec.rpPerTonSteam : 0);
 
