@@ -71,6 +71,8 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
   const [selectedMonthForAvgPrice, setSelectedMonthForAvgPrice] = useState<string>('2026-10');
   // Filter bahan bakar untuk diagram tertinggi & terendah tiap jenis bahan bakar
   const [selectedFuelExtreme, setSelectedFuelExtreme] = useState<'ALL' | 'CK' | 'WP' | 'DP' | 'KP'>('ALL');
+  // Tampilan diagram lingkaran ekstrim bulanan: 'extremes' (Tertinggi & Terendah) vs 'all' (Semua Bulan)
+  const [monthlyExtremeView, setMonthlyExtremeView] = useState<'extremes' | 'all'>('extremes');
 
   // Urutan Tanggal: 'asc' (01 -> 31, Sesuai Urutan Baris Spreadsheet 1:1) vs 'desc' (Terbaru -> Terlama)
   const [chartDateSort, setChartDateSort] = useState<'asc' | 'desc'>('asc');
@@ -990,6 +992,258 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
     ];
   }, [fuelExtremesSummary, selectedFuelExtreme]);
 
+  // Rekapitulasi Data Bulanan Terpadu (Konsumsi, Kg/Ton Steam, Rp/Ton Steam)
+  const monthlyStats = useMemo(() => {
+    const daysMap = new Map<string, { totalKonsumsi: number; totalHarga: number; steamOut: number }>();
+
+    // 1. Seed dari data historis spreadsheet
+    DAILY_CONSUMPTION_RECORDS.forEach((r) => {
+      daysMap.set(r.isoDate, {
+        totalKonsumsi: r.totalQty,
+        totalHarga: r.totalHarga,
+        steamOut: r.steamOut,
+      });
+      if (r.tanggal) {
+        daysMap.set(r.tanggal, {
+          totalKonsumsi: r.totalQty,
+          totalHarga: r.totalHarga,
+          steamOut: r.steamOut,
+        });
+      }
+    });
+
+    // 2. Timpa dengan data ringkasan aktif / sinkronisasi real-time spreadsheet
+    summaries.forEach((s) => {
+      const iso = parseDateToIso(s.tanggal) || parseDateToIso(s.displayTanggal) || s.tanggal;
+      if (iso) {
+        daysMap.set(iso, {
+          totalKonsumsi: s.totalKonsumsi,
+          totalHarga: s.totalHarga,
+          steamOut: s.steamOut,
+        });
+      }
+    });
+
+    const monthLabels: Record<string, { full: string; short: string; color: string }> = {
+      '2026-02': { full: 'Februari 2026', short: 'Feb 2026', color: '#9333ea' },
+      '2026-03': { full: 'Maret 2026', short: 'Mar 2026', color: '#ea580c' },
+      '2026-08': { full: 'Agustus 2026', short: 'Agu 2026', color: '#16a34a' },
+      '2026-09': { full: 'September 2026', short: 'Sep 2026', color: '#b45309' },
+      '2026-10': { full: 'Oktober 2026', short: 'Okt 2026', color: '#0284c7' },
+    };
+
+    const groups: Record<string, {
+      monthKey: string;
+      monthName: string;
+      shortMonth: string;
+      color: string;
+      totalKonsumsi: number;
+      totalHarga: number;
+      totalSteam: number;
+      dayCount: number;
+    }> = {};
+
+    daysMap.forEach((day, dateKey) => {
+      const iso = parseDateToIso(dateKey);
+      if (!iso || !iso.includes('-')) return;
+      const mKey = iso.substring(0, 7);
+
+      if (!groups[mKey]) {
+        const info = monthLabels[mKey] || {
+          full: `Bulan ${mKey}`,
+          short: mKey,
+          color: '#64748b',
+        };
+        groups[mKey] = {
+          monthKey: mKey,
+          monthName: info.full,
+          shortMonth: info.short,
+          color: info.color,
+          totalKonsumsi: 0,
+          totalHarga: 0,
+          totalSteam: 0,
+          dayCount: 0,
+        };
+      }
+
+      groups[mKey].totalKonsumsi += day.totalKonsumsi;
+      groups[mKey].totalHarga += day.totalHarga;
+      groups[mKey].totalSteam += day.steamOut;
+      groups[mKey].dayCount += 1;
+    });
+
+    const list = Object.values(groups)
+      .filter((g) => g.totalKonsumsi > 0 && g.totalSteam > 0)
+      .map((g) => ({
+        ...g,
+        avgKgPerTon: g.totalSteam > 0 ? Math.round(g.totalKonsumsi / g.totalSteam) : 0,
+        avgRpPerTon: g.totalSteam > 0 ? Math.round(g.totalHarga / g.totalSteam) : 0,
+      }));
+
+    if (list.length === 0) {
+      const fallbackMonth = {
+        monthKey: '2026-09',
+        monthName: 'September 2026',
+        shortMonth: 'Sep 2026',
+        color: '#b45309',
+        totalKonsumsi: 1851405,
+        totalHarga: 2994468650,
+        totalSteam: 10323,
+        dayCount: 30,
+        avgKgPerTon: 179,
+        avgRpPerTon: 290077,
+      };
+      return {
+        list: [fallbackMonth],
+        highestConsumption: fallbackMonth,
+        lowestConsumption: fallbackMonth,
+        highestKgSteam: fallbackMonth,
+        lowestKgSteam: fallbackMonth,
+        highestRpSteam: fallbackMonth,
+        lowestRpSteam: fallbackMonth,
+      };
+    }
+
+    let highestConsumption = list[0];
+    let lowestConsumption = list[0];
+    let highestKgSteam = list[0];
+    let lowestKgSteam = list[0];
+    let highestRpSteam = list[0];
+    let lowestRpSteam = list[0];
+
+    list.forEach((item) => {
+      if (item.totalKonsumsi > highestConsumption.totalKonsumsi) highestConsumption = item;
+      if (item.totalKonsumsi < lowestConsumption.totalKonsumsi) lowestConsumption = item;
+
+      if (item.avgKgPerTon > highestKgSteam.avgKgPerTon) highestKgSteam = item;
+      if (item.avgKgPerTon < lowestKgSteam.avgKgPerTon) lowestKgSteam = item;
+
+      if (item.avgRpPerTon > highestRpSteam.avgRpPerTon) highestRpSteam = item;
+      if (item.avgRpPerTon < lowestRpSteam.avgRpPerTon) lowestRpSteam = item;
+    });
+
+    return {
+      list,
+      highestConsumption,
+      lowestConsumption,
+      highestKgSteam,
+      lowestKgSteam,
+      highestRpSteam,
+      lowestRpSteam,
+    };
+  }, [summaries]);
+
+  // 1. DATA DIAGRAM LINGKARAN KONSUMSI TERTINGGI & TERENDAH (BULAN)
+  const pieMonthlyConsumptionData = useMemo(() => {
+    if (monthlyExtremeView === 'extremes') {
+      return [
+        {
+          name: `🔺 Tertinggi: ${monthlyStats.highestConsumption.shortMonth}`,
+          monthName: monthlyStats.highestConsumption.monthName,
+          value: monthlyStats.highestConsumption.totalKonsumsi,
+          display: `${formatNumber(monthlyStats.highestConsumption.totalKonsumsi)} kg`,
+          color: '#d97706',
+          status: 'TERTINGGI',
+        },
+        {
+          name: `🔻 Terendah: ${monthlyStats.lowestConsumption.shortMonth}`,
+          monthName: monthlyStats.lowestConsumption.monthName,
+          value: monthlyStats.lowestConsumption.totalKonsumsi,
+          display: `${formatNumber(monthlyStats.lowestConsumption.totalKonsumsi)} kg`,
+          color: '#0284c7',
+          status: 'TERENDAH',
+        },
+      ];
+    }
+
+    return monthlyStats.list.map((m) => {
+      const isHigh = m.monthKey === monthlyStats.highestConsumption?.monthKey;
+      const isLow = m.monthKey === monthlyStats.lowestConsumption?.monthKey;
+      return {
+        name: `${isHigh ? '🔺 ' : isLow ? '🔻 ' : ''}${m.shortMonth}`,
+        monthName: m.monthName,
+        value: m.totalKonsumsi,
+        display: `${formatNumber(m.totalKonsumsi)} kg`,
+        color: isHigh ? '#d97706' : isLow ? '#0284c7' : m.color,
+        status: isHigh ? 'TERTINGGI' : isLow ? 'TERENDAH' : undefined,
+      };
+    });
+  }, [monthlyStats, monthlyExtremeView]);
+
+  // 2. DATA DIAGRAM LINGKARAN RATA-RATA KG/TON STEAM TERTINGGI & TERENDAH (BULAN)
+  const pieMonthlyKgSteamData = useMemo(() => {
+    if (monthlyExtremeView === 'extremes') {
+      return [
+        {
+          name: `🔺 Tertinggi: ${monthlyStats.highestKgSteam.shortMonth}`,
+          monthName: monthlyStats.highestKgSteam.monthName,
+          value: monthlyStats.highestKgSteam.avgKgPerTon,
+          display: `${formatNumber(monthlyStats.highestKgSteam.avgKgPerTon)} kg/Ton`,
+          color: '#dc2626',
+          status: 'TERTINGGI',
+        },
+        {
+          name: `🔻 Terendah: ${monthlyStats.lowestKgSteam.shortMonth}`,
+          monthName: monthlyStats.lowestKgSteam.monthName,
+          value: monthlyStats.lowestKgSteam.avgKgPerTon,
+          display: `${formatNumber(monthlyStats.lowestKgSteam.avgKgPerTon)} kg/Ton`,
+          color: '#16a34a',
+          status: 'TERENDAH (Paling Efisien)',
+        },
+      ];
+    }
+
+    return monthlyStats.list.map((m) => {
+      const isHigh = m.monthKey === monthlyStats.highestKgSteam?.monthKey;
+      const isLow = m.monthKey === monthlyStats.lowestKgSteam?.monthKey;
+      return {
+        name: `${isHigh ? '🔺 ' : isLow ? '🔻 ' : ''}${m.shortMonth}`,
+        monthName: m.monthName,
+        value: m.avgKgPerTon,
+        display: `${formatNumber(m.avgKgPerTon)} kg/Ton`,
+        color: isHigh ? '#dc2626' : isLow ? '#16a34a' : m.color,
+        status: isHigh ? 'TERTINGGI' : isLow ? 'TERENDAH' : undefined,
+      };
+    });
+  }, [monthlyStats, monthlyExtremeView]);
+
+  // 3. DATA DIAGRAM LINGKARAN RATA-RATA RP/TON STEAM TERTINGGI & TERENDAH (BULAN)
+  const pieMonthlyRpSteamData = useMemo(() => {
+    if (monthlyExtremeView === 'extremes') {
+      return [
+        {
+          name: `🔺 Tertinggi: ${monthlyStats.highestRpSteam.shortMonth}`,
+          monthName: monthlyStats.highestRpSteam.monthName,
+          value: monthlyStats.highestRpSteam.avgRpPerTon,
+          display: `${formatRupiah(monthlyStats.highestRpSteam.avgRpPerTon)}/Ton`,
+          color: '#e11d48',
+          status: 'TERTINGGI',
+        },
+        {
+          name: `🔻 Terendah: ${monthlyStats.lowestRpSteam.shortMonth}`,
+          monthName: monthlyStats.lowestRpSteam.monthName,
+          value: monthlyStats.lowestRpSteam.avgRpPerTon,
+          display: `${formatRupiah(monthlyStats.lowestRpSteam.avgRpPerTon)}/Ton`,
+          color: '#0d9488',
+          status: 'TERENDAH (Biaya Paling Hemat)',
+        },
+      ];
+    }
+
+    return monthlyStats.list.map((m) => {
+      const isHigh = m.monthKey === monthlyStats.highestRpSteam?.monthKey;
+      const isLow = m.monthKey === monthlyStats.lowestRpSteam?.monthKey;
+      return {
+        name: `${isHigh ? '🔺 ' : isLow ? '🔻 ' : ''}${m.shortMonth}`,
+        monthName: m.monthName,
+        value: m.avgRpPerTon,
+        display: `${formatRupiah(m.avgRpPerTon)}/Ton`,
+        color: isHigh ? '#e11d48' : isLow ? '#0d9488' : m.color,
+        status: isHigh ? 'TERTINGGI' : isLow ? 'TERENDAH' : undefined,
+      };
+    });
+  }, [monthlyStats, monthlyExtremeView]);
+
   return (
     <div className="space-y-6">
       {/* Chart Navigation and Toggles */}
@@ -1602,6 +1856,285 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
             </ResponsiveContainer>
           </div>
         )}
+      </div>
+
+      {/* 3 DIAGRAM LINGKARAN EKSTRIM BULANAN: KONSUMSI, KG/TON STEAM, RP/TON STEAM (DIATAS DIAGRAM VOLUME) */}
+      <div className="space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-200 pb-2">
+          <div>
+            <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <PieIcon className="w-4 h-4 text-amber-600" />
+              <span>Diagram Lingkaran Rekapitulasi Tertinggi &amp; Terendah Bulanan</span>
+            </h3>
+            <p className="text-xs text-slate-500">
+              Perbandingan performa antar bulan dari data spreadsheet: Konsumsi Bahan Bakar (kg), Nilai Rata-rata Kg/Ton Steam, dan Biaya Rp/Ton Steam.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs">
+            <button
+              type="button"
+              onClick={() => setMonthlyExtremeView('extremes')}
+              className={`px-2.5 py-1 rounded font-semibold transition-colors ${
+                monthlyExtremeView === 'extremes'
+                  ? 'bg-white text-slate-900 shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              Tertinggi &amp; Terendah
+            </button>
+            <button
+              type="button"
+              onClick={() => setMonthlyExtremeView('all')}
+              className={`px-2.5 py-1 rounded font-semibold transition-colors ${
+                monthlyExtremeView === 'all'
+                  ? 'bg-white text-slate-900 shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              Semua Bulan
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* 1. DIAGRAM LINGKARAN KONSUMSI TERTINGGI & TERENDAH (BULAN) */}
+          <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-2 border-b border-slate-100 pb-2">
+                <div className="flex items-center gap-2">
+                  <Fuel className="w-4 h-4 text-amber-500" />
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                    1. Konsumsi Bahan Bakar (Bulan)
+                  </h4>
+                </div>
+                <span className="text-[10px] font-bold text-amber-800 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded">
+                  Kg Bahan Bakar
+                </span>
+              </div>
+
+              {/* Status Box Tertinggi & Terendah */}
+              <div className="mb-2 p-1.5 rounded-lg bg-slate-50 border border-slate-200 text-[10px] space-y-1 font-mono">
+                <div className="flex items-center justify-between px-2 py-0.5 rounded bg-amber-50 border border-amber-200 text-amber-950">
+                  <span className="font-bold flex items-center gap-1">
+                    <span>🔺 Tertinggi:</span>
+                    <strong className="text-amber-900">{monthlyStats.highestConsumption?.monthName}</strong>
+                  </span>
+                  <span className="font-extrabold text-amber-700 font-mono">
+                    {formatNumber(monthlyStats.highestConsumption?.totalKonsumsi || 0)} kg
+                  </span>
+                </div>
+                <div className="flex items-center justify-between px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-950">
+                  <span className="font-bold flex items-center gap-1">
+                    <span>🔻 Terendah:</span>
+                    <strong className="text-sky-900">{monthlyStats.lowestConsumption?.monthName}</strong>
+                  </span>
+                  <span className="font-extrabold text-sky-700 font-mono">
+                    {formatNumber(monthlyStats.lowestConsumption?.totalKonsumsi || 0)} kg
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="h-56 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={pieMonthlyConsumptionData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="46%"
+                    innerRadius={44}
+                    outerRadius={72}
+                    paddingAngle={3}
+                  >
+                    {pieMonthlyConsumptionData.map((entry, index) => (
+                      <Cell key={`cell-month-cons-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    formatter={(val: any, _name: any, item: any) => [
+                      `${item.payload.display}`,
+                      `${item.payload.monthName} ${item.payload.status ? `(${item.payload.status})` : ''}`
+                    ]}
+                    contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
+                  />
+                  <Legend
+                    formatter={(value: any) => {
+                      const item = pieMonthlyConsumptionData.find((p) => p.name === value);
+                      return (
+                        <span className="text-[10px] font-medium text-slate-700 inline-flex items-center gap-1">
+                          <span>{value}:</span>
+                          <strong className="font-mono text-slate-900">{item?.display}</strong>
+                        </span>
+                      );
+                    }}
+                    wrapperStyle={{ fontSize: '10px' }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* 2. DIAGRAM LINGKARAN NILAI RATA-RATA KG/TON STEAM TERTINGGI & TERENDAH (BULAN) */}
+          <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-2 border-b border-slate-100 pb-2">
+                <div className="flex items-center gap-2">
+                  <Gauge className="w-4 h-4 text-emerald-600" />
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                    2. Rata-Rata Kg/Ton Steam
+                  </h4>
+                </div>
+                <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">
+                  Kg/Ton Steam
+                </span>
+              </div>
+
+              {/* Status Box Tertinggi & Terendah */}
+              <div className="mb-2 p-1.5 rounded-lg bg-slate-50 border border-slate-200 text-[10px] space-y-1 font-mono">
+                <div className="flex items-center justify-between px-2 py-0.5 rounded bg-rose-50 border border-rose-200 text-rose-950">
+                  <span className="font-bold flex items-center gap-1">
+                    <span>🔺 Tertinggi:</span>
+                    <strong className="text-rose-900">{monthlyStats.highestKgSteam?.monthName}</strong>
+                  </span>
+                  <span className="font-extrabold text-rose-700 font-mono">
+                    {formatNumber(monthlyStats.highestKgSteam?.avgKgPerTon || 0)} kg/Ton
+                  </span>
+                </div>
+                <div className="flex items-center justify-between px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-950">
+                  <span className="font-bold flex items-center gap-1">
+                    <span>🔻 Terendah:</span>
+                    <strong className="text-emerald-900">{monthlyStats.lowestKgSteam?.monthName}</strong>
+                  </span>
+                  <span className="font-extrabold text-emerald-700 font-mono">
+                    {formatNumber(monthlyStats.lowestKgSteam?.avgKgPerTon || 0)} kg/Ton
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="h-56 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={pieMonthlyKgSteamData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="46%"
+                    innerRadius={44}
+                    outerRadius={72}
+                    paddingAngle={3}
+                  >
+                    {pieMonthlyKgSteamData.map((entry, index) => (
+                      <Cell key={`cell-month-kg-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    formatter={(val: any, _name: any, item: any) => [
+                      `${item.payload.display}`,
+                      `${item.payload.monthName} ${item.payload.status ? `(${item.payload.status})` : ''}`
+                    ]}
+                    contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
+                  />
+                  <Legend
+                    formatter={(value: any) => {
+                      const item = pieMonthlyKgSteamData.find((p) => p.name === value);
+                      return (
+                        <span className="text-[10px] font-medium text-slate-700 inline-flex items-center gap-1">
+                          <span>{value}:</span>
+                          <strong className="font-mono text-slate-900">{item?.display}</strong>
+                        </span>
+                      );
+                    }}
+                    wrapperStyle={{ fontSize: '10px' }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* 3. DIAGRAM LINGKARAN NILAI RATA-RATA RP/TON STEAM TERTINGGI & TERENDAH (BULAN) */}
+          <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-2 border-b border-slate-100 pb-2">
+                <div className="flex items-center gap-2">
+                  <CircleDollarSign className="w-4 h-4 text-teal-600" />
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                    3. Rata-Rata Rp/Ton Steam
+                  </h4>
+                </div>
+                <span className="text-[10px] font-bold text-teal-800 bg-teal-50 border border-teal-200 px-1.5 py-0.5 rounded">
+                  Rp/Ton Steam
+                </span>
+              </div>
+
+              {/* Status Box Tertinggi & Terendah */}
+              <div className="mb-2 p-1.5 rounded-lg bg-slate-50 border border-slate-200 text-[10px] space-y-1 font-mono">
+                <div className="flex items-center justify-between px-2 py-0.5 rounded bg-rose-50 border border-rose-200 text-rose-950">
+                  <span className="font-bold flex items-center gap-1">
+                    <span>🔺 Tertinggi:</span>
+                    <strong className="text-rose-900">{monthlyStats.highestRpSteam?.monthName}</strong>
+                  </span>
+                  <span className="font-extrabold text-rose-700 font-mono">
+                    {formatRupiah(monthlyStats.highestRpSteam?.avgRpPerTon || 0)}/Ton
+                  </span>
+                </div>
+                <div className="flex items-center justify-between px-2 py-0.5 rounded bg-teal-50 border border-teal-200 text-teal-950">
+                  <span className="font-bold flex items-center gap-1">
+                    <span>🔻 Terendah:</span>
+                    <strong className="text-teal-900">{monthlyStats.lowestRpSteam?.monthName}</strong>
+                  </span>
+                  <span className="font-extrabold text-teal-700 font-mono">
+                    {formatRupiah(monthlyStats.lowestRpSteam?.avgRpPerTon || 0)}/Ton
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="h-56 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={pieMonthlyRpSteamData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="46%"
+                    innerRadius={44}
+                    outerRadius={72}
+                    paddingAngle={3}
+                  >
+                    {pieMonthlyRpSteamData.map((entry, index) => (
+                      <Cell key={`cell-month-rp-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    formatter={(val: any, _name: any, item: any) => [
+                      `${item.payload.display}`,
+                      `${item.payload.monthName} ${item.payload.status ? `(${item.payload.status})` : ''}`
+                    ]}
+                    contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
+                  />
+                  <Legend
+                    formatter={(value: any) => {
+                      const item = pieMonthlyRpSteamData.find((p) => p.name === value);
+                      return (
+                        <span className="text-[10px] font-medium text-slate-700 inline-flex items-center gap-1">
+                          <span>{value}:</span>
+                          <strong className="font-mono text-slate-900">{item?.display}</strong>
+                        </span>
+                      );
+                    }}
+                    wrapperStyle={{ fontSize: '10px' }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Three Column Mix Breakdown: Volume (kg), Percentage (%), and Cost (Rp) */}
