@@ -23,8 +23,8 @@ import {
 } from './utils/centralSyncClient';
 import { Filter, RotateCcw, CheckCircle, Radio, Calendar, X } from 'lucide-react';
 
-const STORAGE_KEY_ENTRIES = 'boiler_fuel_entries_v6_feb_complete_sync';
-const STORAGE_KEY_STEAM = 'boiler_steam_data_v6_feb_complete_sync';
+const STORAGE_KEY_ENTRIES = 'boiler_fuel_entries_v8_realtime_replace';
+const STORAGE_KEY_STEAM = 'boiler_steam_data_v8_realtime_replace';
 const STORAGE_KEY_SHEET_URL = 'boiler_sheet_url_v1';
 const STORAGE_KEY_LAST_SYNCED = 'boiler_last_synced_v1';
 const STORAGE_KEY_AUTO_SYNC = 'boiler_auto_sync_v1';
@@ -32,69 +32,20 @@ const STORAGE_KEY_SYNC_INTERVAL_SEC = 'boiler_sync_interval_sec_v1';
 const STORAGE_KEY_MERGE_MODE = 'boiler_merge_mode_v1';
 const STORAGE_KEY_NOTIFY = 'boiler_notify_change_v1';
 
-// Sanitizer to guarantee February dates match official spreadsheet 100%:
-// 12/02: CK 22957, WP 46114 -> Total 69071, Steam 396 -> 174 kg/Ton
-// 17/02: only Kopi Pellet 4527 kg, Steam Out 26 -> 174 kg/Ton
-// 19/02: WP 66470 -> Total 66470, Steam 381 -> 174 kg/Ton
-// 20/02: CK 16592, WP 52351 -> Total 68943, Steam 389 -> 177 kg/Ton
-// 22/02: CK 24151, WP 26493 -> Total 50644, Steam 289 -> 175 kg/Ton
-// 23/02: CK 24158, WP 35185 -> Total 59343, Steam 343 -> 173 kg/Ton
-// 24/02: CK 42959, WP 18814 -> Total 61773, Steam 347 -> 178 kg/Ton
-// 25/02: CK 28376, WP 36119 -> Total 64495, Steam 365 -> 177 kg/Ton
+// Clean validator that strictly respects spreadsheet data without hardcoded mutations
 function sanitizeEntries(rawEntries: FuelEntry[]): FuelEntry[] {
-  return rawEntries.map((e) => {
-    const iso = parseDateToIso(e.tanggal) || e.tanggal;
-    if ((iso === '2026-02-12' || e.tanggal === '12/02/2026') && e.bahanBakar === 'WOOD PELLET') {
-      return { ...e, konsumsi: 46114, totalHarga: 85759475, harga: 1860 };
-    }
-    if ((iso === '2026-02-19' || e.tanggal === '19/02/2026') && e.bahanBakar === 'WOOD PELLET') {
-      return { ...e, konsumsi: 66470, totalHarga: 125367200, harga: 1886 };
-    }
-    if ((iso === '2026-02-20' || e.tanggal === '20/02/2026') && e.bahanBakar === 'WOOD PELLET') {
-      return { ...e, konsumsi: 52351, totalHarga: 97315525, harga: 1859 };
-    }
-    if ((iso === '2026-02-22' || e.tanggal === '22/02/2026') && e.bahanBakar === 'WOOD PELLET') {
-      return { ...e, konsumsi: 26493, totalHarga: 53107850, harga: 2005 };
-    }
-    if ((iso === '2026-02-23' || e.tanggal === '23/02/2026') && e.bahanBakar === 'WOOD PELLET') {
-      return { ...e, konsumsi: 35185, totalHarga: 63011900, harga: 1791 };
-    }
-    if ((iso === '2026-02-24' || e.tanggal === '24/02/2026') && e.bahanBakar === 'WOOD PELLET') {
-      return { ...e, konsumsi: 18814, totalHarga: 33081350, harga: 1758 };
-    }
-    if ((iso === '2026-02-25' || e.tanggal === '25/02/2026') && e.bahanBakar === 'WOOD PELLET') {
-      return { ...e, konsumsi: 36119, totalHarga: 63520650, harga: 1759 };
-    }
-    return e;
-  }).filter((e) => {
-    const iso = parseDateToIso(e.tanggal) || e.tanggal;
-    if ((iso === '2026-02-17' || e.tanggal === '17/02/2026') && e.bahanBakar === 'WOOD PELLET') {
-      return false;
-    }
-    if ((iso === '2026-02-20' || e.tanggal === '20/02/2026') && (e.bahanBakar === 'DUST PELLET' || e.bahanBakar === 'KOPI PELLET')) {
-      return false;
-    }
-    if ((iso === '2026-02-21' || e.tanggal === '21/02/2026') && (e.bahanBakar === 'DUST PELLET' || e.bahanBakar === 'KOPI PELLET')) {
-      return false;
-    }
-    if ((iso === '2026-02-22' || e.tanggal === '22/02/2026') && (e.bahanBakar === 'DUST PELLET' || e.bahanBakar === 'KOPI PELLET')) {
-      return false;
-    }
-    if ((iso === '2026-02-23' || e.tanggal === '23/02/2026') && (e.bahanBakar === 'DUST PELLET' || e.bahanBakar === 'KOPI PELLET')) {
-      return false;
-    }
-    return true;
-  });
+  if (!Array.isArray(rawEntries)) return [];
+  return rawEntries.filter((e) => e && e.tanggal && (e.konsumsi > 0 || e.totalHarga > 0));
 }
 
 export default function App() {
-  // Persistent State or Initial Seed Data (Full 292 rows from official Google Sheet)
+  // Persistent State or Initial Seed Data (Full rows from official Google Sheet)
   const [entries, setEntries] = useState<FuelEntry[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_ENTRIES);
       if (saved) {
         const parsed: FuelEntry[] = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length >= 200) {
+        if (Array.isArray(parsed) && parsed.length > 0) {
           return sanitizeEntries(parsed);
         }
       }
@@ -109,12 +60,12 @@ export default function App() {
       const saved = localStorage.getItem(STORAGE_KEY_STEAM);
       if (saved) {
         const parsed: Record<string, number> = JSON.parse(saved);
-        return { ...INITIAL_STEAM_DATA, ...parsed, '2026-02-17': 26, '17/02/2026': 26 };
+        return { ...INITIAL_STEAM_DATA, ...parsed };
       }
     } catch (e) {
       console.error(e);
     }
-    return { ...INITIAL_STEAM_DATA, '2026-02-17': 26, '17/02/2026': 26 };
+    return { ...INITIAL_STEAM_DATA };
   });
 
   // Real-Time Spreadsheet Sync State - Defaults to official Google Sheet so all computers connect out-of-the-box
@@ -187,17 +138,16 @@ export default function App() {
         const central = await fetchCentralData();
         if (!isMounted) return;
 
-        if (central.success && central.entries && central.entries.length >= 200) {
+        if (central.success && central.entries && central.entries.length > 0) {
           setEntries(sanitizeEntries(central.entries));
           if (central.steamData && Object.keys(central.steamData).length > 0) {
-            setSteamData({ ...central.steamData, '2026-02-17': 26, '17/02/2026': 26 });
+            setSteamData(central.steamData);
           }
           if (central.sheetUrl) setSheetUrl(central.sheetUrl);
           if (central.lastSyncedAt) setLastSyncedAt(central.lastSyncedAt);
           if (central.lastUpdated) lastServerUpdatedRef.current = central.lastUpdated;
-          if (central.mergeMode) setMergeMode(central.mergeMode);
+          setMergeMode('replace');
         } else {
-          // If server data was empty or smaller, upload our complete 292 dataset
           saveCentralDataToServer({
             sheetUrl: sheetUrl || DEFAULT_GOOGLE_SHEET_URL,
             entries: INITIAL_ENTRIES,
@@ -270,6 +220,24 @@ export default function App() {
     });
     return Array.from(set).sort();
   }, [entries]);
+
+  // Compute available distinct months for fast toolbar filtering (e.g. Feb 2026, Mar 2026)
+  const availableMonths = useMemo(() => {
+    const months = new Set<string>();
+    uniqueDates.forEach((d) => {
+      const ym = d.substring(0, 7);
+      if (ym) months.add(ym);
+    });
+    return Array.from(months).sort().map((ym) => {
+      let label = ym;
+      if (ym === '2026-02') label = 'Februari 2026';
+      else if (ym === '2026-03') label = 'Maret 2026';
+      else if (ym === '2026-08') label = 'Agustus 2026';
+      else if (ym === '2026-09') label = 'September 2026';
+      else if (ym === '2026-10') label = 'Oktober 2026';
+      return { ym, label };
+    });
+  }, [uniqueDates]);
 
   const minAvailableDate = uniqueDates.length > 0 ? uniqueDates[0] : '';
   const maxAvailableDate = uniqueDates.length > 0 ? uniqueDates[uniqueDates.length - 1] : '';
@@ -469,28 +437,17 @@ export default function App() {
       const hasAddedRows = countDelta > 0;
       const hasModifiedData = countDelta !== 0 || Math.abs(newTotalKg - prevTotalKg) > 0.01;
 
-      if (mergeMode === 'replace') {
-        setEntries(parseResult.entries);
-      } else {
-        // Smart merge by date + fuel type: update existing matching records and add new ones
-        setEntries((prev) => {
-          const map = new Map<string, FuelEntry>();
-          prev.forEach((e) => map.set(`${e.tanggal}-${e.bahanBakar}-${e.namaPt}`, e));
-          parseResult.entries.forEach((e) => map.set(`${e.tanggal}-${e.bahanBakar}-${e.namaPt}`, e));
-          return Array.from(map.values());
-        });
-      }
-
+      // Mode replace: Hapus data lama dan gantikan dengan data spreadsheet terbaru secara utuh
+      setEntries(parseResult.entries);
       if (Object.keys(parseResult.steamData).length > 0) {
-        setSteamData((prev) => ({ ...prev, ...parseResult.steamData }));
+        setSteamData(parseResult.steamData);
       }
 
       // Auto-align date filter range with spreadsheet if dates exist so all data are immediately visible
       if (parseResult.summary.datesFound.length > 0) {
-        const dates = parseResult.summary.datesFound;
-        setStartDate(dates[0]);
-        setEndDate(dates[dates.length - 1]);
         setDateFilterPreset('ALL');
+        setStartDate('');
+        setEndDate('');
       }
 
       prevEntryCountRef.current = newCount;
@@ -568,28 +525,28 @@ export default function App() {
   useEffect(() => {
     let pollerActive = true;
 
-    // Check central backend server for changes every 5 seconds so all visitors stay 100% in sync
+    // Check central backend server for changes every 3 seconds so all visitors stay 100% in sync
     const centralCheckInterval = setInterval(async () => {
       if (!pollerActive) return;
       try {
         const status = await fetchCentralStatus();
         if (status.success && status.lastUpdated > lastServerUpdatedRef.current) {
           const fresh = await fetchCentralData();
-          if (fresh.success && fresh.entries && fresh.entries.length >= 200) {
+          if (fresh.success && fresh.entries && fresh.entries.length > 0) {
             lastServerUpdatedRef.current = fresh.lastUpdated || status.lastUpdated;
-            setEntries(sanitizeEntries(fresh.entries));
-            if (fresh.steamData) setSteamData({ ...fresh.steamData, '2026-02-17': 26, '17/02/2026': 26 });
+            setEntries(sanitizeEntries(fresh.entries)); // Hapus data lama, gantikan dengan data baru
+            if (fresh.steamData) setSteamData(fresh.steamData); // Hapus steam lama, gantikan dengan data baru
             if (fresh.sheetUrl) setSheetUrl(fresh.sheetUrl);
             if (fresh.lastSyncedAt) setLastSyncedAt(fresh.lastSyncedAt);
-            if (fresh.mergeMode) setMergeMode(fresh.mergeMode);
+            setMergeMode('replace');
             if (notifyOnDataChange) playSyncChime();
-            showToast(`⚡ Sinkronisasi Terpusat: Seluruh pengunjung diperbarui (${fresh.entries.length} baris data).`);
+            showToast(`⚡ Real-Time Sync: Spreadsheet diperbarui (${fresh.entries.length} baris).`);
           }
         }
       } catch {
         // Silent catch on network blip
       }
-    }, 5000);
+    }, 3000);
 
     const timer = setInterval(() => {
       setNextSyncCountdown((prev) => {
@@ -748,6 +705,28 @@ export default function App() {
               >
                 Semua Data
               </button>
+
+              {availableMonths.map((m) => {
+                const isSelected = dateFilterPreset === 'CUSTOM' && startDate.startsWith(m.ym);
+                return (
+                  <button
+                    key={m.ym}
+                    onClick={() => {
+                      setStartDate(`${m.ym}-01`);
+                      setEndDate(`${m.ym}-31`);
+                      setDateFilterPreset('CUSTOM');
+                    }}
+                    className={`px-2 py-1 text-xs rounded transition-colors font-medium ${
+                      isSelected
+                        ? 'bg-amber-500 text-white font-bold shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                    }`}
+                  >
+                    {m.label}
+                  </button>
+                );
+              })}
+
               <button
                 onClick={() => {
                   setDateFilterPreset('LAST7');

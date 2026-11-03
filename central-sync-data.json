@@ -1,10 +1,10 @@
 {
   "sheetUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vReX157LTj_RETKc9vFI40-e-FeAWoH2HaN5VprAWNju_gPpWvEB-W72QJ4oEOohP9clWRLXWmQe_R_/pub?output=csv",
-  "lastSyncedAt": "02/11/2026, 10.29.47",
-  "lastUpdated": 1793590188764,
+  "lastSyncedAt": "03/11/2026, 11.25.47",
+  "lastUpdated": 1793679948019,
   "entries": [
     {
-      "id": "matrix-row-1793590187885-1",
+      "id": "matrix-row-1793679947269-1",
       "no": 1,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -16,7 +16,7 @@
       "totalHarga": 21970080
     },
     {
-      "id": "matrix-row-1793590187885-2",
+      "id": "matrix-row-1793679947269-2",
       "no": 2,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -28,7 +28,7 @@
       "totalHarga": 86160900
     },
     {
-      "id": "matrix-row-1793590187885-3",
+      "id": "matrix-row-1793679947269-3",
       "no": 3,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -40,19 +40,19 @@
       "totalHarga": 12744630
     },
     {
-      "id": "matrix-row-1793590187885-4",
+      "id": "matrix-row-1793679947269-4",
       "no": 4,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-02-02",
       "mc": 6.8,
       "calori": 4320,
-      "konsumsi": 46265,
-      "harga": 1764,
-      "totalHarga": 81620550
+      "konsumsi": 57854,
+      "harga": 1773,
+      "totalHarga": 102596640
     },
     {
-      "id": "matrix-row-1793590187885-5",
+      "id": "matrix-row-1793679947269-5",
       "no": 5,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -64,7 +64,7 @@
       "totalHarga": 41688090
     },
     {
-      "id": "matrix-row-1793590187885-6",
+      "id": "matrix-row-1793679947269-6",
       "no": 6,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -76,7 +76,7 @@
       "totalHarga": 83870675
     },
     {
-      "id": "matrix-row-1793590187885-7",
+      "id": "matrix-row-1793679947269-7",
       "no": 7,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -88,19 +88,19 @@
       "totalHarga": 5111190
     },
     {
-      "id": "matrix-row-1793590187885-8",
+      "id": "matrix-row-1793679947269-8",
       "no": 8,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-02-04",
       "mc": 6.8,
       "calori": 4320,
-      "konsumsi": 40136,
-      "harga": 1760,
-      "totalHarga": 70634700
+      "konsumsi": 46274,
+      "harga": 1778,
+      "totalHarga": 82296900
     },
     {
-      "id": "matrix-row-1793590187885-9",
+      "id": "matrix-row-1793679947269-9",
       "no": 9,
       "namaPt": "MARSHARI",
       "bahanBakar": "KOPI PELLET",
@@ -112,7 +112,7 @@
       "totalHarga": 40026800
     },
     {
-      "id": "matrix-row-1793590187885-10",
+      "id": "matrix-row-1793679947269-10",
       "no": 10,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -124,7 +124,7 @@
       "totalHarga": 44042760
     },
     {
-      "id": "matrix-row-1793590187885-11",
+      "id": "matrix-row-1793679947269-11",
       "no": 11,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -136,7 +136,7 @@
       "totalHarga": 65200550
     },
     {
-      "id": "matrix-row-1793590187885-12",
+      "id": "matrix-row-1793679947269-12",
       "no": 12,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
@@ -148,7 +148,7 @@
       "totalHarga": 2287350
     },
     {
-      "id": "matrix-row-1793590187885-13",
+      "id": "matrix-row-1793679947269-13",
       "no": 13,
       "namaPt": "MARSHARI",
       "bahanBakar": "KOPI PELLET",
@@ -160,7 +160,7 @@
       "totalHarga": 5436200
     },
     {
-      "id": "matrix-row-1793590187886-14",
+      "id": "matrix-row-1793679947269-14",
       "no": 14,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -172,7 +172,7 @@
       "totalHarga": 22739580
     },
     {
-      "id": "matrix-row-1793590187886-15",
+      "id": "matrix-row-1793679947269-15",
       "no": 15,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -184,7 +184,7 @@
       "totalHarga": 51478650
     },
     {
-      "id": "matrix-row-1793590187886-16",
+      "id": "matrix-row-1793679947269-16",
       "no": 16,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
@@ -196,7 +196,7 @@
       "totalHarga": 45007950
     },
     {
-      "id": "matrix-row-1793590187886-17",
+      "id": "matrix-row-1793679947269-17",
       "no": 17,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -208,19 +208,19 @@
       "totalHarga": 44791830
     },
     {
-      "id": "matrix-row-1793590187886-18",
+      "id": "matrix-row-1793679947269-18",
       "no": 18,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-02-07",
       "mc": 6.8,
       "calori": 4320,
-      "konsumsi": 21049,
-      "harga": 1752,
-      "totalHarga": 36887125
+      "konsumsi": 33190,
+      "harga": 2101,
+      "totalHarga": 69715750
     },
     {
-      "id": "matrix-row-1793590187886-19",
+      "id": "matrix-row-1793679947269-19",
       "no": 19,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
@@ -232,7 +232,7 @@
       "totalHarga": 12390300
     },
     {
-      "id": "matrix-row-1793590187886-20",
+      "id": "matrix-row-1793679947269-20",
       "no": 20,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -244,19 +244,19 @@
       "totalHarga": 29858310
     },
     {
-      "id": "matrix-row-1793590187886-21",
+      "id": "matrix-row-1793679947269-21",
       "no": 21,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-02-08",
       "mc": 6.8,
       "calori": 4320,
-      "konsumsi": 21587,
-      "harga": 1757,
-      "totalHarga": 37924350
+      "konsumsi": 34826,
+      "harga": 1792,
+      "totalHarga": 62416500
     },
     {
-      "id": "matrix-row-1793590187886-22",
+      "id": "matrix-row-1793679947269-22",
       "no": 22,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -268,7 +268,7 @@
       "totalHarga": 31558320
     },
     {
-      "id": "matrix-row-1793590187886-23",
+      "id": "matrix-row-1793679947269-23",
       "no": 23,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -276,11 +276,11 @@
       "mc": 6.8,
       "calori": 4320,
       "konsumsi": 15681,
-      "harga": 1750,
-      "totalHarga": 27441750
+      "harga": 1804,
+      "totalHarga": 28281309.599999994
     },
     {
-      "id": "matrix-row-1793590187886-24",
+      "id": "matrix-row-1793679947269-24",
       "no": 24,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
@@ -292,7 +292,7 @@
       "totalHarga": 53816100
     },
     {
-      "id": "matrix-row-1793590187886-25",
+      "id": "matrix-row-1793679947269-25",
       "no": 25,
       "namaPt": "MARSHARI",
       "bahanBakar": "KOPI PELLET",
@@ -304,7 +304,7 @@
       "totalHarga": 840.4
     },
     {
-      "id": "matrix-row-1793590187886-26",
+      "id": "matrix-row-1793679947269-26",
       "no": 26,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -316,7 +316,7 @@
       "totalHarga": 58234050
     },
     {
-      "id": "matrix-row-1793590187886-27",
+      "id": "matrix-row-1793679947269-27",
       "no": 27,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -328,7 +328,7 @@
       "totalHarga": 45699400
     },
     {
-      "id": "matrix-row-1793590187886-28",
+      "id": "matrix-row-1793679947269-28",
       "no": 28,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
@@ -340,7 +340,7 @@
       "totalHarga": 9268350
     },
     {
-      "id": "matrix-row-1793590187886-29",
+      "id": "matrix-row-1793679947269-29",
       "no": 29,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -352,7 +352,7 @@
       "totalHarga": 19234080
     },
     {
-      "id": "matrix-row-1793590187886-30",
+      "id": "matrix-row-1793679947269-30",
       "no": 30,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -364,7 +364,7 @@
       "totalHarga": 102160250
     },
     {
-      "id": "matrix-row-1793590187887-31",
+      "id": "matrix-row-1793679947269-31",
       "no": 31,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -376,7 +376,7 @@
       "totalHarga": 39256470
     },
     {
-      "id": "matrix-row-1793590187887-32",
+      "id": "matrix-row-1793679947269-32",
       "no": 32,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -388,7 +388,7 @@
       "totalHarga": 85759475
     },
     {
-      "id": "matrix-row-1793590187887-33",
+      "id": "matrix-row-1793679947269-33",
       "no": 33,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -400,7 +400,7 @@
       "totalHarga": 53690580
     },
     {
-      "id": "matrix-row-1793590187887-34",
+      "id": "matrix-row-1793679947269-34",
       "no": 34,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -412,7 +412,7 @@
       "totalHarga": 61833775
     },
     {
-      "id": "matrix-row-1793590187887-35",
+      "id": "matrix-row-1793679947269-35",
       "no": 35,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -424,7 +424,7 @@
       "totalHarga": 26409240
     },
     {
-      "id": "matrix-row-1793590187887-36",
+      "id": "matrix-row-1793679947269-36",
       "no": 36,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -436,7 +436,7 @@
       "totalHarga": 80600100
     },
     {
-      "id": "matrix-row-1793590187887-37",
+      "id": "matrix-row-1793679947269-37",
       "no": 37,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -448,7 +448,7 @@
       "totalHarga": 23382540
     },
     {
-      "id": "matrix-row-1793590187887-38",
+      "id": "matrix-row-1793679947269-38",
       "no": 38,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -460,7 +460,7 @@
       "totalHarga": 58734700
     },
     {
-      "id": "matrix-row-1793590187887-39",
+      "id": "matrix-row-1793679947269-39",
       "no": 39,
       "namaPt": "MARSHARI",
       "bahanBakar": "KOPI PELLET",
@@ -472,7 +472,7 @@
       "totalHarga": 3337400
     },
     {
-      "id": "matrix-row-1793590187887-40",
+      "id": "matrix-row-1793679947269-40",
       "no": 40,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -484,7 +484,7 @@
       "totalHarga": 6760875
     },
     {
-      "id": "matrix-row-1793590187887-41",
+      "id": "matrix-row-1793679947269-41",
       "no": 41,
       "namaPt": "MARSHARI",
       "bahanBakar": "KOPI PELLET",
@@ -496,7 +496,7 @@
       "totalHarga": 9959400
     },
     {
-      "id": "matrix-row-1793590187887-42",
+      "id": "matrix-row-1793679947269-42",
       "no": 42,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -508,7 +508,7 @@
       "totalHarga": 92503500
     },
     {
-      "id": "matrix-row-1793590187887-43",
+      "id": "matrix-row-1793679947269-43",
       "no": 43,
       "namaPt": "MARSHARI",
       "bahanBakar": "KOPI PELLET",
@@ -520,19 +520,19 @@
       "totalHarga": 23603800
     },
     {
-      "id": "matrix-row-1793590187887-44",
+      "id": "matrix-row-1793679947269-44",
       "no": 44,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-02-19",
       "mc": 6.8,
       "calori": 4320,
-      "konsumsi": 43295,
-      "harga": 1769,
-      "totalHarga": 76567825
+      "konsumsi": 64655,
+      "harga": 1877,
+      "totalHarga": 121374200
     },
     {
-      "id": "matrix-row-1793590187887-45",
+      "id": "matrix-row-1793679947269-45",
       "no": 45,
       "namaPt": "MARSHARI",
       "bahanBakar": "KOPI PELLET",
@@ -544,7 +544,7 @@
       "totalHarga": 3993000
     },
     {
-      "id": "matrix-row-1793590187887-46",
+      "id": "matrix-row-1793679947269-46",
       "no": 46,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -556,19 +556,19 @@
       "totalHarga": 28372320
     },
     {
-      "id": "matrix-row-1793590187887-47",
+      "id": "matrix-row-1793679947269-47",
       "no": 47,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-02-20",
       "mc": 6.8,
       "calori": 4320,
-      "konsumsi": 37505,
-      "harga": 1775,
-      "totalHarga": 66571325
+      "konsumsi": 42584,
+      "harga": 1790,
+      "totalHarga": 76243556.45
     },
     {
-      "id": "matrix-row-1793590187887-48",
+      "id": "matrix-row-1793679947269-48",
       "no": 48,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
@@ -580,7 +580,7 @@
       "totalHarga": 368.55
     },
     {
-      "id": "matrix-row-1793590187887-49",
+      "id": "matrix-row-1793679947269-49",
       "no": 49,
       "namaPt": "MARSHARI",
       "bahanBakar": "KOPI PELLET",
@@ -592,7 +592,7 @@
       "totalHarga": 21071600
     },
     {
-      "id": "matrix-row-1793590187887-50",
+      "id": "matrix-row-1793679947269-50",
       "no": 50,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -604,7 +604,7 @@
       "totalHarga": 70270740
     },
     {
-      "id": "matrix-row-1793590187887-51",
+      "id": "matrix-row-1793679947269-51",
       "no": 51,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -616,7 +616,7 @@
       "totalHarga": 16996050
     },
     {
-      "id": "matrix-row-1793590187887-52",
+      "id": "matrix-row-1793679947269-52",
       "no": 52,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
@@ -628,7 +628,7 @@
       "totalHarga": 14180400
     },
     {
-      "id": "matrix-row-1793590187887-53",
+      "id": "matrix-row-1793679947269-53",
       "no": 53,
       "namaPt": "MARSHARI",
       "bahanBakar": "KOPI PELLET",
@@ -640,7 +640,7 @@
       "totalHarga": 6747400
     },
     {
-      "id": "matrix-row-1793590187889-54",
+      "id": "matrix-row-1793679947269-54",
       "no": 54,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -652,19 +652,19 @@
       "totalHarga": 41298210
     },
     {
-      "id": "matrix-row-1793590187889-55",
+      "id": "matrix-row-1793679947269-55",
       "no": 55,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-02-22",
       "mc": 6.8,
       "calori": 4320,
-      "konsumsi": 4864,
-      "harga": 1754,
-      "totalHarga": 8529900
+      "konsumsi": 15700,
+      "harga": 2026,
+      "totalHarga": 31805250
     },
     {
-      "id": "matrix-row-1793590187889-56",
+      "id": "matrix-row-1793679947269-56",
       "no": 56,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
@@ -676,7 +676,7 @@
       "totalHarga": 19047600
     },
     {
-      "id": "matrix-row-1793590187889-57",
+      "id": "matrix-row-1793679947269-57",
       "no": 57,
       "namaPt": "MARSHARI",
       "bahanBakar": "KOPI PELLET",
@@ -688,7 +688,7 @@
       "totalHarga": 2255000
     },
     {
-      "id": "matrix-row-1793590187889-58",
+      "id": "matrix-row-1793679947269-58",
       "no": 58,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -700,19 +700,19 @@
       "totalHarga": 41310180
     },
     {
-      "id": "matrix-row-1793590187889-59",
+      "id": "matrix-row-1793679947269-59",
       "no": 59,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-02-23",
       "mc": 6.8,
       "calori": 4320,
-      "konsumsi": 20278,
-      "harga": 1750,
-      "totalHarga": 35493275
+      "konsumsi": 34273,
+      "harga": 1787,
+      "totalHarga": 61233500
     },
     {
-      "id": "matrix-row-1793590187889-60",
+      "id": "matrix-row-1793679947269-60",
       "no": 60,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
@@ -724,7 +724,7 @@
       "totalHarga": 1778400
     },
     {
-      "id": "matrix-row-1793590187889-61",
+      "id": "matrix-row-1793679947269-61",
       "no": 61,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -736,19 +736,19 @@
       "totalHarga": 73459890
     },
     {
-      "id": "matrix-row-1793590187889-62",
+      "id": "matrix-row-1793679947269-62",
       "no": 62,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-02-24",
       "mc": 6.8,
       "calori": 4320,
-      "konsumsi": 7528,
-      "harga": 1771,
-      "totalHarga": 13330850
+      "konsumsi": 18814,
+      "harga": 1758,
+      "totalHarga": 33081350
     },
     {
-      "id": "matrix-row-1793590187889-63",
+      "id": "matrix-row-1793679947269-63",
       "no": 63,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -760,19 +760,19 @@
       "totalHarga": 48522960
     },
     {
-      "id": "matrix-row-1793590187889-64",
+      "id": "matrix-row-1793679947269-64",
       "no": 64,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-02-25",
       "mc": 6.8,
       "calori": 4320,
-      "konsumsi": 33176,
-      "harga": 1755,
-      "totalHarga": 58223250
+      "konsumsi": 36119,
+      "harga": 1759,
+      "totalHarga": 63520650
     },
     {
-      "id": "matrix-row-1793590187889-65",
+      "id": "matrix-row-1793679947269-65",
       "no": 65,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -784,7 +784,7 @@
       "totalHarga": 36361440
     },
     {
-      "id": "matrix-row-1793590187889-66",
+      "id": "matrix-row-1793679947269-66",
       "no": 66,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -796,7 +796,7 @@
       "totalHarga": 71944350
     },
     {
-      "id": "matrix-row-1793590187889-67",
+      "id": "matrix-row-1793679947269-67",
       "no": 67,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -808,7 +808,7 @@
       "totalHarga": 21404070
     },
     {
-      "id": "matrix-row-1793590187889-68",
+      "id": "matrix-row-1793679947269-68",
       "no": 68,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -820,7 +820,7 @@
       "totalHarga": 37075485
     },
     {
-      "id": "matrix-row-1793590187889-69",
+      "id": "matrix-row-1793679947269-69",
       "no": 69,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
@@ -832,7 +832,7 @@
       "totalHarga": 46470450
     },
     {
-      "id": "matrix-row-1793590187889-70",
+      "id": "matrix-row-1793679947269-70",
       "no": 70,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
@@ -844,7 +844,7 @@
       "totalHarga": 37556730
     },
     {
-      "id": "matrix-row-1793590187889-71",
+      "id": "matrix-row-1793679947269-71",
       "no": 71,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
@@ -856,7 +856,7 @@
       "totalHarga": 36717035
     },
     {
-      "id": "matrix-row-1793590187889-72",
+      "id": "matrix-row-1793679947269-72",
       "no": 72,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
@@ -868,8 +868,800 @@
       "totalHarga": 16514550
     },
     {
-      "id": "matrix-row-1793590187889-73",
+      "id": "matrix-row-1793679947270-73",
       "no": 73,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-01",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 910,
+      "harga": 1880,
+      "totalHarga": 1710800
+    },
+    {
+      "id": "matrix-row-1793679947270-74",
+      "no": 74,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-01",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 14674,
+      "harga": 1750,
+      "totalHarga": 25679500
+    },
+    {
+      "id": "matrix-row-1793679947270-75",
+      "no": 75,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-01",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 8032,
+      "harga": 2200,
+      "totalHarga": 17670400
+    },
+    {
+      "id": "matrix-row-1793679947270-76",
+      "no": 76,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-02",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 8.06,
+      "harga": 1880933,
+      "totalHarga": 15160320
+    },
+    {
+      "id": "matrix-row-1793679947270-77",
+      "no": 77,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-02",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 39051.94,
+      "harga": 1393,
+      "totalHarga": 54414075
+    },
+    {
+      "id": "matrix-row-1793679947270-78",
+      "no": 78,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-02",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 14538,
+      "harga": 2200,
+      "totalHarga": 31983600
+    },
+    {
+      "id": "matrix-row-1793679947270-79",
+      "no": 79,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-03",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 24.07,
+      "harga": 1879766,
+      "totalHarga": 45245960
+    },
+    {
+      "id": "matrix-row-1793679947270-80",
+      "no": 80,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-03",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 55578.93,
+      "harga": 1003,
+      "totalHarga": 55733750
+    },
+    {
+      "id": "matrix-row-1793679947270-81",
+      "no": 81,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-03",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 3602,
+      "harga": 2200,
+      "totalHarga": 7924400
+    },
+    {
+      "id": "matrix-row-1793679947270-82",
+      "no": 82,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-04",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 29185,
+      "harga": 1785,
+      "totalHarga": 52105775
+    },
+    {
+      "id": "matrix-row-1793679947270-83",
+      "no": 83,
+      "namaPt": "INDOPELLET",
+      "bahanBakar": "DUST PELLET",
+      "tanggal": "2026-03-04",
+      "mc": 8.5,
+      "calori": 4150,
+      "konsumsi": 9085,
+      "harga": 1950,
+      "totalHarga": 17715750
+    },
+    {
+      "id": "matrix-row-1793679947270-84",
+      "no": 84,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-04",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 15266,
+      "harga": 2200,
+      "totalHarga": 33585200
+    },
+    {
+      "id": "matrix-row-1793679947270-85",
+      "no": 85,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-05",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 4.41,
+      "harga": 1877868,
+      "totalHarga": 8281400
+    },
+    {
+      "id": "matrix-row-1793679947270-86",
+      "no": 86,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-05",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 49019.59,
+      "harga": 1620,
+      "totalHarga": 79429140
+    },
+    {
+      "id": "matrix-row-1793679947270-87",
+      "no": 87,
+      "namaPt": "INDOPELLET",
+      "bahanBakar": "DUST PELLET",
+      "tanggal": "2026-03-05",
+      "mc": 8.5,
+      "calori": 4150,
+      "konsumsi": 1108,
+      "harga": 1950,
+      "totalHarga": 2160600
+    },
+    {
+      "id": "matrix-row-1793679947270-88",
+      "no": 88,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-05",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 3234,
+      "harga": 2200,
+      "totalHarga": 7114800
+    },
+    {
+      "id": "matrix-row-1793679947270-89",
+      "no": 89,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-06",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 18.72,
+      "harga": 1880301,
+      "totalHarga": 35199240
+    },
+    {
+      "id": "matrix-row-1793679947270-90",
+      "no": 90,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-06",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 63229.28,
+      "harga": 1245,
+      "totalHarga": 78726300
+    },
+    {
+      "id": "matrix-row-1793679947270-91",
+      "no": 91,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-07",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 2.58,
+      "harga": 1880000,
+      "totalHarga": 4850400
+    },
+    {
+      "id": "matrix-row-1793679947270-92",
+      "no": 92,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-07",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 39872.42,
+      "harga": 1667,
+      "totalHarga": 66486800
+    },
+    {
+      "id": "matrix-row-1793679947270-93",
+      "no": 93,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-07",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 2497,
+      "harga": 2200,
+      "totalHarga": 5493400
+    },
+    {
+      "id": "matrix-row-1793679947270-94",
+      "no": 94,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-08",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 4.24,
+      "harga": 1878670,
+      "totalHarga": 7965560
+    },
+    {
+      "id": "matrix-row-1793679947270-95",
+      "no": 95,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-08",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 23138.76,
+      "harga": 1464,
+      "totalHarga": 33886200
+    },
+    {
+      "id": "matrix-row-1793679947270-96",
+      "no": 96,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-08",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 3214,
+      "harga": 2200,
+      "totalHarga": 7070800
+    },
+    {
+      "id": "matrix-row-1793679947270-97",
+      "no": 97,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-09",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 23.22,
+      "harga": 1879757,
+      "totalHarga": 43647960
+    },
+    {
+      "id": "matrix-row-1793679947270-98",
+      "no": 98,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-09",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 43310.78,
+      "harga": 824,
+      "totalHarga": 35707675
+    },
+    {
+      "id": "matrix-row-1793679947270-99",
+      "no": 99,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-09",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 8404,
+      "harga": 2200,
+      "totalHarga": 18488800
+    },
+    {
+      "id": "matrix-row-1793679947270-100",
+      "no": 100,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-10",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 10.32,
+      "harga": 1879271,
+      "totalHarga": 19394080
+    },
+    {
+      "id": "matrix-row-1793679947270-101",
+      "no": 101,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-10",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 36.7,
+      "harga": 1791044,
+      "totalHarga": 65731325
+    },
+    {
+      "id": "matrix-row-1793679947270-102",
+      "no": 102,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-10",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 13569,
+      "harga": 2200,
+      "totalHarga": 29851800
+    },
+    {
+      "id": "matrix-row-1793679947270-103",
+      "no": 103,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-11",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 4.99,
+      "harga": 1728960,
+      "totalHarga": 8627510
+    },
+    {
+      "id": "matrix-row-1793679947270-104",
+      "no": 104,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-11",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 53725.01,
+      "harga": 1606,
+      "totalHarga": 86279270
+    },
+    {
+      "id": "matrix-row-1793679947270-105",
+      "no": 105,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-11",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 6638,
+      "harga": 2200,
+      "totalHarga": 14603600
+    },
+    {
+      "id": "matrix-row-1793679947270-106",
+      "no": 106,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-12",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 13.78,
+      "harga": 1733337,
+      "totalHarga": 23885390
+    },
+    {
+      "id": "matrix-row-1793679947270-107",
+      "no": 107,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-12",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 54473.22,
+      "harga": 1349,
+      "totalHarga": 73502420
+    },
+    {
+      "id": "matrix-row-1793679947270-108",
+      "no": 108,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-12",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 4616,
+      "harga": 2200,
+      "totalHarga": 10155200
+    },
+    {
+      "id": "matrix-row-1793679947270-109",
+      "no": 109,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-13",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 32.81,
+      "harga": 1799214,
+      "totalHarga": 59032220
+    },
+    {
+      "id": "matrix-row-1793679947270-110",
+      "no": 110,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-13",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 58402.19,
+      "harga": 797,
+      "totalHarga": 46569585
+    },
+    {
+      "id": "matrix-row-1793679947270-111",
+      "no": 111,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-13",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 2092,
+      "harga": 2200,
+      "totalHarga": 4602400
+    },
+    {
+      "id": "matrix-row-1793679947270-112",
+      "no": 112,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-14",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 26.82,
+      "harga": 1999702,
+      "totalHarga": 53632000
+    },
+    {
+      "id": "matrix-row-1793679947270-113",
+      "no": 113,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-14",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 52771.18,
+      "harga": 882,
+      "totalHarga": 46552475
+    },
+    {
+      "id": "matrix-row-1793679947270-114",
+      "no": 114,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-15",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 3.91,
+      "harga": 2002046,
+      "totalHarga": 7828000
+    },
+    {
+      "id": "matrix-row-1793679947270-115",
+      "no": 115,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-15",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 26414.09,
+      "harga": 1512,
+      "totalHarga": 39944600
+    },
+    {
+      "id": "matrix-row-1793679947270-116",
+      "no": 116,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-16",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 12.64,
+      "harga": 1960658,
+      "totalHarga": 24782720
+    },
+    {
+      "id": "matrix-row-1793679947270-117",
+      "no": 117,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-16",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 53828.36,
+      "harga": 1405,
+      "totalHarga": 75654950
+    },
+    {
+      "id": "matrix-row-1793679947270-118",
+      "no": 118,
+      "namaPt": "INDOPELLET",
+      "bahanBakar": "DUST PELLET",
+      "tanggal": "2026-03-16",
+      "mc": 8.5,
+      "calori": 4150,
+      "konsumsi": 5102,
+      "harga": 1950,
+      "totalHarga": 9948900
+    },
+    {
+      "id": "matrix-row-1793679947270-119",
+      "no": 119,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-17",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 10.16,
+      "harga": 1999213,
+      "totalHarga": 20312000
+    },
+    {
+      "id": "matrix-row-1793679947270-120",
+      "no": 120,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-17",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 46887.84,
+      "harga": 1380,
+      "totalHarga": 64701850
+    },
+    {
+      "id": "matrix-row-1793679947270-121",
+      "no": 121,
+      "namaPt": "INDOPELLET",
+      "bahanBakar": "DUST PELLET",
+      "tanggal": "2026-03-17",
+      "mc": 8.5,
+      "calori": 4150,
+      "konsumsi": 4694,
+      "harga": 1950,
+      "totalHarga": 9153300
+    },
+    {
+      "id": "matrix-row-1793679947270-122",
+      "no": 122,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-17",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 9617,
+      "harga": 2200,
+      "totalHarga": 21157400
+    },
+    {
+      "id": "matrix-row-1793679947270-123",
+      "no": 123,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-18",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 15333,
+      "harga": 1750,
+      "totalHarga": 26832750
+    },
+    {
+      "id": "matrix-row-1793679947270-124",
+      "no": 124,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-18",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 9386,
+      "harga": 2200,
+      "totalHarga": 20649200
+    },
+    {
+      "id": "matrix-row-1793679947270-125",
+      "no": 125,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-28",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 9884,
+      "harga": 2000,
+      "totalHarga": 19768000
+    },
+    {
+      "id": "matrix-row-1793679947270-126",
+      "no": 126,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-28",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 5390.32,
+      "harga": 1205,
+      "totalHarga": 6496000
+    },
+    {
+      "id": "matrix-row-1793679947270-127",
+      "no": 127,
+      "namaPt": "INDOPELLET",
+      "bahanBakar": "DUST PELLET",
+      "tanggal": "2026-03-28",
+      "mc": 8.5,
+      "calori": 4150,
+      "konsumsi": 1.68,
+      "harga": 1950000,
+      "totalHarga": 3276000
+    },
+    {
+      "id": "matrix-row-1793679947270-128",
+      "no": 128,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-28",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 3403,
+      "harga": 2200,
+      "totalHarga": 7486600
+    },
+    {
+      "id": "matrix-row-1793679947270-129",
+      "no": 129,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-29",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 42762,
+      "harga": 1944,
+      "totalHarga": 83129370
+    },
+    {
+      "id": "matrix-row-1793679947270-130",
+      "no": 130,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-29",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 8290,
+      "harga": 1750,
+      "totalHarga": 14507500
+    },
+    {
+      "id": "matrix-row-1793679947270-131",
+      "no": 131,
+      "namaPt": "INDOPELLET",
+      "bahanBakar": "DUST PELLET",
+      "tanggal": "2026-03-29",
+      "mc": 8.5,
+      "calori": 4150,
+      "konsumsi": 4687,
+      "harga": 1950,
+      "totalHarga": 9139650
+    },
+    {
+      "id": "matrix-row-1793679947270-132",
+      "no": 132,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-30",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 34929,
+      "harga": 1902,
+      "totalHarga": 66440520
+    },
+    {
+      "id": "matrix-row-1793679947270-133",
+      "no": 133,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-30",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 4635,
+      "harga": 1750,
+      "totalHarga": 8111250
+    },
+    {
+      "id": "matrix-row-1793679947270-134",
+      "no": 134,
+      "namaPt": "INDOPELLET",
+      "bahanBakar": "DUST PELLET",
+      "tanggal": "2026-03-30",
+      "mc": 8.5,
+      "calori": 4150,
+      "konsumsi": 7336,
+      "harga": 2156,
+      "totalHarga": 15816416
+    },
+    {
+      "id": "matrix-row-1793679947270-135",
+      "no": 135,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-30",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 6782,
+      "harga": 2200,
+      "totalHarga": 14920400
+    },
+    {
+      "id": "matrix-row-1793679947270-136",
+      "no": 136,
+      "namaPt": "SAMCA",
+      "bahanBakar": "CANGKANG",
+      "tanggal": "2026-03-31",
+      "mc": 18.2,
+      "calori": 4100,
+      "konsumsi": 37751,
+      "harga": 1889,
+      "totalHarga": 71316760
+    },
+    {
+      "id": "matrix-row-1793679947270-137",
+      "no": 137,
+      "namaPt": "WIRABUMI",
+      "bahanBakar": "WOOD PELLET",
+      "tanggal": "2026-03-31",
+      "mc": 6.8,
+      "calori": 4320,
+      "konsumsi": 14664,
+      "harga": 1767,
+      "totalHarga": 25916100
+    },
+    {
+      "id": "matrix-row-1793679947270-138",
+      "no": 138,
+      "namaPt": "MARSHARI",
+      "bahanBakar": "KOPI PELLET",
+      "tanggal": "2026-03-31",
+      "mc": 9.3,
+      "calori": 3950,
+      "konsumsi": 4406,
+      "harga": 2200,
+      "totalHarga": 9693200
+    },
+    {
+      "id": "matrix-row-1793679947270-139",
+      "no": 139,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-01",
@@ -880,8 +1672,8 @@
       "totalHarga": 1560000
     },
     {
-      "id": "matrix-row-1793590187889-74",
-      "no": 74,
+      "id": "matrix-row-1793679947270-140",
+      "no": 140,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-01",
@@ -892,8 +1684,8 @@
       "totalHarga": 104339025
     },
     {
-      "id": "matrix-row-1793590187889-75",
-      "no": 75,
+      "id": "matrix-row-1793679947270-141",
+      "no": 141,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-02",
@@ -904,8 +1696,8 @@
       "totalHarga": 7585140
     },
     {
-      "id": "matrix-row-1793590187889-76",
-      "no": 76,
+      "id": "matrix-row-1793679947270-142",
+      "no": 142,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-02",
@@ -916,8 +1708,8 @@
       "totalHarga": 47458605
     },
     {
-      "id": "matrix-row-1793590187890-77",
-      "no": 77,
+      "id": "matrix-row-1793679947270-143",
+      "no": 143,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-03",
@@ -928,8 +1720,8 @@
       "totalHarga": 19901260
     },
     {
-      "id": "matrix-row-1793590187890-78",
-      "no": 78,
+      "id": "matrix-row-1793679947270-144",
+      "no": 144,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-03",
@@ -940,8 +1732,8 @@
       "totalHarga": 69903510
     },
     {
-      "id": "matrix-row-1793590187890-79",
-      "no": 79,
+      "id": "matrix-row-1793679947270-145",
+      "no": 145,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-08-03",
@@ -952,8 +1744,8 @@
       "totalHarga": 7355400
     },
     {
-      "id": "matrix-row-1793590187890-80",
-      "no": 80,
+      "id": "matrix-row-1793679947270-146",
+      "no": 146,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-04",
@@ -964,8 +1756,8 @@
       "totalHarga": 13698900
     },
     {
-      "id": "matrix-row-1793590187890-81",
-      "no": 81,
+      "id": "matrix-row-1793679947270-147",
+      "no": 147,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-04",
@@ -976,8 +1768,8 @@
       "totalHarga": 77442570
     },
     {
-      "id": "matrix-row-1793590187890-82",
-      "no": 82,
+      "id": "matrix-row-1793679947270-148",
+      "no": 148,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-08-04",
@@ -988,8 +1780,8 @@
       "totalHarga": 20276919
     },
     {
-      "id": "matrix-row-1793590187890-83",
-      "no": 83,
+      "id": "matrix-row-1793679947270-149",
+      "no": 149,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-05",
@@ -1000,8 +1792,8 @@
       "totalHarga": 19906440
     },
     {
-      "id": "matrix-row-1793590187890-84",
-      "no": 84,
+      "id": "matrix-row-1793679947270-150",
+      "no": 150,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-05",
@@ -1012,8 +1804,8 @@
       "totalHarga": 81782525
     },
     {
-      "id": "matrix-row-1793590187890-85",
-      "no": 85,
+      "id": "matrix-row-1793679947270-151",
+      "no": 151,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-08-05",
@@ -1024,8 +1816,8 @@
       "totalHarga": 9045543
     },
     {
-      "id": "matrix-row-1793590187890-86",
-      "no": 86,
+      "id": "matrix-row-1793679947270-152",
+      "no": 152,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-06",
@@ -1036,8 +1828,8 @@
       "totalHarga": 32433370
     },
     {
-      "id": "matrix-row-1793590187890-87",
-      "no": 87,
+      "id": "matrix-row-1793679947270-153",
+      "no": 153,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-06",
@@ -1048,8 +1840,8 @@
       "totalHarga": 82808045
     },
     {
-      "id": "matrix-row-1793590187890-88",
-      "no": 88,
+      "id": "matrix-row-1793679947270-154",
+      "no": 154,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-08-06",
@@ -1060,8 +1852,8 @@
       "totalHarga": 4820985
     },
     {
-      "id": "matrix-row-1793590187890-89",
-      "no": 89,
+      "id": "matrix-row-1793679947270-155",
+      "no": 155,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-07",
@@ -1072,8 +1864,8 @@
       "totalHarga": 11407138
     },
     {
-      "id": "matrix-row-1793590187890-90",
-      "no": 90,
+      "id": "matrix-row-1793679947270-156",
+      "no": 156,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-07",
@@ -1084,8 +1876,8 @@
       "totalHarga": 96371090
     },
     {
-      "id": "matrix-row-1793590187890-91",
-      "no": 91,
+      "id": "matrix-row-1793679947270-157",
+      "no": 157,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-08",
@@ -1096,8 +1888,8 @@
       "totalHarga": 19626750
     },
     {
-      "id": "matrix-row-1793590187890-92",
-      "no": 92,
+      "id": "matrix-row-1793679947270-158",
+      "no": 158,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-08",
@@ -1108,8 +1900,8 @@
       "totalHarga": 85802750
     },
     {
-      "id": "matrix-row-1793590187890-93",
-      "no": 93,
+      "id": "matrix-row-1793679947270-159",
+      "no": 159,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-09",
@@ -1120,8 +1912,8 @@
       "totalHarga": 6447870
     },
     {
-      "id": "matrix-row-1793590187890-94",
-      "no": 94,
+      "id": "matrix-row-1793679947270-160",
+      "no": 160,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-09",
@@ -1132,8 +1924,8 @@
       "totalHarga": 40616100
     },
     {
-      "id": "matrix-row-1793590187890-95",
-      "no": 95,
+      "id": "matrix-row-1793679947270-161",
+      "no": 161,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-10",
@@ -1144,8 +1936,8 @@
       "totalHarga": 37899750
     },
     {
-      "id": "matrix-row-1793590187890-96",
-      "no": 96,
+      "id": "matrix-row-1793679947270-162",
+      "no": 162,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-10",
@@ -1156,8 +1948,8 @@
       "totalHarga": 68820545
     },
     {
-      "id": "matrix-row-1793590187890-97",
-      "no": 97,
+      "id": "matrix-row-1793679947270-163",
+      "no": 163,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-11",
@@ -1168,8 +1960,8 @@
       "totalHarga": 25365200
     },
     {
-      "id": "matrix-row-1793590187890-98",
-      "no": 98,
+      "id": "matrix-row-1793679947270-164",
+      "no": 164,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-11",
@@ -1180,8 +1972,8 @@
       "totalHarga": 84778835
     },
     {
-      "id": "matrix-row-1793590187890-99",
-      "no": 99,
+      "id": "matrix-row-1793679947270-165",
+      "no": 165,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-12",
@@ -1192,8 +1984,8 @@
       "totalHarga": 36693150
     },
     {
-      "id": "matrix-row-1793590187890-100",
-      "no": 100,
+      "id": "matrix-row-1793679947270-166",
+      "no": 166,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-12",
@@ -1204,8 +1996,8 @@
       "totalHarga": 78412520
     },
     {
-      "id": "matrix-row-1793590187891-101",
-      "no": 101,
+      "id": "matrix-row-1793679947270-167",
+      "no": 167,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-13",
@@ -1216,8 +2008,8 @@
       "totalHarga": 40560800
     },
     {
-      "id": "matrix-row-1793590187891-102",
-      "no": 102,
+      "id": "matrix-row-1793679947270-168",
+      "no": 168,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-13",
@@ -1228,8 +2020,8 @@
       "totalHarga": 73960450
     },
     {
-      "id": "matrix-row-1793590187891-103",
-      "no": 103,
+      "id": "matrix-row-1793679947270-169",
+      "no": 169,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-14",
@@ -1240,8 +2032,8 @@
       "totalHarga": 45013330
     },
     {
-      "id": "matrix-row-1793590187891-104",
-      "no": 104,
+      "id": "matrix-row-1793679947270-170",
+      "no": 170,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-14",
@@ -1252,8 +2044,8 @@
       "totalHarga": 63852655
     },
     {
-      "id": "matrix-row-1793590187891-105",
-      "no": 105,
+      "id": "matrix-row-1793679947270-171",
+      "no": 171,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-15",
@@ -1264,8 +2056,8 @@
       "totalHarga": 9555840
     },
     {
-      "id": "matrix-row-1793590187891-106",
-      "no": 106,
+      "id": "matrix-row-1793679947270-172",
+      "no": 172,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-15",
@@ -1276,8 +2068,8 @@
       "totalHarga": 90266495
     },
     {
-      "id": "matrix-row-1793590187891-107",
-      "no": 107,
+      "id": "matrix-row-1793679947270-173",
+      "no": 173,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-16",
@@ -1288,8 +2080,8 @@
       "totalHarga": 8578080
     },
     {
-      "id": "matrix-row-1793590187891-108",
-      "no": 108,
+      "id": "matrix-row-1793679947270-174",
+      "no": 174,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-16",
@@ -1300,8 +2092,8 @@
       "totalHarga": 38239810
     },
     {
-      "id": "matrix-row-1793590187891-109",
-      "no": 109,
+      "id": "matrix-row-1793679947270-175",
+      "no": 175,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-19",
@@ -1312,8 +2104,8 @@
       "totalHarga": 25870320
     },
     {
-      "id": "matrix-row-1793590187891-110",
-      "no": 110,
+      "id": "matrix-row-1793679947270-176",
+      "no": 176,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-19",
@@ -1324,8 +2116,8 @@
       "totalHarga": 71353600
     },
     {
-      "id": "matrix-row-1793590187891-111",
-      "no": 111,
+      "id": "matrix-row-1793679947270-177",
+      "no": 177,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-08-19",
@@ -1336,8 +2128,8 @@
       "totalHarga": 13818558
     },
     {
-      "id": "matrix-row-1793590187891-112",
-      "no": 112,
+      "id": "matrix-row-1793679947270-178",
+      "no": 178,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-20",
@@ -1348,8 +2140,8 @@
       "totalHarga": 6787200
     },
     {
-      "id": "matrix-row-1793590187891-113",
-      "no": 113,
+      "id": "matrix-row-1793679947270-179",
+      "no": 179,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-20",
@@ -1360,8 +2152,8 @@
       "totalHarga": 106261330
     },
     {
-      "id": "matrix-row-1793590187891-114",
-      "no": 114,
+      "id": "matrix-row-1793679947270-180",
+      "no": 180,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-21",
@@ -1372,8 +2164,8 @@
       "totalHarga": 27925740
     },
     {
-      "id": "matrix-row-1793590187891-115",
-      "no": 115,
+      "id": "matrix-row-1793679947270-181",
+      "no": 181,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-21",
@@ -1384,8 +2176,8 @@
       "totalHarga": 41388925
     },
     {
-      "id": "matrix-row-1793590187891-116",
-      "no": 116,
+      "id": "matrix-row-1793679947270-182",
+      "no": 182,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-08-21",
@@ -1396,8 +2188,8 @@
       "totalHarga": 35285133
     },
     {
-      "id": "matrix-row-1793590187891-117",
-      "no": 117,
+      "id": "matrix-row-1793679947270-183",
+      "no": 183,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-22",
@@ -1408,8 +2200,8 @@
       "totalHarga": 25778120
     },
     {
-      "id": "matrix-row-1793590187891-118",
-      "no": 118,
+      "id": "matrix-row-1793679947270-184",
+      "no": 184,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-22",
@@ -1420,8 +2212,8 @@
       "totalHarga": 80420710
     },
     {
-      "id": "matrix-row-1793590187892-119",
-      "no": 119,
+      "id": "matrix-row-1793679947270-185",
+      "no": 185,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-23",
@@ -1432,8 +2224,8 @@
       "totalHarga": 6234480
     },
     {
-      "id": "matrix-row-1793590187892-120",
-      "no": 120,
+      "id": "matrix-row-1793679947270-186",
+      "no": 186,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-23",
@@ -1444,8 +2236,8 @@
       "totalHarga": 38808730
     },
     {
-      "id": "matrix-row-1793590187892-121",
-      "no": 121,
+      "id": "matrix-row-1793679947270-187",
+      "no": 187,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-24",
@@ -1456,8 +2248,8 @@
       "totalHarga": 92225220
     },
     {
-      "id": "matrix-row-1793590187892-122",
-      "no": 122,
+      "id": "matrix-row-1793679947270-188",
+      "no": 188,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-24",
@@ -1468,8 +2260,8 @@
       "totalHarga": 13750590
     },
     {
-      "id": "matrix-row-1793590187892-123",
-      "no": 123,
+      "id": "matrix-row-1793679947270-189",
+      "no": 189,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-08-24",
@@ -1480,8 +2272,8 @@
       "totalHarga": 10375911
     },
     {
-      "id": "matrix-row-1793590187892-124",
-      "no": 124,
+      "id": "matrix-row-1793679947270-190",
+      "no": 190,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-25",
@@ -1492,8 +2284,8 @@
       "totalHarga": 19168800
     },
     {
-      "id": "matrix-row-1793590187892-125",
-      "no": 125,
+      "id": "matrix-row-1793679947270-191",
+      "no": 191,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-25",
@@ -1504,8 +2296,8 @@
       "totalHarga": 104134530
     },
     {
-      "id": "matrix-row-1793590187892-126",
-      "no": 126,
+      "id": "matrix-row-1793679947270-192",
+      "no": 192,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-26",
@@ -1516,8 +2308,8 @@
       "totalHarga": 42213360
     },
     {
-      "id": "matrix-row-1793590187892-127",
-      "no": 127,
+      "id": "matrix-row-1793679947270-193",
+      "no": 193,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-26",
@@ -1528,8 +2320,8 @@
       "totalHarga": 48522680
     },
     {
-      "id": "matrix-row-1793590187892-128",
-      "no": 128,
+      "id": "matrix-row-1793679947270-194",
+      "no": 194,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-08-26",
@@ -1540,8 +2332,8 @@
       "totalHarga": 25945600
     },
     {
-      "id": "matrix-row-1793590187892-129",
-      "no": 129,
+      "id": "matrix-row-1793679947270-195",
+      "no": 195,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-27",
@@ -1552,8 +2344,8 @@
       "totalHarga": 19320000
     },
     {
-      "id": "matrix-row-1793590187892-130",
-      "no": 130,
+      "id": "matrix-row-1793679947270-196",
+      "no": 196,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-27",
@@ -1564,8 +2356,8 @@
       "totalHarga": 71740275
     },
     {
-      "id": "matrix-row-1793590187892-131",
-      "no": 131,
+      "id": "matrix-row-1793679947270-197",
+      "no": 197,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-08-27",
@@ -1576,8 +2368,8 @@
       "totalHarga": 23668800
     },
     {
-      "id": "matrix-row-1793590187892-132",
-      "no": 132,
+      "id": "matrix-row-1793679947270-198",
+      "no": 198,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-28",
@@ -1588,8 +2380,8 @@
       "totalHarga": 44129310
     },
     {
-      "id": "matrix-row-1793590187892-133",
-      "no": 133,
+      "id": "matrix-row-1793679947270-199",
+      "no": 199,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-28",
@@ -1600,8 +2392,8 @@
       "totalHarga": 36464730
     },
     {
-      "id": "matrix-row-1793590187892-134",
-      "no": 134,
+      "id": "matrix-row-1793679947270-200",
+      "no": 200,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-08-28",
@@ -1612,8 +2404,8 @@
       "totalHarga": 25248210
     },
     {
-      "id": "matrix-row-1793590187892-135",
-      "no": 135,
+      "id": "matrix-row-1793679947270-201",
+      "no": 201,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-29",
@@ -1624,8 +2416,8 @@
       "totalHarga": 50193059
     },
     {
-      "id": "matrix-row-1793590187892-136",
-      "no": 136,
+      "id": "matrix-row-1793679947270-202",
+      "no": 202,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-08-29",
@@ -1636,8 +2428,8 @@
       "totalHarga": 44261919
     },
     {
-      "id": "matrix-row-1793590187892-137",
-      "no": 137,
+      "id": "matrix-row-1793679947270-203",
+      "no": 203,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-30",
@@ -1648,8 +2440,8 @@
       "totalHarga": 57481673
     },
     {
-      "id": "matrix-row-1793590187892-138",
-      "no": 138,
+      "id": "matrix-row-1793679947270-204",
+      "no": 204,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-08-31",
@@ -1660,8 +2452,8 @@
       "totalHarga": 35083360
     },
     {
-      "id": "matrix-row-1793590187892-139",
-      "no": 139,
+      "id": "matrix-row-1793679947270-205",
+      "no": 205,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-08-31",
@@ -1672,8 +2464,8 @@
       "totalHarga": 77672285
     },
     {
-      "id": "matrix-row-1793590187892-140",
-      "no": 140,
+      "id": "matrix-row-1793679947270-206",
+      "no": 206,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-08-31",
@@ -1684,8 +2476,8 @@
       "totalHarga": 1595802
     },
     {
-      "id": "matrix-row-1793590187893-141",
-      "no": 141,
+      "id": "matrix-row-1793679947270-207",
+      "no": 207,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-01",
@@ -1696,8 +2488,8 @@
       "totalHarga": 50866410
     },
     {
-      "id": "matrix-row-1793590187893-142",
-      "no": 142,
+      "id": "matrix-row-1793679947270-208",
+      "no": 208,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-01",
@@ -1708,8 +2500,8 @@
       "totalHarga": 58971720
     },
     {
-      "id": "matrix-row-1793590187893-143",
-      "no": 143,
+      "id": "matrix-row-1793679947270-209",
+      "no": 209,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-02",
@@ -1720,8 +2512,8 @@
       "totalHarga": 35505340
     },
     {
-      "id": "matrix-row-1793590187893-144",
-      "no": 144,
+      "id": "matrix-row-1793679947270-210",
+      "no": 210,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-02",
@@ -1732,8 +2524,8 @@
       "totalHarga": 21758594
     },
     {
-      "id": "matrix-row-1793590187893-145",
-      "no": 145,
+      "id": "matrix-row-1793679947270-211",
+      "no": 211,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-02",
@@ -1744,8 +2536,8 @@
       "totalHarga": 58180800
     },
     {
-      "id": "matrix-row-1793590187893-146",
-      "no": 146,
+      "id": "matrix-row-1793679947270-212",
+      "no": 212,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-03",
@@ -1756,8 +2548,8 @@
       "totalHarga": 38625290
     },
     {
-      "id": "matrix-row-1793590187893-147",
-      "no": 147,
+      "id": "matrix-row-1793679947270-213",
+      "no": 213,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-03",
@@ -1768,8 +2560,8 @@
       "totalHarga": 35643776
     },
     {
-      "id": "matrix-row-1793590187893-148",
-      "no": 148,
+      "id": "matrix-row-1793679947270-214",
+      "no": 214,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-03",
@@ -1780,8 +2572,8 @@
       "totalHarga": 37616000
     },
     {
-      "id": "matrix-row-1793590187893-149",
-      "no": 149,
+      "id": "matrix-row-1793679947270-215",
+      "no": 215,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-04",
@@ -1792,8 +2584,8 @@
       "totalHarga": 27817260
     },
     {
-      "id": "matrix-row-1793590187893-150",
-      "no": 150,
+      "id": "matrix-row-1793679947270-216",
+      "no": 216,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-04",
@@ -1804,8 +2596,8 @@
       "totalHarga": 68767672
     },
     {
-      "id": "matrix-row-1793590187893-151",
-      "no": 151,
+      "id": "matrix-row-1793679947270-217",
+      "no": 217,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-04",
@@ -1816,8 +2608,8 @@
       "totalHarga": 18289600
     },
     {
-      "id": "matrix-row-1793590187893-152",
-      "no": 152,
+      "id": "matrix-row-1793679947270-218",
+      "no": 218,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-05",
@@ -1828,8 +2620,8 @@
       "totalHarga": 5935180
     },
     {
-      "id": "matrix-row-1793590187893-153",
-      "no": 153,
+      "id": "matrix-row-1793679947270-219",
+      "no": 219,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-05",
@@ -1840,8 +2632,8 @@
       "totalHarga": 75387970
     },
     {
-      "id": "matrix-row-1793590187893-154",
-      "no": 154,
+      "id": "matrix-row-1793679947270-220",
+      "no": 220,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-05",
@@ -1852,8 +2644,8 @@
       "totalHarga": 18220800
     },
     {
-      "id": "matrix-row-1793590187893-155",
-      "no": 155,
+      "id": "matrix-row-1793679947270-221",
+      "no": 221,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-06",
@@ -1864,8 +2656,8 @@
       "totalHarga": 20039200
     },
     {
-      "id": "matrix-row-1793590187893-156",
-      "no": 156,
+      "id": "matrix-row-1793679947270-222",
+      "no": 222,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-06",
@@ -1876,8 +2668,8 @@
       "totalHarga": 41904500
     },
     {
-      "id": "matrix-row-1793590187893-157",
-      "no": 157,
+      "id": "matrix-row-1793679947270-223",
+      "no": 223,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-07",
@@ -1888,8 +2680,8 @@
       "totalHarga": 50442010
     },
     {
-      "id": "matrix-row-1793590187893-158",
-      "no": 158,
+      "id": "matrix-row-1793679947270-224",
+      "no": 224,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-07",
@@ -1900,8 +2692,8 @@
       "totalHarga": 33967503
     },
     {
-      "id": "matrix-row-1793590187893-159",
-      "no": 159,
+      "id": "matrix-row-1793679947270-225",
+      "no": 225,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-07",
@@ -1912,8 +2704,8 @@
       "totalHarga": 27872000
     },
     {
-      "id": "matrix-row-1793590187893-160",
-      "no": 160,
+      "id": "matrix-row-1793679947270-226",
+      "no": 226,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-08",
@@ -1924,8 +2716,8 @@
       "totalHarga": 53947210
     },
     {
-      "id": "matrix-row-1793590187893-161",
-      "no": 161,
+      "id": "matrix-row-1793679947270-227",
+      "no": 227,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-08",
@@ -1936,8 +2728,8 @@
       "totalHarga": 47817120
     },
     {
-      "id": "matrix-row-1793590187893-162",
-      "no": 162,
+      "id": "matrix-row-1793679947270-228",
+      "no": 228,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-08",
@@ -1948,8 +2740,8 @@
       "totalHarga": 12224000
     },
     {
-      "id": "matrix-row-1793590187893-163",
-      "no": 163,
+      "id": "matrix-row-1793679947270-229",
+      "no": 229,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-09",
@@ -1960,8 +2752,8 @@
       "totalHarga": 58761780
     },
     {
-      "id": "matrix-row-1793590187893-164",
-      "no": 164,
+      "id": "matrix-row-1793679947270-230",
+      "no": 230,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-09",
@@ -1972,8 +2764,8 @@
       "totalHarga": 51464632
     },
     {
-      "id": "matrix-row-1793590187893-165",
-      "no": 165,
+      "id": "matrix-row-1793679947270-231",
+      "no": 231,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-09",
@@ -1984,8 +2776,8 @@
       "totalHarga": 10108800
     },
     {
-      "id": "matrix-row-1793590187894-166",
-      "no": 166,
+      "id": "matrix-row-1793679947270-232",
+      "no": 232,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-10",
@@ -1996,8 +2788,8 @@
       "totalHarga": 47506200
     },
     {
-      "id": "matrix-row-1793590187894-167",
-      "no": 167,
+      "id": "matrix-row-1793679947270-233",
+      "no": 233,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-10",
@@ -2008,8 +2800,8 @@
       "totalHarga": 51787640
     },
     {
-      "id": "matrix-row-1793590187894-168",
-      "no": 168,
+      "id": "matrix-row-1793679947270-234",
+      "no": 234,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-10",
@@ -2020,8 +2812,8 @@
       "totalHarga": 3560000
     },
     {
-      "id": "matrix-row-1793590187894-169",
-      "no": 169,
+      "id": "matrix-row-1793679947270-235",
+      "no": 235,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-11",
@@ -2032,8 +2824,8 @@
       "totalHarga": 55468260
     },
     {
-      "id": "matrix-row-1793590187894-170",
-      "no": 170,
+      "id": "matrix-row-1793679947270-236",
+      "no": 236,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-11",
@@ -2044,8 +2836,8 @@
       "totalHarga": 26751350
     },
     {
-      "id": "matrix-row-1793590187894-171",
-      "no": 171,
+      "id": "matrix-row-1793679947270-237",
+      "no": 237,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-11",
@@ -2056,8 +2848,8 @@
       "totalHarga": 27038400
     },
     {
-      "id": "matrix-row-1793590187894-172",
-      "no": 172,
+      "id": "matrix-row-1793679947270-238",
+      "no": 238,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-12",
@@ -2068,8 +2860,8 @@
       "totalHarga": 16015760
     },
     {
-      "id": "matrix-row-1793590187894-173",
-      "no": 173,
+      "id": "matrix-row-1793679947270-239",
+      "no": 239,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-12",
@@ -2080,8 +2872,8 @@
       "totalHarga": 55877991
     },
     {
-      "id": "matrix-row-1793590187894-174",
-      "no": 174,
+      "id": "matrix-row-1793679947270-240",
+      "no": 240,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-12",
@@ -2092,8 +2884,8 @@
       "totalHarga": 22428800
     },
     {
-      "id": "matrix-row-1793590187894-175",
-      "no": 175,
+      "id": "matrix-row-1793679947270-241",
+      "no": 241,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-13",
@@ -2104,8 +2896,8 @@
       "totalHarga": 33477030
     },
     {
-      "id": "matrix-row-1793590187894-176",
-      "no": 176,
+      "id": "matrix-row-1793679947270-242",
+      "no": 242,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-13",
@@ -2116,8 +2908,8 @@
       "totalHarga": 21687735
     },
     {
-      "id": "matrix-row-1793590187894-177",
-      "no": 177,
+      "id": "matrix-row-1793679947270-243",
+      "no": 243,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-14",
@@ -2128,8 +2920,8 @@
       "totalHarga": 39873420
     },
     {
-      "id": "matrix-row-1793590187894-178",
-      "no": 178,
+      "id": "matrix-row-1793679947270-244",
+      "no": 244,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-14",
@@ -2140,8 +2932,8 @@
       "totalHarga": 76021189
     },
     {
-      "id": "matrix-row-1793590187894-179",
-      "no": 179,
+      "id": "matrix-row-1793679947270-245",
+      "no": 245,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-14",
@@ -2152,8 +2944,8 @@
       "totalHarga": 4904000
     },
     {
-      "id": "matrix-row-1793590187894-180",
-      "no": 180,
+      "id": "matrix-row-1793679947270-246",
+      "no": 246,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-15",
@@ -2164,8 +2956,8 @@
       "totalHarga": 19772800
     },
     {
-      "id": "matrix-row-1793590187894-181",
-      "no": 181,
+      "id": "matrix-row-1793679947270-247",
+      "no": 247,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-15",
@@ -2176,8 +2968,8 @@
       "totalHarga": 62929500
     },
     {
-      "id": "matrix-row-1793590187894-182",
-      "no": 182,
+      "id": "matrix-row-1793679947270-248",
+      "no": 248,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-15",
@@ -2188,8 +2980,8 @@
       "totalHarga": 38569600
     },
     {
-      "id": "matrix-row-1793590187894-183",
-      "no": 183,
+      "id": "matrix-row-1793679947270-249",
+      "no": 249,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-16",
@@ -2200,8 +2992,8 @@
       "totalHarga": 32215210
     },
     {
-      "id": "matrix-row-1793590187894-184",
-      "no": 184,
+      "id": "matrix-row-1793679947270-250",
+      "no": 250,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-16",
@@ -2212,8 +3004,8 @@
       "totalHarga": 87564061
     },
     {
-      "id": "matrix-row-1793590187894-185",
-      "no": 185,
+      "id": "matrix-row-1793679947270-251",
+      "no": 251,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-16",
@@ -2224,8 +3016,8 @@
       "totalHarga": 1790400
     },
     {
-      "id": "matrix-row-1793590187894-186",
-      "no": 186,
+      "id": "matrix-row-1793679947270-252",
+      "no": 252,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-17",
@@ -2236,8 +3028,8 @@
       "totalHarga": 6412800
     },
     {
-      "id": "matrix-row-1793590187894-187",
-      "no": 187,
+      "id": "matrix-row-1793679947270-253",
+      "no": 253,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-17",
@@ -2248,8 +3040,8 @@
       "totalHarga": 104798053
     },
     {
-      "id": "matrix-row-1793590187894-188",
-      "no": 188,
+      "id": "matrix-row-1793679947270-254",
+      "no": 254,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-17",
@@ -2260,8 +3052,8 @@
       "totalHarga": 9801600
     },
     {
-      "id": "matrix-row-1793590187894-189",
-      "no": 189,
+      "id": "matrix-row-1793679947270-255",
+      "no": 255,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-18",
@@ -2272,8 +3064,8 @@
       "totalHarga": 25905600
     },
     {
-      "id": "matrix-row-1793590187894-190",
-      "no": 190,
+      "id": "matrix-row-1793679947270-256",
+      "no": 256,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-18",
@@ -2284,8 +3076,8 @@
       "totalHarga": 59148890
     },
     {
-      "id": "matrix-row-1793590187894-191",
-      "no": 191,
+      "id": "matrix-row-1793679947270-257",
+      "no": 257,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-18",
@@ -2296,8 +3088,8 @@
       "totalHarga": 30641600
     },
     {
-      "id": "matrix-row-1793590187895-192",
-      "no": 192,
+      "id": "matrix-row-1793679947270-258",
+      "no": 258,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-19",
@@ -2308,8 +3100,8 @@
       "totalHarga": 15663070
     },
     {
-      "id": "matrix-row-1793590187895-193",
-      "no": 193,
+      "id": "matrix-row-1793679947270-259",
+      "no": 259,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-19",
@@ -2320,8 +3112,8 @@
       "totalHarga": 90005468
     },
     {
-      "id": "matrix-row-1793590187895-194",
-      "no": 194,
+      "id": "matrix-row-1793679947270-260",
+      "no": 260,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-20",
@@ -2332,8 +3124,8 @@
       "totalHarga": 43440560
     },
     {
-      "id": "matrix-row-1793590187895-195",
-      "no": 195,
+      "id": "matrix-row-1793679947270-261",
+      "no": 261,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-21",
@@ -2344,8 +3136,8 @@
       "totalHarga": 47035550
     },
     {
-      "id": "matrix-row-1793590187895-196",
-      "no": 196,
+      "id": "matrix-row-1793679947270-262",
+      "no": 262,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-21",
@@ -2356,8 +3148,8 @@
       "totalHarga": 64687496
     },
     {
-      "id": "matrix-row-1793590187895-197",
-      "no": 197,
+      "id": "matrix-row-1793679947270-263",
+      "no": 263,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-22",
@@ -2368,8 +3160,8 @@
       "totalHarga": 70597100
     },
     {
-      "id": "matrix-row-1793590187895-198",
-      "no": 198,
+      "id": "matrix-row-1793679947270-264",
+      "no": 264,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-22",
@@ -2380,8 +3172,8 @@
       "totalHarga": 25156409
     },
     {
-      "id": "matrix-row-1793590187895-199",
-      "no": 199,
+      "id": "matrix-row-1793679947270-265",
+      "no": 265,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-22",
@@ -2392,8 +3184,8 @@
       "totalHarga": 20552000
     },
     {
-      "id": "matrix-row-1793590187895-200",
-      "no": 200,
+      "id": "matrix-row-1793679947270-266",
+      "no": 266,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-23",
@@ -2404,8 +3196,8 @@
       "totalHarga": 27526080
     },
     {
-      "id": "matrix-row-1793590187895-201",
-      "no": 201,
+      "id": "matrix-row-1793679947270-267",
+      "no": 267,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-23",
@@ -2416,8 +3208,8 @@
       "totalHarga": 79795920
     },
     {
-      "id": "matrix-row-1793590187895-202",
-      "no": 202,
+      "id": "matrix-row-1793679947270-268",
+      "no": 268,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-23",
@@ -2428,8 +3220,8 @@
       "totalHarga": 12139200
     },
     {
-      "id": "matrix-row-1793590187895-203",
-      "no": 203,
+      "id": "matrix-row-1793679947270-269",
+      "no": 269,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-24",
@@ -2440,8 +3232,8 @@
       "totalHarga": 22109560
     },
     {
-      "id": "matrix-row-1793590187895-204",
-      "no": 204,
+      "id": "matrix-row-1793679947270-270",
+      "no": 270,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-24",
@@ -2452,8 +3244,8 @@
       "totalHarga": 38778257
     },
     {
-      "id": "matrix-row-1793590187895-205",
-      "no": 205,
+      "id": "matrix-row-1793679947270-271",
+      "no": 271,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-24",
@@ -2464,8 +3256,8 @@
       "totalHarga": 55208000
     },
     {
-      "id": "matrix-row-1793590187895-206",
-      "no": 206,
+      "id": "matrix-row-1793679947271-272",
+      "no": 272,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-25",
@@ -2476,8 +3268,8 @@
       "totalHarga": 49501750
     },
     {
-      "id": "matrix-row-1793590187895-207",
-      "no": 207,
+      "id": "matrix-row-1793679947271-273",
+      "no": 273,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-25",
@@ -2488,8 +3280,8 @@
       "totalHarga": 38203478
     },
     {
-      "id": "matrix-row-1793590187895-208",
-      "no": 208,
+      "id": "matrix-row-1793679947271-274",
+      "no": 274,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-25",
@@ -2500,8 +3292,8 @@
       "totalHarga": 22364800
     },
     {
-      "id": "matrix-row-1793590187895-209",
-      "no": 209,
+      "id": "matrix-row-1793679947271-275",
+      "no": 275,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-26",
@@ -2512,8 +3304,8 @@
       "totalHarga": 7718130
     },
     {
-      "id": "matrix-row-1793590187895-210",
-      "no": 210,
+      "id": "matrix-row-1793679947271-276",
+      "no": 276,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-26",
@@ -2524,8 +3316,8 @@
       "totalHarga": 59162348
     },
     {
-      "id": "matrix-row-1793590187895-211",
-      "no": 211,
+      "id": "matrix-row-1793679947271-277",
+      "no": 277,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-26",
@@ -2536,8 +3328,8 @@
       "totalHarga": 39524800
     },
     {
-      "id": "matrix-row-1793590187895-212",
-      "no": 212,
+      "id": "matrix-row-1793679947271-278",
+      "no": 278,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-27",
@@ -2548,8 +3340,8 @@
       "totalHarga": 14202720
     },
     {
-      "id": "matrix-row-1793590187895-213",
-      "no": 213,
+      "id": "matrix-row-1793679947271-279",
+      "no": 279,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-27",
@@ -2560,8 +3352,8 @@
       "totalHarga": 35428050
     },
     {
-      "id": "matrix-row-1793590187895-214",
-      "no": 214,
+      "id": "matrix-row-1793679947271-280",
+      "no": 280,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-09-27",
@@ -2572,8 +3364,8 @@
       "totalHarga": 9617600
     },
     {
-      "id": "matrix-row-1793590187896-215",
-      "no": 215,
+      "id": "matrix-row-1793679947271-281",
+      "no": 281,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-28",
@@ -2584,8 +3376,8 @@
       "totalHarga": 3620400
     },
     {
-      "id": "matrix-row-1793590187896-216",
-      "no": 216,
+      "id": "matrix-row-1793679947271-282",
+      "no": 282,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-28",
@@ -2596,8 +3388,8 @@
       "totalHarga": 72779730
     },
     {
-      "id": "matrix-row-1793590187896-217",
-      "no": 217,
+      "id": "matrix-row-1793679947271-283",
+      "no": 283,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-29",
@@ -2608,8 +3400,8 @@
       "totalHarga": 29285760
     },
     {
-      "id": "matrix-row-1793590187896-218",
-      "no": 218,
+      "id": "matrix-row-1793679947271-284",
+      "no": 284,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-29",
@@ -2620,8 +3412,8 @@
       "totalHarga": 64788737
     },
     {
-      "id": "matrix-row-1793590187896-219",
-      "no": 219,
+      "id": "matrix-row-1793679947271-285",
+      "no": 285,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-09-30",
@@ -2632,8 +3424,8 @@
       "totalHarga": 3427200
     },
     {
-      "id": "matrix-row-1793590187896-220",
-      "no": 220,
+      "id": "matrix-row-1793679947271-286",
+      "no": 286,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-09-30",
@@ -2644,8 +3436,8 @@
       "totalHarga": 119660783
     },
     {
-      "id": "matrix-row-1793590187896-221",
-      "no": 221,
+      "id": "matrix-row-1793679947271-287",
+      "no": 287,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-01",
@@ -2656,8 +3448,8 @@
       "totalHarga": 40448600
     },
     {
-      "id": "matrix-row-1793590187896-222",
-      "no": 222,
+      "id": "matrix-row-1793679947271-288",
+      "no": 288,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-01",
@@ -2668,8 +3460,8 @@
       "totalHarga": 59654745
     },
     {
-      "id": "matrix-row-1793590187896-223",
-      "no": 223,
+      "id": "matrix-row-1793679947271-289",
+      "no": 289,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-01",
@@ -2680,8 +3472,8 @@
       "totalHarga": 3496410
     },
     {
-      "id": "matrix-row-1793590187896-224",
-      "no": 224,
+      "id": "matrix-row-1793679947271-290",
+      "no": 290,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-02",
@@ -2692,8 +3484,8 @@
       "totalHarga": 35808100
     },
     {
-      "id": "matrix-row-1793590187896-225",
-      "no": 225,
+      "id": "matrix-row-1793679947271-291",
+      "no": 291,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-02",
@@ -2704,8 +3496,8 @@
       "totalHarga": 63482950
     },
     {
-      "id": "matrix-row-1793590187896-226",
-      "no": 226,
+      "id": "matrix-row-1793679947271-292",
+      "no": 292,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-02",
@@ -2716,8 +3508,8 @@
       "totalHarga": 10136250
     },
     {
-      "id": "matrix-row-1793590187896-227",
-      "no": 227,
+      "id": "matrix-row-1793679947271-293",
+      "no": 293,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-03",
@@ -2728,8 +3520,8 @@
       "totalHarga": 22060700
     },
     {
-      "id": "matrix-row-1793590187896-228",
-      "no": 228,
+      "id": "matrix-row-1793679947271-294",
+      "no": 294,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-03",
@@ -2740,8 +3532,8 @@
       "totalHarga": 50269130
     },
     {
-      "id": "matrix-row-1793590187896-229",
-      "no": 229,
+      "id": "matrix-row-1793679947271-295",
+      "no": 295,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-03",
@@ -2752,8 +3544,8 @@
       "totalHarga": 28181160
     },
     {
-      "id": "matrix-row-1793590187896-230",
-      "no": 230,
+      "id": "matrix-row-1793679947271-296",
+      "no": 296,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-04",
@@ -2764,8 +3556,8 @@
       "totalHarga": 32110760
     },
     {
-      "id": "matrix-row-1793590187896-231",
-      "no": 231,
+      "id": "matrix-row-1793679947271-297",
+      "no": 297,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-04",
@@ -2776,8 +3568,8 @@
       "totalHarga": 19060920
     },
     {
-      "id": "matrix-row-1793590187896-232",
-      "no": 232,
+      "id": "matrix-row-1793679947271-298",
+      "no": 298,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-05",
@@ -2788,8 +3580,8 @@
       "totalHarga": 52559050
     },
     {
-      "id": "matrix-row-1793590187896-233",
-      "no": 233,
+      "id": "matrix-row-1793679947271-299",
+      "no": 299,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-05",
@@ -2800,8 +3592,8 @@
       "totalHarga": 29818540
     },
     {
-      "id": "matrix-row-1793590187896-234",
-      "no": 234,
+      "id": "matrix-row-1793679947271-300",
+      "no": 300,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-05",
@@ -2812,8 +3604,8 @@
       "totalHarga": 17772470
     },
     {
-      "id": "matrix-row-1793590187896-235",
-      "no": 235,
+      "id": "matrix-row-1793679947271-301",
+      "no": 301,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-06",
@@ -2824,8 +3616,8 @@
       "totalHarga": 75512930
     },
     {
-      "id": "matrix-row-1793590187896-236",
-      "no": 236,
+      "id": "matrix-row-1793679947271-302",
+      "no": 302,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-06",
@@ -2836,8 +3628,8 @@
       "totalHarga": 29274800
     },
     {
-      "id": "matrix-row-1793590187896-237",
-      "no": 237,
+      "id": "matrix-row-1793679947271-303",
+      "no": 303,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-06",
@@ -2848,8 +3640,8 @@
       "totalHarga": 12401840
     },
     {
-      "id": "matrix-row-1793590187897-238",
-      "no": 238,
+      "id": "matrix-row-1793679947271-304",
+      "no": 304,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-07",
@@ -2860,8 +3652,8 @@
       "totalHarga": 17299530
     },
     {
-      "id": "matrix-row-1793590187897-239",
-      "no": 239,
+      "id": "matrix-row-1793679947271-305",
+      "no": 305,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-07",
@@ -2872,8 +3664,8 @@
       "totalHarga": 48338240
     },
     {
-      "id": "matrix-row-1793590187897-240",
-      "no": 240,
+      "id": "matrix-row-1793679947271-306",
+      "no": 306,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-07",
@@ -2884,8 +3676,8 @@
       "totalHarga": 39487650
     },
     {
-      "id": "matrix-row-1793590187897-241",
-      "no": 241,
+      "id": "matrix-row-1793679947271-307",
+      "no": 307,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-08",
@@ -2896,8 +3688,8 @@
       "totalHarga": 27968360
     },
     {
-      "id": "matrix-row-1793590187897-242",
-      "no": 242,
+      "id": "matrix-row-1793679947271-308",
+      "no": 308,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-08",
@@ -2908,8 +3700,8 @@
       "totalHarga": 58422370
     },
     {
-      "id": "matrix-row-1793590187897-243",
-      "no": 243,
+      "id": "matrix-row-1793679947271-309",
+      "no": 309,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-08",
@@ -2920,8 +3712,8 @@
       "totalHarga": 23368230
     },
     {
-      "id": "matrix-row-1793590187897-244",
-      "no": 244,
+      "id": "matrix-row-1793679947271-310",
+      "no": 310,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-09",
@@ -2932,8 +3724,8 @@
       "totalHarga": 25020620
     },
     {
-      "id": "matrix-row-1793590187897-245",
-      "no": 245,
+      "id": "matrix-row-1793679947271-311",
+      "no": 311,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-09",
@@ -2944,8 +3736,8 @@
       "totalHarga": 70208198
     },
     {
-      "id": "matrix-row-1793590187897-246",
-      "no": 246,
+      "id": "matrix-row-1793679947271-312",
+      "no": 312,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-09",
@@ -2956,8 +3748,8 @@
       "totalHarga": 25006400
     },
     {
-      "id": "matrix-row-1793590187897-247",
-      "no": 247,
+      "id": "matrix-row-1793679947271-313",
+      "no": 313,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-10",
@@ -2968,8 +3760,8 @@
       "totalHarga": 15305860
     },
     {
-      "id": "matrix-row-1793590187897-248",
-      "no": 248,
+      "id": "matrix-row-1793679947271-314",
+      "no": 314,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-10",
@@ -2980,8 +3772,8 @@
       "totalHarga": 87723665
     },
     {
-      "id": "matrix-row-1793590187897-249",
-      "no": 249,
+      "id": "matrix-row-1793679947271-315",
+      "no": 315,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-10",
@@ -2992,8 +3784,8 @@
       "totalHarga": 10728000
     },
     {
-      "id": "matrix-row-1793590187897-250",
-      "no": 250,
+      "id": "matrix-row-1793679947271-316",
+      "no": 316,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-11",
@@ -3004,8 +3796,8 @@
       "totalHarga": 22087420
     },
     {
-      "id": "matrix-row-1793590187897-251",
-      "no": 251,
+      "id": "matrix-row-1793679947271-317",
+      "no": 317,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-11",
@@ -3016,8 +3808,8 @@
       "totalHarga": 23636870
     },
     {
-      "id": "matrix-row-1793590187897-252",
-      "no": 252,
+      "id": "matrix-row-1793679947271-318",
+      "no": 318,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-11",
@@ -3028,8 +3820,8 @@
       "totalHarga": 10354080
     },
     {
-      "id": "matrix-row-1793590187897-253",
-      "no": 253,
+      "id": "matrix-row-1793679947271-319",
+      "no": 319,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-12",
@@ -3040,8 +3832,8 @@
       "totalHarga": 5918640
     },
     {
-      "id": "matrix-row-1793590187897-254",
-      "no": 254,
+      "id": "matrix-row-1793679947271-320",
+      "no": 320,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-12",
@@ -3052,8 +3844,8 @@
       "totalHarga": 58935098
     },
     {
-      "id": "matrix-row-1793590187897-255",
-      "no": 255,
+      "id": "matrix-row-1793679947271-321",
+      "no": 321,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-12",
@@ -3064,8 +3856,8 @@
       "totalHarga": 22291800
     },
     {
-      "id": "matrix-row-1793590187897-256",
-      "no": 256,
+      "id": "matrix-row-1793679947271-322",
+      "no": 322,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-13",
@@ -3076,8 +3868,8 @@
       "totalHarga": 35339970
     },
     {
-      "id": "matrix-row-1793590187897-257",
-      "no": 257,
+      "id": "matrix-row-1793679947271-323",
+      "no": 323,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-13",
@@ -3088,8 +3880,8 @@
       "totalHarga": 57520841
     },
     {
-      "id": "matrix-row-1793590187897-258",
-      "no": 258,
+      "id": "matrix-row-1793679947271-324",
+      "no": 324,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-13",
@@ -3100,8 +3892,8 @@
       "totalHarga": 32998430
     },
     {
-      "id": "matrix-row-1793590187897-259",
-      "no": 259,
+      "id": "matrix-row-1793679947271-325",
+      "no": 325,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-14",
@@ -3112,8 +3904,8 @@
       "totalHarga": 70053028
     },
     {
-      "id": "matrix-row-1793590187897-260",
-      "no": 260,
+      "id": "matrix-row-1793679947271-326",
+      "no": 326,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-14",
@@ -3124,8 +3916,8 @@
       "totalHarga": 51022400
     },
     {
-      "id": "matrix-row-1793590187898-261",
-      "no": 261,
+      "id": "matrix-row-1793679947271-327",
+      "no": 327,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-15",
@@ -3136,8 +3928,8 @@
       "totalHarga": 55900100
     },
     {
-      "id": "matrix-row-1793590187898-262",
-      "no": 262,
+      "id": "matrix-row-1793679947271-328",
+      "no": 328,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-15",
@@ -3148,8 +3940,8 @@
       "totalHarga": 43814770
     },
     {
-      "id": "matrix-row-1793590187898-263",
-      "no": 263,
+      "id": "matrix-row-1793679947271-329",
+      "no": 329,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-16",
@@ -3160,20 +3952,20 @@
       "totalHarga": 14369750
     },
     {
-      "id": "matrix-row-1793590187898-264",
-      "no": 264,
+      "id": "matrix-row-1793679947271-330",
+      "no": 330,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-16",
       "mc": 6.8,
       "calori": 4320,
-      "konsumsi": 39098,
-      "harga": 1774,
+      "konsumsi": 41988,
+      "harga": 1652,
       "totalHarga": 69355284
     },
     {
-      "id": "matrix-row-1793590187898-265",
-      "no": 265,
+      "id": "matrix-row-1793679947271-331",
+      "no": 331,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-16",
@@ -3184,8 +3976,8 @@
       "totalHarga": 24496120
     },
     {
-      "id": "matrix-row-1793590187898-266",
-      "no": 266,
+      "id": "matrix-row-1793679947271-332",
+      "no": 332,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-17",
@@ -3196,8 +3988,8 @@
       "totalHarga": 55863980
     },
     {
-      "id": "matrix-row-1793590187898-267",
-      "no": 267,
+      "id": "matrix-row-1793679947271-333",
+      "no": 333,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-17",
@@ -3208,8 +4000,8 @@
       "totalHarga": 82031200
     },
     {
-      "id": "matrix-row-1793590187898-268",
-      "no": 268,
+      "id": "matrix-row-1793679947271-334",
+      "no": 334,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-17",
@@ -3220,8 +4012,8 @@
       "totalHarga": 1435200
     },
     {
-      "id": "matrix-row-1793590187898-269",
-      "no": 269,
+      "id": "matrix-row-1793679947271-335",
+      "no": 335,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-18",
@@ -3232,8 +4024,8 @@
       "totalHarga": 6841300
     },
     {
-      "id": "matrix-row-1793590187898-270",
-      "no": 270,
+      "id": "matrix-row-1793679947271-336",
+      "no": 336,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-18",
@@ -3244,8 +4036,8 @@
       "totalHarga": 30686108
     },
     {
-      "id": "matrix-row-1793590187898-271",
-      "no": 271,
+      "id": "matrix-row-1793679947271-337",
+      "no": 337,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-18",
@@ -3256,8 +4048,8 @@
       "totalHarga": 14771200
     },
     {
-      "id": "matrix-row-1793590187898-272",
-      "no": 272,
+      "id": "matrix-row-1793679947271-338",
+      "no": 338,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-19",
@@ -3268,8 +4060,8 @@
       "totalHarga": 68456900
     },
     {
-      "id": "matrix-row-1793590187898-273",
-      "no": 273,
+      "id": "matrix-row-1793679947271-339",
+      "no": 339,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-19",
@@ -3280,8 +4072,8 @@
       "totalHarga": 42013550
     },
     {
-      "id": "matrix-row-1793590187898-274",
-      "no": 274,
+      "id": "matrix-row-1793679947271-340",
+      "no": 340,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-20",
@@ -3292,8 +4084,8 @@
       "totalHarga": 69874180
     },
     {
-      "id": "matrix-row-1793590187898-275",
-      "no": 275,
+      "id": "matrix-row-1793679947271-341",
+      "no": 341,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-20",
@@ -3304,8 +4096,8 @@
       "totalHarga": 27801040
     },
     {
-      "id": "matrix-row-1793590187898-276",
-      "no": 276,
+      "id": "matrix-row-1793679947271-342",
+      "no": 342,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-20",
@@ -3316,8 +4108,8 @@
       "totalHarga": 13008670
     },
     {
-      "id": "matrix-row-1793590187898-277",
-      "no": 277,
+      "id": "matrix-row-1793679947271-343",
+      "no": 343,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-21",
@@ -3328,8 +4120,8 @@
       "totalHarga": 37113650
     },
     {
-      "id": "matrix-row-1793590187898-278",
-      "no": 278,
+      "id": "matrix-row-1793679947271-344",
+      "no": 344,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-21",
@@ -3340,8 +4132,8 @@
       "totalHarga": 46965120
     },
     {
-      "id": "matrix-row-1793590187898-279",
-      "no": 279,
+      "id": "matrix-row-1793679947271-345",
+      "no": 345,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-21",
@@ -3352,8 +4144,8 @@
       "totalHarga": 43429260
     },
     {
-      "id": "matrix-row-1793590187898-280",
-      "no": 280,
+      "id": "matrix-row-1793679947271-346",
+      "no": 346,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-22",
@@ -3364,8 +4156,8 @@
       "totalHarga": 33173050
     },
     {
-      "id": "matrix-row-1793590187898-281",
-      "no": 281,
+      "id": "matrix-row-1793679947271-347",
+      "no": 347,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-22",
@@ -3376,8 +4168,8 @@
       "totalHarga": 31437208
     },
     {
-      "id": "matrix-row-1793590187898-282",
-      "no": 282,
+      "id": "matrix-row-1793679947271-348",
+      "no": 348,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-22",
@@ -3388,8 +4180,8 @@
       "totalHarga": 44268330
     },
     {
-      "id": "matrix-row-1793590187898-283",
-      "no": 283,
+      "id": "matrix-row-1793679947271-349",
+      "no": 349,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-23",
@@ -3400,8 +4192,8 @@
       "totalHarga": 5934140
     },
     {
-      "id": "matrix-row-1793590187898-284",
-      "no": 284,
+      "id": "matrix-row-1793679947271-350",
+      "no": 350,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-23",
@@ -3412,8 +4204,8 @@
       "totalHarga": 31565216
     },
     {
-      "id": "matrix-row-1793590187898-285",
-      "no": 285,
+      "id": "matrix-row-1793679947271-351",
+      "no": 351,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-23",
@@ -3424,8 +4216,8 @@
       "totalHarga": 59930890
     },
     {
-      "id": "matrix-row-1793590187899-286",
-      "no": 286,
+      "id": "matrix-row-1793679947271-352",
+      "no": 352,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-24",
@@ -3436,8 +4228,8 @@
       "totalHarga": 28434750
     },
     {
-      "id": "matrix-row-1793590187899-287",
-      "no": 287,
+      "id": "matrix-row-1793679947271-353",
+      "no": 353,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-24",
@@ -3448,8 +4240,8 @@
       "totalHarga": 32118010
     },
     {
-      "id": "matrix-row-1793590187899-288",
-      "no": 288,
+      "id": "matrix-row-1793679947271-354",
+      "no": 354,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-24",
@@ -3460,8 +4252,8 @@
       "totalHarga": 45253010
     },
     {
-      "id": "matrix-row-1793590187899-289",
-      "no": 289,
+      "id": "matrix-row-1793679947271-355",
+      "no": 355,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-25",
@@ -3472,8 +4264,8 @@
       "totalHarga": 39316580
     },
     {
-      "id": "matrix-row-1793590187899-290",
-      "no": 290,
+      "id": "matrix-row-1793679947271-356",
+      "no": 356,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-25",
@@ -3484,8 +4276,8 @@
       "totalHarga": 3401010
     },
     {
-      "id": "matrix-row-1793590187899-291",
-      "no": 291,
+      "id": "matrix-row-1793679947271-357",
+      "no": 357,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-26",
@@ -3496,8 +4288,8 @@
       "totalHarga": 38129696
     },
     {
-      "id": "matrix-row-1793590187899-292",
-      "no": 292,
+      "id": "matrix-row-1793679947271-358",
+      "no": 358,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-26",
@@ -3508,8 +4300,8 @@
       "totalHarga": 31666440
     },
     {
-      "id": "matrix-row-1793590187899-293",
-      "no": 293,
+      "id": "matrix-row-1793679947271-359",
+      "no": 359,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-27",
@@ -3520,8 +4312,8 @@
       "totalHarga": 5804920
     },
     {
-      "id": "matrix-row-1793590187899-294",
-      "no": 294,
+      "id": "matrix-row-1793679947271-360",
+      "no": 360,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-27",
@@ -3532,8 +4324,8 @@
       "totalHarga": 52808630
     },
     {
-      "id": "matrix-row-1793590187899-295",
-      "no": 295,
+      "id": "matrix-row-1793679947271-361",
+      "no": 361,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-27",
@@ -3544,8 +4336,8 @@
       "totalHarga": 32976640
     },
     {
-      "id": "matrix-row-1793590187899-296",
-      "no": 296,
+      "id": "matrix-row-1793679947271-362",
+      "no": 362,
       "namaPt": "SAMCA",
       "bahanBakar": "CANGKANG",
       "tanggal": "2026-10-28",
@@ -3556,8 +4348,8 @@
       "totalHarga": 44133600
     },
     {
-      "id": "matrix-row-1793590187899-297",
-      "no": 297,
+      "id": "matrix-row-1793679947271-363",
+      "no": 363,
       "namaPt": "WIRABUMI",
       "bahanBakar": "WOOD PELLET",
       "tanggal": "2026-10-28",
@@ -3568,8 +4360,8 @@
       "totalHarga": 77753932
     },
     {
-      "id": "matrix-row-1793590187899-298",
-      "no": 298,
+      "id": "matrix-row-1793679947271-364",
+      "no": 364,
       "namaPt": "INDOPELLET",
       "bahanBakar": "DUST PELLET",
       "tanggal": "2026-10-28",
@@ -3635,6 +4427,50 @@
     "27/02/2026": 323,
     "2026-02-28": 285,
     "28/02/2026": 285,
+    "2026-03-01": 139,
+    "01/03/2026": 139,
+    "2026-03-02": 325,
+    "02/03/2026": 325,
+    "2026-03-03": 335,
+    "03/03/2026": 335,
+    "2026-03-04": 321,
+    "04/03/2026": 321,
+    "2026-03-05": 324,
+    "05/03/2026": 324,
+    "2026-03-06": 365,
+    "06/03/2026": 365,
+    "2026-03-07": 259,
+    "07/03/2026": 259,
+    "2026-03-08": 143,
+    "08/03/2026": 143,
+    "2026-03-09": 304,
+    "09/03/2026": 304,
+    "2026-03-10": 346,
+    "10/03/2026": 346,
+    "2026-03-11": 348,
+    "11/03/2026": 348,
+    "2026-03-12": 338,
+    "12/03/2026": 338,
+    "2026-03-13": 347,
+    "13/03/2026": 347,
+    "2026-03-14": 315,
+    "14/03/2026": 315,
+    "2026-03-15": 154,
+    "15/03/2026": 154,
+    "2026-03-16": 343,
+    "16/03/2026": 343,
+    "2026-03-17": 360,
+    "17/03/2026": 360,
+    "2026-03-18": 143,
+    "18/03/2026": 143,
+    "2026-03-28": 101,
+    "28/03/2026": 101,
+    "2026-03-29": 317,
+    "29/03/2026": 317,
+    "2026-03-30": 315,
+    "30/03/2026": 315,
+    "2026-03-31": 327,
+    "31/03/2026": 327,
     "2026-08-01": 330,
     "01/08/2026": 330,
     "2026-08-02": 171,
@@ -3810,6 +4646,6 @@
     "2026-10-28": 381,
     "28/10/2026": 381
   },
-  "rowCount": 298,
+  "rowCount": 364,
   "mergeMode": "replace"
 }

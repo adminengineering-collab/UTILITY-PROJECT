@@ -55,7 +55,7 @@ export const FUEL_CONFIG: Record<FuelType, { label: string; color: string; badge
   },
 };
 
-// Full historical daily records from Google Spreadsheet (112 days: Feb, Aug, Sep, Oct 2026)
+// Full historical daily records synchronized 1:1 with Google Spreadsheet (136 days: Feb, Mar, Aug, Sep, Oct 2026)
 export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
   {
     "tanggal": "01/02/2026",
@@ -78,19 +78,19 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
   {
     "tanggal": "02/02/2026",
     "isoDate": "2026-02-02",
-    "totalQty": 53718,
-    "totalHarga": 94365180,
+    "totalQty": 65307,
+    "totalHarga": 115341270,
     "steamOut": 381,
-    "kgPerTonSteam": 141,
-    "rpPerTonSteam": 247677.64,
+    "kgPerTonSteam": 171,
+    "rpPerTonSteam": 302732.99,
     "cangkangQty": 7453,
-    "woodPelletQty": 46265,
+    "woodPelletQty": 57854,
     "dustPelletQty": 0,
     "kopiPelletQty": 0,
     "cangkangHarga": 12744630,
-    "woodPelletHarga": 81620550,
+    "woodPelletHarga": 102596640,
     "dustPelletHarga": 0,
-    "woodDustHarga": 81620550,
+    "woodDustHarga": 102596640,
     "kopiHarga": 0
   },
   {
@@ -114,19 +114,19 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
   {
     "tanggal": "04/02/2026",
     "isoDate": "2026-02-04",
-    "totalQty": 61319,
-    "totalHarga": 115772690,
+    "totalQty": 67457,
+    "totalHarga": 127434890,
     "steamOut": 409,
-    "kgPerTonSteam": 150,
-    "rpPerTonSteam": 283062.81,
+    "kgPerTonSteam": 165,
+    "rpPerTonSteam": 311576.75,
     "cangkangQty": 2989,
-    "woodPelletQty": 40136,
+    "woodPelletQty": 46274,
     "dustPelletQty": 0,
     "kopiPelletQty": 18194,
     "cangkangHarga": 5111190,
-    "woodPelletHarga": 70634700,
+    "woodPelletHarga": 82296900,
     "dustPelletHarga": 0,
-    "woodDustHarga": 70634700,
+    "woodDustHarga": 82296900,
     "kopiHarga": 40026800
   },
   {
@@ -168,55 +168,55 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
   {
     "tanggal": "07/02/2026",
     "isoDate": "2026-02-07",
-    "totalQty": 53820,
-    "totalHarga": 94069255,
+    "totalQty": 65961,
+    "totalHarga": 126897880,
     "steamOut": 379,
-    "kgPerTonSteam": 142,
-    "rpPerTonSteam": 248203.84,
+    "kgPerTonSteam": 174,
+    "rpPerTonSteam": 334822.9,
     "cangkangQty": 26417,
-    "woodPelletQty": 21049,
+    "woodPelletQty": 33190,
     "dustPelletQty": 6354,
     "kopiPelletQty": 0,
     "cangkangHarga": 44791830,
-    "woodPelletHarga": 36887125,
+    "woodPelletHarga": 69715750,
     "dustPelletHarga": 12390300,
-    "woodDustHarga": 49277425,
+    "woodDustHarga": 82106050,
     "kopiHarga": 0
   },
   {
     "tanggal": "08/02/2026",
     "isoDate": "2026-02-08",
-    "totalQty": 39048,
-    "totalHarga": 67782660,
+    "totalQty": 52287,
+    "totalHarga": 92274810,
     "steamOut": 305,
-    "kgPerTonSteam": 128,
-    "rpPerTonSteam": 222238.23,
+    "kgPerTonSteam": 171,
+    "rpPerTonSteam": 302540.36,
     "cangkangQty": 17461,
-    "woodPelletQty": 21587,
+    "woodPelletQty": 34826,
     "dustPelletQty": 0,
     "kopiPelletQty": 0,
     "cangkangHarga": 29858310,
-    "woodPelletHarga": 37924350,
+    "woodPelletHarga": 62416500,
     "dustPelletHarga": 0,
-    "woodDustHarga": 37924350,
+    "woodDustHarga": 62416500,
     "kopiHarga": 0
   },
   {
     "tanggal": "09/02/2026",
     "isoDate": "2026-02-09",
     "totalQty": 65386,
-    "totalHarga": 112817010.4,
+    "totalHarga": 113656570,
     "steamOut": 359,
     "kgPerTonSteam": 182,
-    "rpPerTonSteam": 314253.51,
+    "rpPerTonSteam": 316592.12,
     "cangkangQty": 18566,
     "woodPelletQty": 15681,
     "dustPelletQty": 30757,
     "kopiPelletQty": 382,
     "cangkangHarga": 31558320,
-    "woodPelletHarga": 27441750,
+    "woodPelletHarga": 28281309.599999994,
     "dustPelletHarga": 53816100,
-    "woodDustHarga": 81257850,
+    "woodDustHarga": 82097409.6,
     "kopiHarga": 840.4
   },
   {
@@ -330,19 +330,19 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
   {
     "tanggal": "17/02/2026",
     "isoDate": "2026-02-17",
-    "totalQty": 4527,
-    "totalHarga": 9959400,
+    "totalQty": 8357,
+    "totalHarga": 16720275,
     "steamOut": 26,
-    "kgPerTonSteam": 174,
-    "rpPerTonSteam": 383053.85,
+    "kgPerTonSteam": 321,
+    "rpPerTonSteam": 643087.5,
     "cangkangQty": 0,
-    "woodPelletQty": 0,
+    "woodPelletQty": 3830,
     "dustPelletQty": 0,
     "kopiPelletQty": 4527,
     "cangkangHarga": 0,
-    "woodPelletHarga": 0,
+    "woodPelletHarga": 6760875,
     "dustPelletHarga": 0,
-    "woodDustHarga": 0,
+    "woodDustHarga": 6760875,
     "kopiHarga": 9959400
   },
   {
@@ -372,14 +372,14 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
     "kgPerTonSteam": 174,
     "rpPerTonSteam": 329047.77,
     "cangkangQty": 0,
-    "woodPelletQty": 66470,
+    "woodPelletQty": 64655,
     "dustPelletQty": 0,
-    "kopiPelletQty": 0,
+    "kopiPelletQty": 1815,
     "cangkangHarga": 0,
-    "woodPelletHarga": 125367200,
+    "woodPelletHarga": 121374200,
     "dustPelletHarga": 0,
-    "woodDustHarga": 125367200,
-    "kopiHarga": 0
+    "woodDustHarga": 121374200,
+    "kopiHarga": 3993000
   },
   {
     "tanggal": "20/02/2026",
@@ -388,16 +388,16 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
     "totalHarga": 125687845,
     "steamOut": 389,
     "kgPerTonSteam": 177,
-    "rpPerTonSteam": 323105.00,
+    "rpPerTonSteam": 323105,
     "cangkangQty": 16592,
-    "woodPelletQty": 52351,
-    "dustPelletQty": 0,
-    "kopiPelletQty": 0,
+    "woodPelletQty": 42584,
+    "dustPelletQty": 189,
+    "kopiPelletQty": 9578,
     "cangkangHarga": 28372320,
-    "woodPelletHarga": 97315525,
-    "dustPelletHarga": 0,
-    "woodDustHarga": 97315525,
-    "kopiHarga": 0
+    "woodPelletHarga": 76243556.45,
+    "dustPelletHarga": 368.55,
+    "woodDustHarga": 76243925,
+    "kopiHarga": 21071600
   },
   {
     "tanggal": "21/02/2026",
@@ -408,14 +408,14 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
     "kgPerTonSteam": 173,
     "rpPerTonSteam": 307370.99,
     "cangkangQty": 41094,
-    "woodPelletQty": 19889,
-    "dustPelletQty": 0,
-    "kopiPelletQty": 0,
+    "woodPelletQty": 9550,
+    "dustPelletQty": 7272,
+    "kopiPelletQty": 3067,
     "cangkangHarga": 70270740,
-    "woodPelletHarga": 37923850,
-    "dustPelletHarga": 0,
-    "woodDustHarga": 37923850,
-    "kopiHarga": 0
+    "woodPelletHarga": 16996050,
+    "dustPelletHarga": 14180400,
+    "woodDustHarga": 31176450,
+    "kopiHarga": 6747400
   },
   {
     "tanggal": "22/02/2026",
@@ -426,14 +426,14 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
     "kgPerTonSteam": 175,
     "rpPerTonSteam": 326664.57,
     "cangkangQty": 24151,
-    "woodPelletQty": 26493,
-    "dustPelletQty": 0,
-    "kopiPelletQty": 0,
+    "woodPelletQty": 15700,
+    "dustPelletQty": 9768,
+    "kopiPelletQty": 1025,
     "cangkangHarga": 41298210,
-    "woodPelletHarga": 53107850,
-    "dustPelletHarga": 0,
-    "woodDustHarga": 53107850,
-    "kopiHarga": 0
+    "woodPelletHarga": 31805250,
+    "dustPelletHarga": 19047600,
+    "woodDustHarga": 50852850,
+    "kopiHarga": 2255000
   },
   {
     "tanggal": "23/02/2026",
@@ -444,12 +444,12 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
     "kgPerTonSteam": 173,
     "rpPerTonSteam": 304146.01,
     "cangkangQty": 24158,
-    "woodPelletQty": 35185,
-    "dustPelletQty": 0,
+    "woodPelletQty": 34273,
+    "dustPelletQty": 912,
     "kopiPelletQty": 0,
     "cangkangHarga": 41310180,
-    "woodPelletHarga": 63011900,
-    "dustPelletHarga": 0,
+    "woodPelletHarga": 61233500,
+    "dustPelletHarga": 1778400,
     "woodDustHarga": 63011900,
     "kopiHarga": 0
   },
@@ -542,6 +542,402 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
     "dustPelletHarga": 16514550,
     "woodDustHarga": 53231585,
     "kopiHarga": 0
+  },
+  {
+    "tanggal": "01/03/2026",
+    "isoDate": "2026-03-01",
+    "totalQty": 23616,
+    "totalHarga": 45060700,
+    "steamOut": 139,
+    "kgPerTonSteam": 170,
+    "rpPerTonSteam": 324177.7,
+    "cangkangQty": 910,
+    "woodPelletQty": 14674,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 8032,
+    "cangkangHarga": 1710800,
+    "woodPelletHarga": 25679500,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 25679500,
+    "kopiHarga": 17670400
+  },
+  {
+    "tanggal": "02/03/2026",
+    "isoDate": "2026-03-02",
+    "totalQty": 53598,
+    "totalHarga": 101557995,
+    "steamOut": 325,
+    "kgPerTonSteam": 165,
+    "rpPerTonSteam": 312486.14,
+    "cangkangQty": 8060,
+    "woodPelletQty": 31000,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 14538,
+    "cangkangHarga": 15160320,
+    "woodPelletHarga": 54414075,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 54414075,
+    "kopiHarga": 31983600
+  },
+  {
+    "tanggal": "03/03/2026",
+    "isoDate": "2026-03-03",
+    "totalQty": 59205,
+    "totalHarga": 108904110,
+    "steamOut": 335,
+    "kgPerTonSteam": 177,
+    "rpPerTonSteam": 325086.9,
+    "cangkangQty": 24070,
+    "woodPelletQty": 31533,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 3602,
+    "cangkangHarga": 45245960,
+    "woodPelletHarga": 55733750,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 55733750,
+    "kopiHarga": 7924400
+  },
+  {
+    "tanggal": "04/03/2026",
+    "isoDate": "2026-03-04",
+    "totalQty": 53536,
+    "totalHarga": 103406725,
+    "steamOut": 321,
+    "kgPerTonSteam": 167,
+    "rpPerTonSteam": 322139.33,
+    "cangkangQty": 0,
+    "woodPelletQty": 29185,
+    "dustPelletQty": 9085,
+    "kopiPelletQty": 15266,
+    "cangkangHarga": 0,
+    "woodPelletHarga": 52105775,
+    "dustPelletHarga": 17715750,
+    "woodDustHarga": 69821525,
+    "kopiHarga": 33585200
+  },
+  {
+    "tanggal": "05/03/2026",
+    "isoDate": "2026-03-05",
+    "totalQty": 53366,
+    "totalHarga": 96985940,
+    "steamOut": 324,
+    "kgPerTonSteam": 165,
+    "rpPerTonSteam": 299339.32,
+    "cangkangQty": 4.41,
+    "woodPelletQty": 49019.59,
+    "dustPelletQty": 1108,
+    "kopiPelletQty": 3234,
+    "cangkangHarga": 8281400,
+    "woodPelletHarga": 79429140,
+    "dustPelletHarga": 2160600,
+    "woodDustHarga": 81589740,
+    "kopiHarga": 7114800
+  },
+  {
+    "tanggal": "06/03/2026",
+    "isoDate": "2026-03-06",
+    "totalQty": 63248,
+    "totalHarga": 113925540,
+    "steamOut": 365,
+    "kgPerTonSteam": 173,
+    "rpPerTonSteam": 312124.77,
+    "cangkangQty": 18.72,
+    "woodPelletQty": 63229.28,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 0,
+    "cangkangHarga": 35199240,
+    "woodPelletHarga": 78726300,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 78726300,
+    "kopiHarga": 0
+  },
+  {
+    "tanggal": "07/03/2026",
+    "isoDate": "2026-03-07",
+    "totalQty": 42372,
+    "totalHarga": 76830600,
+    "steamOut": 259,
+    "kgPerTonSteam": 164,
+    "rpPerTonSteam": 296643.24,
+    "cangkangQty": 2.58,
+    "woodPelletQty": 39872.42,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 2497,
+    "cangkangHarga": 4850400,
+    "woodPelletHarga": 66486800,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 66486800,
+    "kopiHarga": 5493400
+  },
+  {
+    "tanggal": "08/03/2026",
+    "isoDate": "2026-03-08",
+    "totalQty": 26357,
+    "totalHarga": 48922560,
+    "steamOut": 143,
+    "kgPerTonSteam": 184,
+    "rpPerTonSteam": 342115.8,
+    "cangkangQty": 4.24,
+    "woodPelletQty": 23138.76,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 3214,
+    "cangkangHarga": 7965560,
+    "woodPelletHarga": 33886200,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 33886200,
+    "kopiHarga": 7070800
+  },
+  {
+    "tanggal": "09/03/2026",
+    "isoDate": "2026-03-09",
+    "totalQty": 51738,
+    "totalHarga": 97844435,
+    "steamOut": 304,
+    "kgPerTonSteam": 170,
+    "rpPerTonSteam": 321856.69,
+    "cangkangQty": 23.22,
+    "woodPelletQty": 43310.78,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 8404,
+    "cangkangHarga": 43647960,
+    "woodPelletHarga": 35707675,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 35707675,
+    "kopiHarga": 18488800
+  },
+  {
+    "tanggal": "10/03/2026",
+    "isoDate": "2026-03-10",
+    "totalQty": 13616.02,
+    "totalHarga": 114977205,
+    "steamOut": 346,
+    "kgPerTonSteam": 39,
+    "rpPerTonSteam": 332304.06,
+    "cangkangQty": 10.32,
+    "woodPelletQty": 36.7,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 13569,
+    "cangkangHarga": 19394080,
+    "woodPelletHarga": 65731325,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 65731325,
+    "kopiHarga": 29851800
+  },
+  {
+    "tanggal": "11/03/2026",
+    "isoDate": "2026-03-11",
+    "totalQty": 60368,
+    "totalHarga": 109510380,
+    "steamOut": 348,
+    "kgPerTonSteam": 173,
+    "rpPerTonSteam": 314685,
+    "cangkangQty": 4.99,
+    "woodPelletQty": 53725.01,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 6638,
+    "cangkangHarga": 8627510,
+    "woodPelletHarga": 86279270,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 86279270,
+    "kopiHarga": 14603600
+  },
+  {
+    "tanggal": "12/03/2026",
+    "isoDate": "2026-03-12",
+    "totalQty": 59103,
+    "totalHarga": 107543010,
+    "steamOut": 338,
+    "kgPerTonSteam": 175,
+    "rpPerTonSteam": 318174.59,
+    "cangkangQty": 13.78,
+    "woodPelletQty": 54473.22,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 4616,
+    "cangkangHarga": 23885390,
+    "woodPelletHarga": 73502420,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 73502420,
+    "kopiHarga": 10155200
+  },
+  {
+    "tanggal": "13/03/2026",
+    "isoDate": "2026-03-13",
+    "totalQty": 60527,
+    "totalHarga": 110204205,
+    "steamOut": 347,
+    "kgPerTonSteam": 174,
+    "rpPerTonSteam": 317591.37,
+    "cangkangQty": 32.81,
+    "woodPelletQty": 58402.19,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 2092,
+    "cangkangHarga": 59032220,
+    "woodPelletHarga": 46569585,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 46569585,
+    "kopiHarga": 4602400
+  },
+  {
+    "tanggal": "14/03/2026",
+    "isoDate": "2026-03-14",
+    "totalQty": 52798,
+    "totalHarga": 100184475,
+    "steamOut": 315,
+    "kgPerTonSteam": 168,
+    "rpPerTonSteam": 318045.95,
+    "cangkangQty": 26.82,
+    "woodPelletQty": 52771.18,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 0,
+    "cangkangHarga": 53632000,
+    "woodPelletHarga": 46552475,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 46552475,
+    "kopiHarga": 0
+  },
+  {
+    "tanggal": "15/03/2026",
+    "isoDate": "2026-03-15",
+    "totalQty": 26418,
+    "totalHarga": 47772600,
+    "steamOut": 154,
+    "kgPerTonSteam": 172,
+    "rpPerTonSteam": 310211.69,
+    "cangkangQty": 3.91,
+    "woodPelletQty": 26414.09,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 0,
+    "cangkangHarga": 7828000,
+    "woodPelletHarga": 39944600,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 39944600,
+    "kopiHarga": 0
+  },
+  {
+    "tanggal": "16/03/2026",
+    "isoDate": "2026-03-16",
+    "totalQty": 58943,
+    "totalHarga": 110386570,
+    "steamOut": 343,
+    "kgPerTonSteam": 172,
+    "rpPerTonSteam": 321826.73,
+    "cangkangQty": 12.64,
+    "woodPelletQty": 53828.36,
+    "dustPelletQty": 5102,
+    "kopiPelletQty": 0,
+    "cangkangHarga": 24782720,
+    "woodPelletHarga": 75654950,
+    "dustPelletHarga": 9948900,
+    "woodDustHarga": 85603850,
+    "kopiHarga": 0
+  },
+  {
+    "tanggal": "17/03/2026",
+    "isoDate": "2026-03-17",
+    "totalQty": 61209,
+    "totalHarga": 115324550,
+    "steamOut": 360,
+    "kgPerTonSteam": 170,
+    "rpPerTonSteam": 320345.97,
+    "cangkangQty": 10.16,
+    "woodPelletQty": 46887.84,
+    "dustPelletQty": 4694,
+    "kopiPelletQty": 9617,
+    "cangkangHarga": 20312000,
+    "woodPelletHarga": 64701850,
+    "dustPelletHarga": 9153300,
+    "woodDustHarga": 73855150,
+    "kopiHarga": 21157400
+  },
+  {
+    "tanggal": "18/03/2026",
+    "isoDate": "2026-03-18",
+    "totalQty": 24719,
+    "totalHarga": 47481950,
+    "steamOut": 143,
+    "kgPerTonSteam": 173,
+    "rpPerTonSteam": 332041.61,
+    "cangkangQty": 0,
+    "woodPelletQty": 15333,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 9386,
+    "cangkangHarga": 0,
+    "woodPelletHarga": 26832750,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 26832750,
+    "kopiHarga": 20649200
+  },
+  {
+    "tanggal": "28/03/2026",
+    "isoDate": "2026-03-28",
+    "totalQty": 18679,
+    "totalHarga": 37026600,
+    "steamOut": 101,
+    "kgPerTonSteam": 185,
+    "rpPerTonSteam": 366600,
+    "cangkangQty": 9884,
+    "woodPelletQty": 5390.32,
+    "dustPelletQty": 1.68,
+    "kopiPelletQty": 3403,
+    "cangkangHarga": 19768000,
+    "woodPelletHarga": 6496000,
+    "dustPelletHarga": 3276000,
+    "woodDustHarga": 9772000,
+    "kopiHarga": 7486600
+  },
+  {
+    "tanggal": "29/03/2026",
+    "isoDate": "2026-03-29",
+    "totalQty": 55739,
+    "totalHarga": 106776520,
+    "steamOut": 317,
+    "kgPerTonSteam": 176,
+    "rpPerTonSteam": 336834.45,
+    "cangkangQty": 42762,
+    "woodPelletQty": 8290,
+    "dustPelletQty": 4687,
+    "kopiPelletQty": 0,
+    "cangkangHarga": 83129370,
+    "woodPelletHarga": 14507500,
+    "dustPelletHarga": 9139650,
+    "woodDustHarga": 23647150,
+    "kopiHarga": 0
+  },
+  {
+    "tanggal": "30/03/2026",
+    "isoDate": "2026-03-30",
+    "totalQty": 53682,
+    "totalHarga": 105288586,
+    "steamOut": 315,
+    "kgPerTonSteam": 170,
+    "rpPerTonSteam": 334249.48,
+    "cangkangQty": 34929,
+    "woodPelletQty": 4635,
+    "dustPelletQty": 7336,
+    "kopiPelletQty": 6782,
+    "cangkangHarga": 66440520,
+    "woodPelletHarga": 8111250,
+    "dustPelletHarga": 15816416,
+    "woodDustHarga": 23927666,
+    "kopiHarga": 14920400
+  },
+  {
+    "tanggal": "31/03/2026",
+    "isoDate": "2026-03-31",
+    "totalQty": 56821,
+    "totalHarga": 106926060,
+    "steamOut": 327,
+    "kgPerTonSteam": 174,
+    "rpPerTonSteam": 326991.01,
+    "cangkangQty": 37751,
+    "woodPelletQty": 14664,
+    "dustPelletQty": 0,
+    "kopiPelletQty": 4406,
+    "cangkangHarga": 71316760,
+    "woodPelletHarga": 25916100,
+    "dustPelletHarga": 0,
+    "woodDustHarga": 25916100,
+    "kopiHarga": 9693200
   },
   {
     "tanggal": "01/08/2026",
@@ -1609,18 +2005,18 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
     "tanggal": "01/10/2026",
     "isoDate": "2026-10-01",
     "totalQty": 61030,
-    "totalHarga": 88095167,
+    "totalHarga": 103599755,
     "steamOut": 320,
     "kgPerTonSteam": 191,
-    "rpPerTonSteam": 275297.4,
+    "rpPerTonSteam": 323749.23,
     "cangkangQty": 24008,
     "woodPelletQty": 34823,
     "dustPelletQty": 2199,
     "kopiPelletQty": 0,
     "cangkangHarga": 40448600,
-    "woodPelletHarga": 44150157,
+    "woodPelletHarga": 59654745,
     "dustPelletHarga": 3496410,
-    "woodDustHarga": 47646567,
+    "woodDustHarga": 63151155,
     "kopiHarga": 0
   },
   {
@@ -1717,54 +2113,54 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
     "tanggal": "07/10/2026",
     "isoDate": "2026-10-07",
     "totalQty": 64449,
-    "totalHarga": 84774280,
+    "totalHarga": 105125420,
     "steamOut": 385,
     "kgPerTonSteam": 167,
-    "rpPerTonSteam": 220192.94,
+    "rpPerTonSteam": 273053.04,
     "cangkangQty": 10359,
     "woodPelletQty": 29255,
     "dustPelletQty": 24835,
     "kopiPelletQty": 0,
     "cangkangHarga": 17299530,
-    "woodPelletHarga": 27987100,
+    "woodPelletHarga": 48338240,
     "dustPelletHarga": 39487650,
-    "woodDustHarga": 67474750,
+    "woodDustHarga": 87825890,
     "kopiHarga": 0
   },
   {
     "tanggal": "08/10/2026",
     "isoDate": "2026-10-08",
     "totalQty": 66549,
-    "totalHarga": 95613360,
+    "totalHarga": 109758960,
     "steamOut": 381,
     "kgPerTonSteam": 175,
-    "rpPerTonSteam": 250953.7,
+    "rpPerTonSteam": 288081.26,
     "cangkangQty": 16728,
     "woodPelletQty": 35124,
     "dustPelletQty": 14697,
     "kopiPelletQty": 0,
     "cangkangHarga": 27968360,
-    "woodPelletHarga": 44276770,
+    "woodPelletHarga": 58422370,
     "dustPelletHarga": 23368230,
-    "woodDustHarga": 67645000,
+    "woodDustHarga": 81790600,
     "kopiHarga": 0
   },
   {
     "tanggal": "09/10/2026",
     "isoDate": "2026-10-09",
     "totalQty": 72140,
-    "totalHarga": 95376010,
+    "totalHarga": 120235218,
     "steamOut": 404,
     "kgPerTonSteam": 179,
-    "rpPerTonSteam": 236079.23,
+    "rpPerTonSteam": 297611.93,
     "cangkangQty": 14945,
     "woodPelletQty": 41566,
     "dustPelletQty": 15629,
     "kopiPelletQty": 0,
     "cangkangHarga": 25020620,
-    "woodPelletHarga": 45348990,
+    "woodPelletHarga": 70208198,
     "dustPelletHarga": 25006400,
-    "woodDustHarga": 70355390,
+    "woodDustHarga": 95214598,
     "kopiHarga": 0
   },
   {
@@ -1807,36 +2203,36 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
     "tanggal": "12/10/2026",
     "isoDate": "2026-10-12",
     "totalQty": 53419,
-    "totalHarga": 72887110,
+    "totalHarga": 87145538,
     "steamOut": 306,
     "kgPerTonSteam": 175,
-    "rpPerTonSteam": 238193.17,
+    "rpPerTonSteam": 284789.34,
     "cangkangQty": 3523,
     "woodPelletQty": 35876,
     "dustPelletQty": 14020,
     "kopiPelletQty": 0,
     "cangkangHarga": 5918640,
-    "woodPelletHarga": 44676670,
+    "woodPelletHarga": 58935098,
     "dustPelletHarga": 22291800,
-    "woodDustHarga": 66968470,
+    "woodDustHarga": 81226898,
     "kopiHarga": 0
   },
   {
     "tanggal": "13/10/2026",
     "isoDate": "2026-10-13",
     "totalQty": 75500,
-    "totalHarga": 103062933,
+    "totalHarga": 125859241,
     "steamOut": 417,
     "kgPerTonSteam": 181,
-    "rpPerTonSteam": 247153.32,
+    "rpPerTonSteam": 301820.72,
     "cangkangQty": 21040,
     "woodPelletQty": 33790,
     "dustPelletQty": 20670,
     "kopiPelletQty": 0,
     "cangkangHarga": 35339970,
-    "woodPelletHarga": 34724533,
+    "woodPelletHarga": 57520841,
     "dustPelletHarga": 32998430,
-    "woodDustHarga": 67722963,
+    "woodDustHarga": 90519271,
     "kopiHarga": 0
   },
   {
@@ -1878,55 +2274,55 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
   {
     "tanggal": "16/10/2026",
     "isoDate": "2026-10-16",
-    "totalQty": 62686,
-    "totalHarga": 99454250,
+    "totalQty": 65576,
+    "totalHarga": 108221154,
     "steamOut": 390,
-    "kgPerTonSteam": 161,
-    "rpPerTonSteam": 255010.9,
+    "kgPerTonSteam": 168,
+    "rpPerTonSteam": 277490.14,
     "cangkangQty": 8197,
-    "woodPelletQty": 39098,
+    "woodPelletQty": 41988,
     "dustPelletQty": 15391,
     "kopiPelletQty": 0,
     "cangkangHarga": 14369750,
-    "woodPelletHarga": 60588380,
+    "woodPelletHarga": 69355284,
     "dustPelletHarga": 24496120,
-    "woodDustHarga": 85084500,
+    "woodDustHarga": 93851404,
     "kopiHarga": 0
   },
   {
     "tanggal": "17/10/2026",
     "isoDate": "2026-10-17",
     "totalQty": 80993,
-    "totalHarga": 137680060,
+    "totalHarga": 139330380,
     "steamOut": 353,
     "kgPerTonSteam": 229,
-    "rpPerTonSteam": 390028.5,
+    "rpPerTonSteam": 394703.63,
     "cangkangQty": 33136,
     "woodPelletQty": 46960,
     "dustPelletQty": 897,
     "kopiPelletQty": 0,
     "cangkangHarga": 55863980,
-    "woodPelletHarga": 80380880,
+    "woodPelletHarga": 82031200,
     "dustPelletHarga": 1435200,
-    "woodDustHarga": 81816080,
+    "woodDustHarga": 83466400,
     "kopiHarga": 0
   },
   {
     "tanggal": "18/10/2026",
     "isoDate": "2026-10-18",
     "totalQty": 31475,
-    "totalHarga": 38023340,
+    "totalHarga": 52298608,
     "steamOut": 211,
     "kgPerTonSteam": 149,
-    "rpPerTonSteam": 180205.4,
+    "rpPerTonSteam": 247860.7,
     "cangkangQty": 3698,
     "woodPelletQty": 18545,
     "dustPelletQty": 9232,
     "kopiPelletQty": 0,
     "cangkangHarga": 6841300,
-    "woodPelletHarga": 16410840,
+    "woodPelletHarga": 30686108,
     "dustPelletHarga": 14771200,
-    "woodDustHarga": 31182040,
+    "woodDustHarga": 45457308,
     "kopiHarga": 0
   },
   {
@@ -1987,36 +2383,36 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
     "tanggal": "22/10/2026",
     "isoDate": "2026-10-22",
     "totalQty": 66519,
-    "totalHarga": 99284840,
+    "totalHarga": 108878588,
     "steamOut": 379,
     "kgPerTonSteam": 176,
-    "rpPerTonSteam": 261965.28,
+    "rpPerTonSteam": 287278.6,
     "cangkangQty": 19767,
     "woodPelletQty": 18988,
     "dustPelletQty": 27764,
     "kopiPelletQty": 0,
     "cangkangHarga": 33173050,
-    "woodPelletHarga": 21843460,
+    "woodPelletHarga": 31437208,
     "dustPelletHarga": 44268330,
-    "woodDustHarga": 66111790,
+    "woodDustHarga": 75705538,
     "kopiHarga": 0
   },
   {
     "tanggal": "23/10/2026",
     "isoDate": "2026-10-23",
     "totalQty": 60186,
-    "totalHarga": 75834630,
+    "totalHarga": 97430246,
     "steamOut": 346,
     "kgPerTonSteam": 174,
-    "rpPerTonSteam": 219175.23,
+    "rpPerTonSteam": 281590.31,
     "cangkangQty": 3549,
     "woodPelletQty": 19055,
     "dustPelletQty": 37582,
     "kopiPelletQty": 0,
     "cangkangHarga": 5934140,
-    "woodPelletHarga": 9969600,
+    "woodPelletHarga": 31565216,
     "dustPelletHarga": 59930890,
-    "woodDustHarga": 69900490,
+    "woodDustHarga": 91496106,
     "kopiHarga": 0
   },
   {
@@ -2059,141 +2455,336 @@ export const DAILY_CONSUMPTION_RECORDS: DailyConsumptionRecord[] = [
     "tanggal": "26/10/2026",
     "isoDate": "2026-10-26",
     "totalQty": 42602,
-    "totalHarga": 63297580,
+    "totalHarga": 69796136,
     "steamOut": 350,
     "kgPerTonSteam": 122,
-    "rpPerTonSteam": 180850.23,
+    "rpPerTonSteam": 199417.53,
     "cangkangQty": 0,
     "woodPelletQty": 22686,
     "dustPelletQty": 19916,
     "kopiPelletQty": 0,
     "cangkangHarga": 0,
-    "woodPelletHarga": 31631140,
+    "woodPelletHarga": 38129696,
     "dustPelletHarga": 31666440,
-    "woodDustHarga": 63297580,
+    "woodDustHarga": 69796136,
+    "kopiHarga": 0
+  },
+  {
+    "tanggal": "27/10/2026",
+    "isoDate": "2026-10-27",
+    "totalQty": 60887,
+    "totalHarga": 91590190,
+    "steamOut": 394,
+    "kgPerTonSteam": 155,
+    "rpPerTonSteam": 232462.41,
+    "cangkangQty": 3476,
+    "woodPelletQty": 36766,
+    "dustPelletQty": 20645,
+    "kopiPelletQty": 0,
+    "cangkangHarga": 5804920,
+    "woodPelletHarga": 52808630,
+    "dustPelletHarga": 32976640,
+    "woodDustHarga": 85785270,
+    "kopiHarga": 0
+  },
+  {
+    "tanggal": "28/10/2026",
+    "isoDate": "2026-10-28",
+    "totalQty": 76931,
+    "totalHarga": 126240952,
+    "steamOut": 381,
+    "kgPerTonSteam": 202,
+    "rpPerTonSteam": 331341.08,
+    "cangkangQty": 26270,
+    "woodPelletQty": 47923,
+    "dustPelletQty": 2738,
+    "kopiPelletQty": 0,
+    "cangkangHarga": 44133600,
+    "woodPelletHarga": 77753932,
+    "dustPelletHarga": 4353420,
+    "woodDustHarga": 82107352,
     "kopiHarga": 0
   }
 ];
 
 export const INITIAL_STEAM_DATA: Record<string, number> = {
   "2026-02-01": 354,
+  "01/02/2026": 354,
   "2026-02-02": 381,
+  "02/02/2026": 381,
   "2026-02-03": 412,
+  "03/02/2026": 412,
   "2026-02-04": 409,
+  "04/02/2026": 409,
   "2026-02-05": 392,
+  "05/02/2026": 392,
   "2026-02-06": 385,
+  "06/02/2026": 385,
   "2026-02-07": 379,
+  "07/02/2026": 379,
   "2026-02-08": 305,
+  "08/02/2026": 305,
   "2026-02-09": 359,
+  "09/02/2026": 359,
   "2026-02-10": 373,
+  "10/02/2026": 373,
   "2026-02-11": 395,
+  "11/02/2026": 395,
   "2026-02-12": 396,
+  "12/02/2026": 396,
   "2026-02-13": 375,
+  "13/02/2026": 375,
   "2026-02-14": 359,
+  "14/02/2026": 359,
   "2026-02-15": 289,
+  "15/02/2026": 289,
   "2026-02-17": 26,
+  "17/02/2026": 26,
   "2026-02-18": 340,
+  "18/02/2026": 340,
   "2026-02-19": 381,
+  "19/02/2026": 381,
   "2026-02-20": 389,
+  "20/02/2026": 389,
   "2026-02-21": 352,
+  "21/02/2026": 352,
   "2026-02-22": 289,
+  "22/02/2026": 289,
   "2026-02-23": 343,
+  "23/02/2026": 343,
   "2026-02-24": 347,
+  "24/02/2026": 347,
   "2026-02-25": 365,
+  "25/02/2026": 365,
   "2026-02-26": 348,
+  "26/02/2026": 348,
   "2026-02-27": 323,
+  "27/02/2026": 323,
   "2026-02-28": 285,
+  "28/02/2026": 285,
+  "2026-03-01": 139,
+  "01/03/2026": 139,
+  "2026-03-02": 325,
+  "02/03/2026": 325,
+  "2026-03-03": 335,
+  "03/03/2026": 335,
+  "2026-03-04": 321,
+  "04/03/2026": 321,
+  "2026-03-05": 324,
+  "05/03/2026": 324,
+  "2026-03-06": 365,
+  "06/03/2026": 365,
+  "2026-03-07": 259,
+  "07/03/2026": 259,
+  "2026-03-08": 143,
+  "08/03/2026": 143,
+  "2026-03-09": 304,
+  "09/03/2026": 304,
+  "2026-03-10": 346,
+  "10/03/2026": 346,
+  "2026-03-11": 348,
+  "11/03/2026": 348,
+  "2026-03-12": 338,
+  "12/03/2026": 338,
+  "2026-03-13": 347,
+  "13/03/2026": 347,
+  "2026-03-14": 315,
+  "14/03/2026": 315,
+  "2026-03-15": 154,
+  "15/03/2026": 154,
+  "2026-03-16": 343,
+  "16/03/2026": 343,
+  "2026-03-17": 360,
+  "17/03/2026": 360,
+  "2026-03-18": 143,
+  "18/03/2026": 143,
+  "2026-03-28": 101,
+  "28/03/2026": 101,
+  "2026-03-29": 317,
+  "29/03/2026": 317,
+  "2026-03-30": 315,
+  "30/03/2026": 315,
+  "2026-03-31": 327,
+  "31/03/2026": 327,
   "2026-08-01": 330,
+  "01/08/2026": 330,
   "2026-08-02": 171,
+  "02/08/2026": 171,
   "2026-08-03": 322,
+  "03/08/2026": 322,
   "2026-08-04": 375,
+  "04/08/2026": 375,
   "2026-08-05": 368,
+  "05/08/2026": 368,
   "2026-08-06": 386,
+  "06/08/2026": 386,
   "2026-08-07": 356,
+  "07/08/2026": 356,
   "2026-08-08": 327,
+  "08/08/2026": 327,
   "2026-08-09": 139,
+  "09/08/2026": 139,
   "2026-08-10": 330,
+  "10/08/2026": 330,
   "2026-08-11": 375,
+  "11/08/2026": 375,
   "2026-08-12": 364,
+  "12/08/2026": 364,
   "2026-08-13": 376,
+  "13/08/2026": 376,
   "2026-08-14": 379,
+  "14/08/2026": 379,
   "2026-08-15": 347,
+  "15/08/2026": 347,
   "2026-08-16": 191,
+  "16/08/2026": 191,
   "2026-08-19": 371,
+  "19/08/2026": 371,
   "2026-08-20": 373,
+  "20/08/2026": 373,
   "2026-08-21": 372,
+  "21/08/2026": 372,
   "2026-08-22": 345,
+  "22/08/2026": 345,
   "2026-08-23": 142,
+  "23/08/2026": 142,
   "2026-08-24": 415,
+  "24/08/2026": 415,
   "2026-08-25": 410,
+  "25/08/2026": 410,
   "2026-08-26": 404,
+  "26/08/2026": 404,
   "2026-08-27": 409,
+  "27/08/2026": 409,
   "2026-08-28": 383,
+  "28/08/2026": 383,
   "2026-08-29": 351,
+  "29/08/2026": 351,
   "2026-08-30": 198,
+  "30/08/2026": 198,
   "2026-08-31": 393,
+  "31/08/2026": 393,
   "2026-09-01": 381,
+  "01/09/2026": 381,
   "2026-09-02": 406,
+  "02/09/2026": 406,
   "2026-09-03": 385,
+  "03/09/2026": 385,
   "2026-09-04": 400,
+  "04/09/2026": 400,
   "2026-09-05": 351,
+  "05/09/2026": 351,
   "2026-09-06": 192,
+  "06/09/2026": 192,
   "2026-09-07": 369,
+  "07/09/2026": 369,
   "2026-09-08": 370,
+  "08/09/2026": 370,
   "2026-09-09": 375,
+  "09/09/2026": 375,
   "2026-09-10": 387,
+  "10/09/2026": 387,
   "2026-09-11": 366,
+  "11/09/2026": 366,
   "2026-09-12": 330,
+  "12/09/2026": 330,
   "2026-09-13": 175,
+  "13/09/2026": 175,
   "2026-09-14": 377,
+  "14/09/2026": 377,
   "2026-09-15": 396,
+  "15/09/2026": 396,
   "2026-09-16": 399,
+  "16/09/2026": 399,
   "2026-09-17": 397,
+  "17/09/2026": 397,
   "2026-09-18": 388,
+  "18/09/2026": 388,
   "2026-09-19": 349,
+  "19/09/2026": 349,
   "2026-09-20": 151,
+  "20/09/2026": 151,
   "2026-09-21": 369,
+  "21/09/2026": 369,
   "2026-09-22": 386,
+  "22/09/2026": 386,
   "2026-09-23": 391,
+  "23/09/2026": 391,
   "2026-09-24": 388,
+  "24/09/2026": 388,
   "2026-09-25": 366,
+  "25/09/2026": 366,
   "2026-09-26": 383,
+  "26/09/2026": 383,
   "2026-09-27": 199,
+  "27/09/2026": 199,
   "2026-09-28": 242,
+  "28/09/2026": 242,
   "2026-09-29": 299,
+  "29/09/2026": 299,
   "2026-09-30": 356,
+  "30/09/2026": 356,
   "2026-10-01": 320,
+  "01/10/2026": 320,
   "2026-10-02": 341,
+  "02/10/2026": 341,
   "2026-10-03": 339,
+  "03/10/2026": 339,
   "2026-10-04": 195,
+  "04/10/2026": 195,
   "2026-10-05": 361,
+  "05/10/2026": 361,
   "2026-10-06": 373,
+  "06/10/2026": 373,
   "2026-10-07": 385,
+  "07/10/2026": 385,
   "2026-10-08": 381,
+  "08/10/2026": 381,
   "2026-10-09": 404,
+  "09/10/2026": 404,
   "2026-10-10": 398,
+  "10/10/2026": 398,
   "2026-10-11": 191,
+  "11/10/2026": 191,
   "2026-10-12": 306,
+  "12/10/2026": 306,
   "2026-10-13": 417,
+  "13/10/2026": 417,
   "2026-10-14": 409,
+  "14/10/2026": 409,
   "2026-10-15": 370,
+  "15/10/2026": 370,
   "2026-10-16": 390,
+  "16/10/2026": 390,
   "2026-10-17": 353,
+  "17/10/2026": 353,
   "2026-10-18": 211,
+  "18/10/2026": 211,
   "2026-10-19": 388,
+  "19/10/2026": 388,
   "2026-10-20": 410,
+  "20/10/2026": 410,
   "2026-10-21": 396,
+  "21/10/2026": 396,
   "2026-10-22": 379,
+  "22/10/2026": 379,
   "2026-10-23": 346,
+  "23/10/2026": 346,
   "2026-10-24": 318,
+  "24/10/2026": 318,
   "2026-10-25": 143,
-  "2026-10-26": 350
+  "25/10/2026": 143,
+  "2026-10-26": 350,
+  "26/10/2026": 350,
+  "2026-10-27": 394,
+  "27/10/2026": 394,
+  "2026-10-28": 381,
+  "28/10/2026": 381
 };
 
-// Complete 292 transaction entries directly from live Google Spreadsheet
 export const INITIAL_ENTRIES: FuelEntry[] = [
   {
-    "id": "matrix-row-1793243876180-1",
+    "id": "matrix-row-1793679583603-1",
     "no": 1,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2205,7 +2796,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 21970080
   },
   {
-    "id": "matrix-row-1793243876180-2",
+    "id": "matrix-row-1793679583603-2",
     "no": 2,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2217,7 +2808,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 86160900
   },
   {
-    "id": "matrix-row-1793243876181-3",
+    "id": "matrix-row-1793679583603-3",
     "no": 3,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2229,19 +2820,19 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 12744630
   },
   {
-    "id": "matrix-row-1793243876181-4",
+    "id": "matrix-row-1793679583603-4",
     "no": 4,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-02-02",
     "mc": 6.8,
     "calori": 4320,
-    "konsumsi": 46265,
-    "harga": 1764,
-    "totalHarga": 81620550
+    "konsumsi": 57854,
+    "harga": 1773,
+    "totalHarga": 102596640
   },
   {
-    "id": "matrix-row-1793243876181-5",
+    "id": "matrix-row-1793679583603-5",
     "no": 5,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2253,7 +2844,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 41688090
   },
   {
-    "id": "matrix-row-1793243876181-6",
+    "id": "matrix-row-1793679583603-6",
     "no": 6,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2265,7 +2856,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 83870675
   },
   {
-    "id": "matrix-row-1793243876181-7",
+    "id": "matrix-row-1793679583603-7",
     "no": 7,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2277,19 +2868,19 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 5111190
   },
   {
-    "id": "matrix-row-1793243876181-8",
+    "id": "matrix-row-1793679583603-8",
     "no": 8,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-02-04",
     "mc": 6.8,
     "calori": 4320,
-    "konsumsi": 40136,
-    "harga": 1760,
-    "totalHarga": 70634700
+    "konsumsi": 46274,
+    "harga": 1778,
+    "totalHarga": 82296900
   },
   {
-    "id": "matrix-row-1793243876181-9",
+    "id": "matrix-row-1793679583603-9",
     "no": 9,
     "namaPt": "MARSHARI",
     "bahanBakar": "KOPI PELLET",
@@ -2301,7 +2892,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 40026800
   },
   {
-    "id": "matrix-row-1793243876181-10",
+    "id": "matrix-row-1793679583604-10",
     "no": 10,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2313,7 +2904,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 44042760
   },
   {
-    "id": "matrix-row-1793243876181-11",
+    "id": "matrix-row-1793679583604-11",
     "no": 11,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2325,7 +2916,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 65200550
   },
   {
-    "id": "matrix-row-1793243876181-12",
+    "id": "matrix-row-1793679583604-12",
     "no": 12,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
@@ -2337,7 +2928,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 2287350
   },
   {
-    "id": "matrix-row-1793243876181-13",
+    "id": "matrix-row-1793679583604-13",
     "no": 13,
     "namaPt": "MARSHARI",
     "bahanBakar": "KOPI PELLET",
@@ -2349,7 +2940,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 5436200
   },
   {
-    "id": "matrix-row-1793243876181-14",
+    "id": "matrix-row-1793679583604-14",
     "no": 14,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2361,7 +2952,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 22739580
   },
   {
-    "id": "matrix-row-1793243876181-15",
+    "id": "matrix-row-1793679583604-15",
     "no": 15,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2373,7 +2964,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 51478650
   },
   {
-    "id": "matrix-row-1793243876181-16",
+    "id": "matrix-row-1793679583604-16",
     "no": 16,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
@@ -2385,7 +2976,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 45007950
   },
   {
-    "id": "matrix-row-1793243876181-17",
+    "id": "matrix-row-1793679583604-17",
     "no": 17,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2397,19 +2988,19 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 44791830
   },
   {
-    "id": "matrix-row-1793243876181-18",
+    "id": "matrix-row-1793679583604-18",
     "no": 18,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-02-07",
     "mc": 6.8,
     "calori": 4320,
-    "konsumsi": 21049,
-    "harga": 1752,
-    "totalHarga": 36887125
+    "konsumsi": 33190,
+    "harga": 2101,
+    "totalHarga": 69715750
   },
   {
-    "id": "matrix-row-1793243876181-19",
+    "id": "matrix-row-1793679583604-19",
     "no": 19,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
@@ -2421,7 +3012,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 12390300
   },
   {
-    "id": "matrix-row-1793243876181-20",
+    "id": "matrix-row-1793679583604-20",
     "no": 20,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2433,19 +3024,19 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 29858310
   },
   {
-    "id": "matrix-row-1793243876181-21",
+    "id": "matrix-row-1793679583604-21",
     "no": 21,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-02-08",
     "mc": 6.8,
     "calori": 4320,
-    "konsumsi": 21587,
-    "harga": 1757,
-    "totalHarga": 37924350
+    "konsumsi": 34826,
+    "harga": 1792,
+    "totalHarga": 62416500
   },
   {
-    "id": "matrix-row-1793243876181-22",
+    "id": "matrix-row-1793679583604-22",
     "no": 22,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2457,7 +3048,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 31558320
   },
   {
-    "id": "matrix-row-1793243876181-23",
+    "id": "matrix-row-1793679583604-23",
     "no": 23,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2465,11 +3056,11 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "mc": 6.8,
     "calori": 4320,
     "konsumsi": 15681,
-    "harga": 1750,
-    "totalHarga": 27441750
+    "harga": 1804,
+    "totalHarga": 28281309.599999994
   },
   {
-    "id": "matrix-row-1793243876181-24",
+    "id": "matrix-row-1793679583604-24",
     "no": 24,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
@@ -2481,7 +3072,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 53816100
   },
   {
-    "id": "matrix-row-1793243876181-25",
+    "id": "matrix-row-1793679583604-25",
     "no": 25,
     "namaPt": "MARSHARI",
     "bahanBakar": "KOPI PELLET",
@@ -2493,7 +3084,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 840.4
   },
   {
-    "id": "matrix-row-1793243876181-26",
+    "id": "matrix-row-1793679583604-26",
     "no": 26,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2505,7 +3096,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 58234050
   },
   {
-    "id": "matrix-row-1793243876181-27",
+    "id": "matrix-row-1793679583604-27",
     "no": 27,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2517,7 +3108,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 45699400
   },
   {
-    "id": "matrix-row-1793243876181-28",
+    "id": "matrix-row-1793679583604-28",
     "no": 28,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
@@ -2529,7 +3120,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 9268350
   },
   {
-    "id": "matrix-row-1793243876181-29",
+    "id": "matrix-row-1793679583604-29",
     "no": 29,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2541,7 +3132,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 19234080
   },
   {
-    "id": "matrix-row-1793243876181-30",
+    "id": "matrix-row-1793679583604-30",
     "no": 30,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2553,7 +3144,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 102160250
   },
   {
-    "id": "matrix-row-1793243876182-31",
+    "id": "matrix-row-1793679583604-31",
     "no": 31,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2565,7 +3156,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 39256470
   },
   {
-    "id": "matrix-row-1793243876182-32",
+    "id": "matrix-row-1793679583604-32",
     "no": 32,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2577,7 +3168,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 85759475
   },
   {
-    "id": "matrix-row-1793243876182-33",
+    "id": "matrix-row-1793679583604-33",
     "no": 33,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2589,7 +3180,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 53690580
   },
   {
-    "id": "matrix-row-1793243876182-34",
+    "id": "matrix-row-1793679583604-34",
     "no": 34,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2601,7 +3192,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 61833775
   },
   {
-    "id": "matrix-row-1793243876182-35",
+    "id": "matrix-row-1793679583604-35",
     "no": 35,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2613,7 +3204,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 26409240
   },
   {
-    "id": "matrix-row-1793243876182-36",
+    "id": "matrix-row-1793679583604-36",
     "no": 36,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2625,7 +3216,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 80600100
   },
   {
-    "id": "matrix-row-1793243876182-37",
+    "id": "matrix-row-1793679583604-37",
     "no": 37,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2637,7 +3228,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 23382540
   },
   {
-    "id": "matrix-row-1793243876182-38",
+    "id": "matrix-row-1793679583604-38",
     "no": 38,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2649,7 +3240,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 58734700
   },
   {
-    "id": "matrix-row-1793243876182-39",
+    "id": "matrix-row-1793679583604-39",
     "no": 39,
     "namaPt": "MARSHARI",
     "bahanBakar": "KOPI PELLET",
@@ -2661,7 +3252,19 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 3337400
   },
   {
-    "id": "matrix-row-1793243876182-41",
+    "id": "matrix-row-1793679583604-40",
+    "no": 40,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-02-17",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 3830,
+    "harga": 1765,
+    "totalHarga": 6760875
+  },
+  {
+    "id": "matrix-row-1793679583604-41",
     "no": 41,
     "namaPt": "MARSHARI",
     "bahanBakar": "KOPI PELLET",
@@ -2673,7 +3276,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 9959400
   },
   {
-    "id": "matrix-row-1793243876182-42",
+    "id": "matrix-row-1793679583604-42",
     "no": 42,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2685,7 +3288,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 92503500
   },
   {
-    "id": "matrix-row-1793243876182-43",
+    "id": "matrix-row-1793679583604-43",
     "no": 43,
     "namaPt": "MARSHARI",
     "bahanBakar": "KOPI PELLET",
@@ -2697,20 +3300,32 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 23603800
   },
   {
-    "id": "matrix-row-1793243876182-44",
+    "id": "matrix-row-1793679583604-44",
     "no": 44,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-02-19",
     "mc": 6.8,
     "calori": 4320,
-    "konsumsi": 66470,
-    "harga": 1886,
-    "totalHarga": 125367200
+    "konsumsi": 64655,
+    "harga": 1877,
+    "totalHarga": 121374200
   },
   {
-    "id": "matrix-row-1793243876182-46",
+    "id": "matrix-row-1793679583604-45",
     "no": 45,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-02-19",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 1815,
+    "harga": 2200,
+    "totalHarga": 3993000
+  },
+  {
+    "id": "matrix-row-1793679583604-46",
+    "no": 46,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-02-20",
@@ -2721,20 +3336,44 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 28372320
   },
   {
-    "id": "matrix-row-1793243876182-47",
-    "no": 46,
+    "id": "matrix-row-1793679583604-47",
+    "no": 47,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-02-20",
     "mc": 6.8,
     "calori": 4320,
-    "konsumsi": 52351,
-    "harga": 1859,
-    "totalHarga": 97315525
+    "konsumsi": 42584,
+    "harga": 1790,
+    "totalHarga": 76243556.45
   },
   {
-    "id": "matrix-row-1793243876182-50",
-    "no": 47,
+    "id": "matrix-row-1793679583604-48",
+    "no": 48,
+    "namaPt": "INDOPELLET",
+    "bahanBakar": "DUST PELLET",
+    "tanggal": "2026-02-20",
+    "mc": 8.5,
+    "calori": 4150,
+    "konsumsi": 189,
+    "harga": 2,
+    "totalHarga": 368.55
+  },
+  {
+    "id": "matrix-row-1793679583604-49",
+    "no": 49,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-02-20",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 9578,
+    "harga": 2200,
+    "totalHarga": 21071600
+  },
+  {
+    "id": "matrix-row-1793679583604-50",
+    "no": 50,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-02-21",
@@ -2745,20 +3384,44 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 70270740
   },
   {
-    "id": "matrix-row-1793243876182-51",
-    "no": 48,
+    "id": "matrix-row-1793679583604-51",
+    "no": 51,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-02-21",
     "mc": 6.8,
     "calori": 4320,
-    "konsumsi": 19889,
-    "harga": 1907,
-    "totalHarga": 37923850
+    "konsumsi": 9550,
+    "harga": 1780,
+    "totalHarga": 16996050
   },
   {
-    "id": "matrix-row-1793243876183-54",
-    "no": 49,
+    "id": "matrix-row-1793679583604-52",
+    "no": 52,
+    "namaPt": "INDOPELLET",
+    "bahanBakar": "DUST PELLET",
+    "tanggal": "2026-02-21",
+    "mc": 8.5,
+    "calori": 4150,
+    "konsumsi": 7272,
+    "harga": 1950,
+    "totalHarga": 14180400
+  },
+  {
+    "id": "matrix-row-1793679583604-53",
+    "no": 53,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-02-21",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 3067,
+    "harga": 2200,
+    "totalHarga": 6747400
+  },
+  {
+    "id": "matrix-row-1793679583604-54",
+    "no": 54,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-02-22",
@@ -2769,20 +3432,44 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 41298210
   },
   {
-    "id": "matrix-row-1793243876183-55",
-    "no": 50,
+    "id": "matrix-row-1793679583604-55",
+    "no": 55,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-02-22",
     "mc": 6.8,
     "calori": 4320,
-    "konsumsi": 26493,
-    "harga": 2005,
-    "totalHarga": 53107850
+    "konsumsi": 15700,
+    "harga": 2026,
+    "totalHarga": 31805250
   },
   {
-    "id": "matrix-row-1793243876183-58",
-    "no": 51,
+    "id": "matrix-row-1793679583604-56",
+    "no": 56,
+    "namaPt": "INDOPELLET",
+    "bahanBakar": "DUST PELLET",
+    "tanggal": "2026-02-22",
+    "mc": 8.5,
+    "calori": 4150,
+    "konsumsi": 9768,
+    "harga": 1950,
+    "totalHarga": 19047600
+  },
+  {
+    "id": "matrix-row-1793679583604-57",
+    "no": 57,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-02-22",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 1025,
+    "harga": 2200,
+    "totalHarga": 2255000
+  },
+  {
+    "id": "matrix-row-1793679583605-58",
+    "no": 58,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-02-23",
@@ -2793,20 +3480,32 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 41310180
   },
   {
-    "id": "matrix-row-1793243876183-59",
-    "no": 52,
+    "id": "matrix-row-1793679583605-59",
+    "no": 59,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-02-23",
     "mc": 6.8,
     "calori": 4320,
-    "konsumsi": 35185,
-    "harga": 1791,
-    "totalHarga": 63011900
+    "konsumsi": 34273,
+    "harga": 1787,
+    "totalHarga": 61233500
   },
   {
-    "id": "matrix-row-1793243876183-61",
-    "no": 53,
+    "id": "matrix-row-1793679583605-60",
+    "no": 60,
+    "namaPt": "INDOPELLET",
+    "bahanBakar": "DUST PELLET",
+    "tanggal": "2026-02-23",
+    "mc": 8.5,
+    "calori": 4150,
+    "konsumsi": 912,
+    "harga": 1950,
+    "totalHarga": 1778400
+  },
+  {
+    "id": "matrix-row-1793679583605-61",
+    "no": 61,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-02-24",
@@ -2817,8 +3516,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 73459890
   },
   {
-    "id": "matrix-row-1793243876183-62",
-    "no": 54,
+    "id": "matrix-row-1793679583605-62",
+    "no": 62,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-02-24",
@@ -2829,8 +3528,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 33081350
   },
   {
-    "id": "matrix-row-1793243876183-63",
-    "no": 55,
+    "id": "matrix-row-1793679583605-63",
+    "no": 63,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-02-25",
@@ -2841,8 +3540,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 48522960
   },
   {
-    "id": "matrix-row-1793243876183-64",
-    "no": 56,
+    "id": "matrix-row-1793679583605-64",
+    "no": 64,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-02-25",
@@ -2853,7 +3552,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 63520650
   },
   {
-    "id": "matrix-row-1793243876183-65",
+    "id": "matrix-row-1793679583605-65",
     "no": 65,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2865,7 +3564,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 36361440
   },
   {
-    "id": "matrix-row-1793243876183-66",
+    "id": "matrix-row-1793679583605-66",
     "no": 66,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2877,7 +3576,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 71944350
   },
   {
-    "id": "matrix-row-1793243876183-67",
+    "id": "matrix-row-1793679583605-67",
     "no": 67,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2889,7 +3588,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 21404070
   },
   {
-    "id": "matrix-row-1793243876183-68",
+    "id": "matrix-row-1793679583605-68",
     "no": 68,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2901,7 +3600,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 37075485
   },
   {
-    "id": "matrix-row-1793243876183-69",
+    "id": "matrix-row-1793679583605-69",
     "no": 69,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
@@ -2913,7 +3612,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 46470450
   },
   {
-    "id": "matrix-row-1793243876183-70",
+    "id": "matrix-row-1793679583605-70",
     "no": 70,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
@@ -2925,7 +3624,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 37556730
   },
   {
-    "id": "matrix-row-1793243876183-71",
+    "id": "matrix-row-1793679583605-71",
     "no": 71,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
@@ -2937,7 +3636,7 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 36717035
   },
   {
-    "id": "matrix-row-1793243876183-72",
+    "id": "matrix-row-1793679583605-72",
     "no": 72,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
@@ -2949,8 +3648,800 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 16514550
   },
   {
-    "id": "matrix-row-1793243876183-73",
+    "id": "matrix-row-1793679583605-73",
     "no": 73,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-01",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 910,
+    "harga": 1880,
+    "totalHarga": 1710800
+  },
+  {
+    "id": "matrix-row-1793679583605-74",
+    "no": 74,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-01",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 14674,
+    "harga": 1750,
+    "totalHarga": 25679500
+  },
+  {
+    "id": "matrix-row-1793679583605-75",
+    "no": 75,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-01",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 8032,
+    "harga": 2200,
+    "totalHarga": 17670400
+  },
+  {
+    "id": "matrix-row-1793679583605-76",
+    "no": 76,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-02",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 8.06,
+    "harga": 1880933,
+    "totalHarga": 15160320
+  },
+  {
+    "id": "matrix-row-1793679583605-77",
+    "no": 77,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-02",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 39051.94,
+    "harga": 1393,
+    "totalHarga": 54414075
+  },
+  {
+    "id": "matrix-row-1793679583605-78",
+    "no": 78,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-02",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 14538,
+    "harga": 2200,
+    "totalHarga": 31983600
+  },
+  {
+    "id": "matrix-row-1793679583606-79",
+    "no": 79,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-03",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 24.07,
+    "harga": 1879766,
+    "totalHarga": 45245960
+  },
+  {
+    "id": "matrix-row-1793679583606-80",
+    "no": 80,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-03",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 55578.93,
+    "harga": 1003,
+    "totalHarga": 55733750
+  },
+  {
+    "id": "matrix-row-1793679583606-81",
+    "no": 81,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-03",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 3602,
+    "harga": 2200,
+    "totalHarga": 7924400
+  },
+  {
+    "id": "matrix-row-1793679583606-82",
+    "no": 82,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-04",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 29185,
+    "harga": 1785,
+    "totalHarga": 52105775
+  },
+  {
+    "id": "matrix-row-1793679583606-83",
+    "no": 83,
+    "namaPt": "INDOPELLET",
+    "bahanBakar": "DUST PELLET",
+    "tanggal": "2026-03-04",
+    "mc": 8.5,
+    "calori": 4150,
+    "konsumsi": 9085,
+    "harga": 1950,
+    "totalHarga": 17715750
+  },
+  {
+    "id": "matrix-row-1793679583606-84",
+    "no": 84,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-04",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 15266,
+    "harga": 2200,
+    "totalHarga": 33585200
+  },
+  {
+    "id": "matrix-row-1793679583606-85",
+    "no": 85,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-05",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 4.41,
+    "harga": 1877868,
+    "totalHarga": 8281400
+  },
+  {
+    "id": "matrix-row-1793679583606-86",
+    "no": 86,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-05",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 49019.59,
+    "harga": 1620,
+    "totalHarga": 79429140
+  },
+  {
+    "id": "matrix-row-1793679583606-87",
+    "no": 87,
+    "namaPt": "INDOPELLET",
+    "bahanBakar": "DUST PELLET",
+    "tanggal": "2026-03-05",
+    "mc": 8.5,
+    "calori": 4150,
+    "konsumsi": 1108,
+    "harga": 1950,
+    "totalHarga": 2160600
+  },
+  {
+    "id": "matrix-row-1793679583606-88",
+    "no": 88,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-05",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 3234,
+    "harga": 2200,
+    "totalHarga": 7114800
+  },
+  {
+    "id": "matrix-row-1793679583606-89",
+    "no": 89,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-06",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 18.72,
+    "harga": 1880301,
+    "totalHarga": 35199240
+  },
+  {
+    "id": "matrix-row-1793679583606-90",
+    "no": 90,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-06",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 63229.28,
+    "harga": 1245,
+    "totalHarga": 78726300
+  },
+  {
+    "id": "matrix-row-1793679583606-91",
+    "no": 91,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-07",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 2.58,
+    "harga": 1880000,
+    "totalHarga": 4850400
+  },
+  {
+    "id": "matrix-row-1793679583606-92",
+    "no": 92,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-07",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 39872.42,
+    "harga": 1667,
+    "totalHarga": 66486800
+  },
+  {
+    "id": "matrix-row-1793679583606-93",
+    "no": 93,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-07",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 2497,
+    "harga": 2200,
+    "totalHarga": 5493400
+  },
+  {
+    "id": "matrix-row-1793679583606-94",
+    "no": 94,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-08",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 4.24,
+    "harga": 1878670,
+    "totalHarga": 7965560
+  },
+  {
+    "id": "matrix-row-1793679583606-95",
+    "no": 95,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-08",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 23138.76,
+    "harga": 1464,
+    "totalHarga": 33886200
+  },
+  {
+    "id": "matrix-row-1793679583606-96",
+    "no": 96,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-08",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 3214,
+    "harga": 2200,
+    "totalHarga": 7070800
+  },
+  {
+    "id": "matrix-row-1793679583606-97",
+    "no": 97,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-09",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 23.22,
+    "harga": 1879757,
+    "totalHarga": 43647960
+  },
+  {
+    "id": "matrix-row-1793679583606-98",
+    "no": 98,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-09",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 43310.78,
+    "harga": 824,
+    "totalHarga": 35707675
+  },
+  {
+    "id": "matrix-row-1793679583606-99",
+    "no": 99,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-09",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 8404,
+    "harga": 2200,
+    "totalHarga": 18488800
+  },
+  {
+    "id": "matrix-row-1793679583606-100",
+    "no": 100,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-10",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 10.32,
+    "harga": 1879271,
+    "totalHarga": 19394080
+  },
+  {
+    "id": "matrix-row-1793679583606-101",
+    "no": 101,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-10",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 36.7,
+    "harga": 1791044,
+    "totalHarga": 65731325
+  },
+  {
+    "id": "matrix-row-1793679583606-102",
+    "no": 102,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-10",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 13569,
+    "harga": 2200,
+    "totalHarga": 29851800
+  },
+  {
+    "id": "matrix-row-1793679583606-103",
+    "no": 103,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-11",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 4.99,
+    "harga": 1728960,
+    "totalHarga": 8627510
+  },
+  {
+    "id": "matrix-row-1793679583606-104",
+    "no": 104,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-11",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 53725.01,
+    "harga": 1606,
+    "totalHarga": 86279270
+  },
+  {
+    "id": "matrix-row-1793679583606-105",
+    "no": 105,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-11",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 6638,
+    "harga": 2200,
+    "totalHarga": 14603600
+  },
+  {
+    "id": "matrix-row-1793679583606-106",
+    "no": 106,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-12",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 13.78,
+    "harga": 1733337,
+    "totalHarga": 23885390
+  },
+  {
+    "id": "matrix-row-1793679583606-107",
+    "no": 107,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-12",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 54473.22,
+    "harga": 1349,
+    "totalHarga": 73502420
+  },
+  {
+    "id": "matrix-row-1793679583606-108",
+    "no": 108,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-12",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 4616,
+    "harga": 2200,
+    "totalHarga": 10155200
+  },
+  {
+    "id": "matrix-row-1793679583606-109",
+    "no": 109,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-13",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 32.81,
+    "harga": 1799214,
+    "totalHarga": 59032220
+  },
+  {
+    "id": "matrix-row-1793679583606-110",
+    "no": 110,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-13",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 58402.19,
+    "harga": 797,
+    "totalHarga": 46569585
+  },
+  {
+    "id": "matrix-row-1793679583606-111",
+    "no": 111,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-13",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 2092,
+    "harga": 2200,
+    "totalHarga": 4602400
+  },
+  {
+    "id": "matrix-row-1793679583606-112",
+    "no": 112,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-14",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 26.82,
+    "harga": 1999702,
+    "totalHarga": 53632000
+  },
+  {
+    "id": "matrix-row-1793679583606-113",
+    "no": 113,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-14",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 52771.18,
+    "harga": 882,
+    "totalHarga": 46552475
+  },
+  {
+    "id": "matrix-row-1793679583606-114",
+    "no": 114,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-15",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 3.91,
+    "harga": 2002046,
+    "totalHarga": 7828000
+  },
+  {
+    "id": "matrix-row-1793679583606-115",
+    "no": 115,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-15",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 26414.09,
+    "harga": 1512,
+    "totalHarga": 39944600
+  },
+  {
+    "id": "matrix-row-1793679583606-116",
+    "no": 116,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-16",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 12.64,
+    "harga": 1960658,
+    "totalHarga": 24782720
+  },
+  {
+    "id": "matrix-row-1793679583606-117",
+    "no": 117,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-16",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 53828.36,
+    "harga": 1405,
+    "totalHarga": 75654950
+  },
+  {
+    "id": "matrix-row-1793679583606-118",
+    "no": 118,
+    "namaPt": "INDOPELLET",
+    "bahanBakar": "DUST PELLET",
+    "tanggal": "2026-03-16",
+    "mc": 8.5,
+    "calori": 4150,
+    "konsumsi": 5102,
+    "harga": 1950,
+    "totalHarga": 9948900
+  },
+  {
+    "id": "matrix-row-1793679583606-119",
+    "no": 119,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-17",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 10.16,
+    "harga": 1999213,
+    "totalHarga": 20312000
+  },
+  {
+    "id": "matrix-row-1793679583606-120",
+    "no": 120,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-17",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 46887.84,
+    "harga": 1380,
+    "totalHarga": 64701850
+  },
+  {
+    "id": "matrix-row-1793679583606-121",
+    "no": 121,
+    "namaPt": "INDOPELLET",
+    "bahanBakar": "DUST PELLET",
+    "tanggal": "2026-03-17",
+    "mc": 8.5,
+    "calori": 4150,
+    "konsumsi": 4694,
+    "harga": 1950,
+    "totalHarga": 9153300
+  },
+  {
+    "id": "matrix-row-1793679583606-122",
+    "no": 122,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-17",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 9617,
+    "harga": 2200,
+    "totalHarga": 21157400
+  },
+  {
+    "id": "matrix-row-1793679583606-123",
+    "no": 123,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-18",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 15333,
+    "harga": 1750,
+    "totalHarga": 26832750
+  },
+  {
+    "id": "matrix-row-1793679583606-124",
+    "no": 124,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-18",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 9386,
+    "harga": 2200,
+    "totalHarga": 20649200
+  },
+  {
+    "id": "matrix-row-1793679583606-125",
+    "no": 125,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-28",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 9884,
+    "harga": 2000,
+    "totalHarga": 19768000
+  },
+  {
+    "id": "matrix-row-1793679583606-126",
+    "no": 126,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-28",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 5390.32,
+    "harga": 1205,
+    "totalHarga": 6496000
+  },
+  {
+    "id": "matrix-row-1793679583606-127",
+    "no": 127,
+    "namaPt": "INDOPELLET",
+    "bahanBakar": "DUST PELLET",
+    "tanggal": "2026-03-28",
+    "mc": 8.5,
+    "calori": 4150,
+    "konsumsi": 1.68,
+    "harga": 1950000,
+    "totalHarga": 3276000
+  },
+  {
+    "id": "matrix-row-1793679583606-128",
+    "no": 128,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-28",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 3403,
+    "harga": 2200,
+    "totalHarga": 7486600
+  },
+  {
+    "id": "matrix-row-1793679583606-129",
+    "no": 129,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-29",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 42762,
+    "harga": 1944,
+    "totalHarga": 83129370
+  },
+  {
+    "id": "matrix-row-1793679583606-130",
+    "no": 130,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-29",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 8290,
+    "harga": 1750,
+    "totalHarga": 14507500
+  },
+  {
+    "id": "matrix-row-1793679583606-131",
+    "no": 131,
+    "namaPt": "INDOPELLET",
+    "bahanBakar": "DUST PELLET",
+    "tanggal": "2026-03-29",
+    "mc": 8.5,
+    "calori": 4150,
+    "konsumsi": 4687,
+    "harga": 1950,
+    "totalHarga": 9139650
+  },
+  {
+    "id": "matrix-row-1793679583606-132",
+    "no": 132,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-30",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 34929,
+    "harga": 1902,
+    "totalHarga": 66440520
+  },
+  {
+    "id": "matrix-row-1793679583606-133",
+    "no": 133,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-30",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 4635,
+    "harga": 1750,
+    "totalHarga": 8111250
+  },
+  {
+    "id": "matrix-row-1793679583606-134",
+    "no": 134,
+    "namaPt": "INDOPELLET",
+    "bahanBakar": "DUST PELLET",
+    "tanggal": "2026-03-30",
+    "mc": 8.5,
+    "calori": 4150,
+    "konsumsi": 7336,
+    "harga": 2156,
+    "totalHarga": 15816416
+  },
+  {
+    "id": "matrix-row-1793679583606-135",
+    "no": 135,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-30",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 6782,
+    "harga": 2200,
+    "totalHarga": 14920400
+  },
+  {
+    "id": "matrix-row-1793679583606-136",
+    "no": 136,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-03-31",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 37751,
+    "harga": 1889,
+    "totalHarga": 71316760
+  },
+  {
+    "id": "matrix-row-1793679583606-137",
+    "no": 137,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-03-31",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 14664,
+    "harga": 1767,
+    "totalHarga": 25916100
+  },
+  {
+    "id": "matrix-row-1793679583606-138",
+    "no": 138,
+    "namaPt": "MARSHARI",
+    "bahanBakar": "KOPI PELLET",
+    "tanggal": "2026-03-31",
+    "mc": 9.3,
+    "calori": 3950,
+    "konsumsi": 4406,
+    "harga": 2200,
+    "totalHarga": 9693200
+  },
+  {
+    "id": "matrix-row-1793679583606-139",
+    "no": 139,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-01",
@@ -2961,8 +4452,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 1560000
   },
   {
-    "id": "matrix-row-1793243876183-74",
-    "no": 74,
+    "id": "matrix-row-1793679583606-140",
+    "no": 140,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-01",
@@ -2973,8 +4464,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 104339025
   },
   {
-    "id": "matrix-row-1793243876183-75",
-    "no": 75,
+    "id": "matrix-row-1793679583606-141",
+    "no": 141,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-02",
@@ -2985,8 +4476,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 7585140
   },
   {
-    "id": "matrix-row-1793243876183-76",
-    "no": 76,
+    "id": "matrix-row-1793679583606-142",
+    "no": 142,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-02",
@@ -2997,8 +4488,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 47458605
   },
   {
-    "id": "matrix-row-1793243876183-77",
-    "no": 77,
+    "id": "matrix-row-1793679583606-143",
+    "no": 143,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-03",
@@ -3009,8 +4500,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 19901260
   },
   {
-    "id": "matrix-row-1793243876183-78",
-    "no": 78,
+    "id": "matrix-row-1793679583606-144",
+    "no": 144,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-03",
@@ -3021,8 +4512,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 69903510
   },
   {
-    "id": "matrix-row-1793243876183-79",
-    "no": 79,
+    "id": "matrix-row-1793679583606-145",
+    "no": 145,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-08-03",
@@ -3033,8 +4524,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 7355400
   },
   {
-    "id": "matrix-row-1793243876183-80",
-    "no": 80,
+    "id": "matrix-row-1793679583607-146",
+    "no": 146,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-04",
@@ -3045,8 +4536,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 13698900
   },
   {
-    "id": "matrix-row-1793243876183-81",
-    "no": 81,
+    "id": "matrix-row-1793679583607-147",
+    "no": 147,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-04",
@@ -3057,8 +4548,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 77442570
   },
   {
-    "id": "matrix-row-1793243876183-82",
-    "no": 82,
+    "id": "matrix-row-1793679583607-148",
+    "no": 148,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-08-04",
@@ -3069,8 +4560,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 20276919
   },
   {
-    "id": "matrix-row-1793243876183-83",
-    "no": 83,
+    "id": "matrix-row-1793679583607-149",
+    "no": 149,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-05",
@@ -3081,8 +4572,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 19906440
   },
   {
-    "id": "matrix-row-1793243876183-84",
-    "no": 84,
+    "id": "matrix-row-1793679583607-150",
+    "no": 150,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-05",
@@ -3093,8 +4584,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 81782525
   },
   {
-    "id": "matrix-row-1793243876183-85",
-    "no": 85,
+    "id": "matrix-row-1793679583607-151",
+    "no": 151,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-08-05",
@@ -3105,8 +4596,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 9045543
   },
   {
-    "id": "matrix-row-1793243876183-86",
-    "no": 86,
+    "id": "matrix-row-1793679583607-152",
+    "no": 152,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-06",
@@ -3117,8 +4608,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 32433370
   },
   {
-    "id": "matrix-row-1793243876183-87",
-    "no": 87,
+    "id": "matrix-row-1793679583607-153",
+    "no": 153,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-06",
@@ -3129,8 +4620,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 82808045
   },
   {
-    "id": "matrix-row-1793243876183-88",
-    "no": 88,
+    "id": "matrix-row-1793679583607-154",
+    "no": 154,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-08-06",
@@ -3141,8 +4632,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 4820985
   },
   {
-    "id": "matrix-row-1793243876183-89",
-    "no": 89,
+    "id": "matrix-row-1793679583607-155",
+    "no": 155,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-07",
@@ -3153,8 +4644,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 11407138
   },
   {
-    "id": "matrix-row-1793243876183-90",
-    "no": 90,
+    "id": "matrix-row-1793679583607-156",
+    "no": 156,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-07",
@@ -3165,8 +4656,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 96371090
   },
   {
-    "id": "matrix-row-1793243876183-91",
-    "no": 91,
+    "id": "matrix-row-1793679583607-157",
+    "no": 157,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-08",
@@ -3177,8 +4668,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 19626750
   },
   {
-    "id": "matrix-row-1793243876183-92",
-    "no": 92,
+    "id": "matrix-row-1793679583607-158",
+    "no": 158,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-08",
@@ -3189,8 +4680,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 85802750
   },
   {
-    "id": "matrix-row-1793243876183-93",
-    "no": 93,
+    "id": "matrix-row-1793679583607-159",
+    "no": 159,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-09",
@@ -3201,8 +4692,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 6447870
   },
   {
-    "id": "matrix-row-1793243876183-94",
-    "no": 94,
+    "id": "matrix-row-1793679583607-160",
+    "no": 160,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-09",
@@ -3213,8 +4704,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 40616100
   },
   {
-    "id": "matrix-row-1793243876183-95",
-    "no": 95,
+    "id": "matrix-row-1793679583607-161",
+    "no": 161,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-10",
@@ -3225,8 +4716,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 37899750
   },
   {
-    "id": "matrix-row-1793243876183-96",
-    "no": 96,
+    "id": "matrix-row-1793679583607-162",
+    "no": 162,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-10",
@@ -3237,8 +4728,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 68820545
   },
   {
-    "id": "matrix-row-1793243876183-97",
-    "no": 97,
+    "id": "matrix-row-1793679583607-163",
+    "no": 163,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-11",
@@ -3249,8 +4740,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 25365200
   },
   {
-    "id": "matrix-row-1793243876183-98",
-    "no": 98,
+    "id": "matrix-row-1793679583607-164",
+    "no": 164,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-11",
@@ -3261,8 +4752,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 84778835
   },
   {
-    "id": "matrix-row-1793243876184-99",
-    "no": 99,
+    "id": "matrix-row-1793679583607-165",
+    "no": 165,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-12",
@@ -3273,8 +4764,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 36693150
   },
   {
-    "id": "matrix-row-1793243876184-100",
-    "no": 100,
+    "id": "matrix-row-1793679583607-166",
+    "no": 166,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-12",
@@ -3285,8 +4776,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 78412520
   },
   {
-    "id": "matrix-row-1793243876184-101",
-    "no": 101,
+    "id": "matrix-row-1793679583607-167",
+    "no": 167,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-13",
@@ -3297,8 +4788,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 40560800
   },
   {
-    "id": "matrix-row-1793243876184-102",
-    "no": 102,
+    "id": "matrix-row-1793679583607-168",
+    "no": 168,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-13",
@@ -3309,8 +4800,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 73960450
   },
   {
-    "id": "matrix-row-1793243876184-103",
-    "no": 103,
+    "id": "matrix-row-1793679583607-169",
+    "no": 169,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-14",
@@ -3321,8 +4812,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 45013330
   },
   {
-    "id": "matrix-row-1793243876184-104",
-    "no": 104,
+    "id": "matrix-row-1793679583607-170",
+    "no": 170,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-14",
@@ -3333,8 +4824,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 63852655
   },
   {
-    "id": "matrix-row-1793243876184-105",
-    "no": 105,
+    "id": "matrix-row-1793679583607-171",
+    "no": 171,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-15",
@@ -3345,8 +4836,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 9555840
   },
   {
-    "id": "matrix-row-1793243876184-106",
-    "no": 106,
+    "id": "matrix-row-1793679583607-172",
+    "no": 172,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-15",
@@ -3357,8 +4848,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 90266495
   },
   {
-    "id": "matrix-row-1793243876184-107",
-    "no": 107,
+    "id": "matrix-row-1793679583607-173",
+    "no": 173,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-16",
@@ -3369,8 +4860,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 8578080
   },
   {
-    "id": "matrix-row-1793243876184-108",
-    "no": 108,
+    "id": "matrix-row-1793679583607-174",
+    "no": 174,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-16",
@@ -3381,8 +4872,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 38239810
   },
   {
-    "id": "matrix-row-1793243876184-109",
-    "no": 109,
+    "id": "matrix-row-1793679583607-175",
+    "no": 175,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-19",
@@ -3393,8 +4884,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 25870320
   },
   {
-    "id": "matrix-row-1793243876184-110",
-    "no": 110,
+    "id": "matrix-row-1793679583607-176",
+    "no": 176,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-19",
@@ -3405,8 +4896,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 71353600
   },
   {
-    "id": "matrix-row-1793243876184-111",
-    "no": 111,
+    "id": "matrix-row-1793679583607-177",
+    "no": 177,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-08-19",
@@ -3417,8 +4908,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 13818558
   },
   {
-    "id": "matrix-row-1793243876184-112",
-    "no": 112,
+    "id": "matrix-row-1793679583607-178",
+    "no": 178,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-20",
@@ -3429,8 +4920,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 6787200
   },
   {
-    "id": "matrix-row-1793243876184-113",
-    "no": 113,
+    "id": "matrix-row-1793679583607-179",
+    "no": 179,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-20",
@@ -3441,8 +4932,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 106261330
   },
   {
-    "id": "matrix-row-1793243876184-114",
-    "no": 114,
+    "id": "matrix-row-1793679583607-180",
+    "no": 180,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-21",
@@ -3453,8 +4944,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 27925740
   },
   {
-    "id": "matrix-row-1793243876184-115",
-    "no": 115,
+    "id": "matrix-row-1793679583607-181",
+    "no": 181,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-21",
@@ -3465,8 +4956,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 41388925
   },
   {
-    "id": "matrix-row-1793243876184-116",
-    "no": 116,
+    "id": "matrix-row-1793679583607-182",
+    "no": 182,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-08-21",
@@ -3477,8 +4968,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 35285133
   },
   {
-    "id": "matrix-row-1793243876184-117",
-    "no": 117,
+    "id": "matrix-row-1793679583607-183",
+    "no": 183,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-22",
@@ -3489,8 +4980,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 25778120
   },
   {
-    "id": "matrix-row-1793243876184-118",
-    "no": 118,
+    "id": "matrix-row-1793679583607-184",
+    "no": 184,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-22",
@@ -3501,8 +4992,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 80420710
   },
   {
-    "id": "matrix-row-1793243876184-119",
-    "no": 119,
+    "id": "matrix-row-1793679583607-185",
+    "no": 185,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-23",
@@ -3513,8 +5004,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 6234480
   },
   {
-    "id": "matrix-row-1793243876184-120",
-    "no": 120,
+    "id": "matrix-row-1793679583607-186",
+    "no": 186,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-23",
@@ -3525,8 +5016,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 38808730
   },
   {
-    "id": "matrix-row-1793243876184-121",
-    "no": 121,
+    "id": "matrix-row-1793679583607-187",
+    "no": 187,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-24",
@@ -3537,8 +5028,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 92225220
   },
   {
-    "id": "matrix-row-1793243876184-122",
-    "no": 122,
+    "id": "matrix-row-1793679583607-188",
+    "no": 188,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-24",
@@ -3549,8 +5040,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 13750590
   },
   {
-    "id": "matrix-row-1793243876184-123",
-    "no": 123,
+    "id": "matrix-row-1793679583607-189",
+    "no": 189,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-08-24",
@@ -3561,8 +5052,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 10375911
   },
   {
-    "id": "matrix-row-1793243876184-124",
-    "no": 124,
+    "id": "matrix-row-1793679583607-190",
+    "no": 190,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-25",
@@ -3573,8 +5064,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 19168800
   },
   {
-    "id": "matrix-row-1793243876184-125",
-    "no": 125,
+    "id": "matrix-row-1793679583607-191",
+    "no": 191,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-25",
@@ -3585,8 +5076,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 104134530
   },
   {
-    "id": "matrix-row-1793243876184-126",
-    "no": 126,
+    "id": "matrix-row-1793679583607-192",
+    "no": 192,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-26",
@@ -3597,8 +5088,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 42213360
   },
   {
-    "id": "matrix-row-1793243876184-127",
-    "no": 127,
+    "id": "matrix-row-1793679583607-193",
+    "no": 193,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-26",
@@ -3609,8 +5100,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 48522680
   },
   {
-    "id": "matrix-row-1793243876184-128",
-    "no": 128,
+    "id": "matrix-row-1793679583607-194",
+    "no": 194,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-08-26",
@@ -3621,8 +5112,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 25945600
   },
   {
-    "id": "matrix-row-1793243876184-129",
-    "no": 129,
+    "id": "matrix-row-1793679583607-195",
+    "no": 195,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-27",
@@ -3633,8 +5124,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 19320000
   },
   {
-    "id": "matrix-row-1793243876184-130",
-    "no": 130,
+    "id": "matrix-row-1793679583607-196",
+    "no": 196,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-27",
@@ -3645,8 +5136,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 71740275
   },
   {
-    "id": "matrix-row-1793243876184-131",
-    "no": 131,
+    "id": "matrix-row-1793679583607-197",
+    "no": 197,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-08-27",
@@ -3657,8 +5148,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 23668800
   },
   {
-    "id": "matrix-row-1793243876184-132",
-    "no": 132,
+    "id": "matrix-row-1793679583607-198",
+    "no": 198,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-28",
@@ -3669,8 +5160,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 44129310
   },
   {
-    "id": "matrix-row-1793243876184-133",
-    "no": 133,
+    "id": "matrix-row-1793679583607-199",
+    "no": 199,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-28",
@@ -3681,8 +5172,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 36464730
   },
   {
-    "id": "matrix-row-1793243876184-134",
-    "no": 134,
+    "id": "matrix-row-1793679583607-200",
+    "no": 200,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-08-28",
@@ -3693,8 +5184,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 25248210
   },
   {
-    "id": "matrix-row-1793243876184-135",
-    "no": 135,
+    "id": "matrix-row-1793679583607-201",
+    "no": 201,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-29",
@@ -3705,8 +5196,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 50193059
   },
   {
-    "id": "matrix-row-1793243876184-136",
-    "no": 136,
+    "id": "matrix-row-1793679583607-202",
+    "no": 202,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-08-29",
@@ -3717,8 +5208,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 44261919
   },
   {
-    "id": "matrix-row-1793243876184-137",
-    "no": 137,
+    "id": "matrix-row-1793679583608-203",
+    "no": 203,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-30",
@@ -3729,8 +5220,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 57481673
   },
   {
-    "id": "matrix-row-1793243876184-138",
-    "no": 138,
+    "id": "matrix-row-1793679583608-204",
+    "no": 204,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-08-31",
@@ -3741,8 +5232,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 35083360
   },
   {
-    "id": "matrix-row-1793243876184-139",
-    "no": 139,
+    "id": "matrix-row-1793679583608-205",
+    "no": 205,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-08-31",
@@ -3753,8 +5244,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 77672285
   },
   {
-    "id": "matrix-row-1793243876184-140",
-    "no": 140,
+    "id": "matrix-row-1793679583608-206",
+    "no": 206,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-08-31",
@@ -3765,8 +5256,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 1595802
   },
   {
-    "id": "matrix-row-1793243876184-141",
-    "no": 141,
+    "id": "matrix-row-1793679583608-207",
+    "no": 207,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-01",
@@ -3777,8 +5268,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 50866410
   },
   {
-    "id": "matrix-row-1793243876184-142",
-    "no": 142,
+    "id": "matrix-row-1793679583608-208",
+    "no": 208,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-01",
@@ -3789,8 +5280,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 58971720
   },
   {
-    "id": "matrix-row-1793243876184-143",
-    "no": 143,
+    "id": "matrix-row-1793679583608-209",
+    "no": 209,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-02",
@@ -3801,8 +5292,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 35505340
   },
   {
-    "id": "matrix-row-1793243876184-144",
-    "no": 144,
+    "id": "matrix-row-1793679583608-210",
+    "no": 210,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-02",
@@ -3813,8 +5304,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 21758594
   },
   {
-    "id": "matrix-row-1793243876184-145",
-    "no": 145,
+    "id": "matrix-row-1793679583608-211",
+    "no": 211,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-02",
@@ -3825,8 +5316,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 58180800
   },
   {
-    "id": "matrix-row-1793243876187-146",
-    "no": 146,
+    "id": "matrix-row-1793679583608-212",
+    "no": 212,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-03",
@@ -3837,8 +5328,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 38625290
   },
   {
-    "id": "matrix-row-1793243876187-147",
-    "no": 147,
+    "id": "matrix-row-1793679583608-213",
+    "no": 213,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-03",
@@ -3849,8 +5340,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 35643776
   },
   {
-    "id": "matrix-row-1793243876187-148",
-    "no": 148,
+    "id": "matrix-row-1793679583608-214",
+    "no": 214,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-03",
@@ -3861,8 +5352,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 37616000
   },
   {
-    "id": "matrix-row-1793243876187-149",
-    "no": 149,
+    "id": "matrix-row-1793679583608-215",
+    "no": 215,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-04",
@@ -3873,8 +5364,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 27817260
   },
   {
-    "id": "matrix-row-1793243876187-150",
-    "no": 150,
+    "id": "matrix-row-1793679583608-216",
+    "no": 216,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-04",
@@ -3885,8 +5376,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 68767672
   },
   {
-    "id": "matrix-row-1793243876187-151",
-    "no": 151,
+    "id": "matrix-row-1793679583608-217",
+    "no": 217,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-04",
@@ -3897,8 +5388,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 18289600
   },
   {
-    "id": "matrix-row-1793243876187-152",
-    "no": 152,
+    "id": "matrix-row-1793679583608-218",
+    "no": 218,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-05",
@@ -3909,8 +5400,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 5935180
   },
   {
-    "id": "matrix-row-1793243876187-153",
-    "no": 153,
+    "id": "matrix-row-1793679583608-219",
+    "no": 219,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-05",
@@ -3921,8 +5412,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 75387970
   },
   {
-    "id": "matrix-row-1793243876187-154",
-    "no": 154,
+    "id": "matrix-row-1793679583608-220",
+    "no": 220,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-05",
@@ -3933,8 +5424,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 18220800
   },
   {
-    "id": "matrix-row-1793243876187-155",
-    "no": 155,
+    "id": "matrix-row-1793679583608-221",
+    "no": 221,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-06",
@@ -3945,8 +5436,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 20039200
   },
   {
-    "id": "matrix-row-1793243876187-156",
-    "no": 156,
+    "id": "matrix-row-1793679583608-222",
+    "no": 222,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-06",
@@ -3957,8 +5448,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 41904500
   },
   {
-    "id": "matrix-row-1793243876187-157",
-    "no": 157,
+    "id": "matrix-row-1793679583608-223",
+    "no": 223,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-07",
@@ -3969,8 +5460,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 50442010
   },
   {
-    "id": "matrix-row-1793243876187-158",
-    "no": 158,
+    "id": "matrix-row-1793679583608-224",
+    "no": 224,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-07",
@@ -3981,8 +5472,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 33967503
   },
   {
-    "id": "matrix-row-1793243876187-159",
-    "no": 159,
+    "id": "matrix-row-1793679583608-225",
+    "no": 225,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-07",
@@ -3993,8 +5484,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 27872000
   },
   {
-    "id": "matrix-row-1793243876187-160",
-    "no": 160,
+    "id": "matrix-row-1793679583608-226",
+    "no": 226,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-08",
@@ -4005,8 +5496,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 53947210
   },
   {
-    "id": "matrix-row-1793243876187-161",
-    "no": 161,
+    "id": "matrix-row-1793679583608-227",
+    "no": 227,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-08",
@@ -4017,8 +5508,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 47817120
   },
   {
-    "id": "matrix-row-1793243876187-162",
-    "no": 162,
+    "id": "matrix-row-1793679583608-228",
+    "no": 228,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-08",
@@ -4029,8 +5520,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 12224000
   },
   {
-    "id": "matrix-row-1793243876187-163",
-    "no": 163,
+    "id": "matrix-row-1793679583608-229",
+    "no": 229,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-09",
@@ -4041,8 +5532,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 58761780
   },
   {
-    "id": "matrix-row-1793243876187-164",
-    "no": 164,
+    "id": "matrix-row-1793679583608-230",
+    "no": 230,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-09",
@@ -4053,8 +5544,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 51464632
   },
   {
-    "id": "matrix-row-1793243876187-165",
-    "no": 165,
+    "id": "matrix-row-1793679583608-231",
+    "no": 231,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-09",
@@ -4065,8 +5556,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 10108800
   },
   {
-    "id": "matrix-row-1793243876187-166",
-    "no": 166,
+    "id": "matrix-row-1793679583608-232",
+    "no": 232,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-10",
@@ -4077,8 +5568,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 47506200
   },
   {
-    "id": "matrix-row-1793243876187-167",
-    "no": 167,
+    "id": "matrix-row-1793679583608-233",
+    "no": 233,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-10",
@@ -4089,8 +5580,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 51787640
   },
   {
-    "id": "matrix-row-1793243876187-168",
-    "no": 168,
+    "id": "matrix-row-1793679583608-234",
+    "no": 234,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-10",
@@ -4101,8 +5592,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 3560000
   },
   {
-    "id": "matrix-row-1793243876187-169",
-    "no": 169,
+    "id": "matrix-row-1793679583608-235",
+    "no": 235,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-11",
@@ -4113,8 +5604,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 55468260
   },
   {
-    "id": "matrix-row-1793243876187-170",
-    "no": 170,
+    "id": "matrix-row-1793679583608-236",
+    "no": 236,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-11",
@@ -4125,8 +5616,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 26751350
   },
   {
-    "id": "matrix-row-1793243876187-171",
-    "no": 171,
+    "id": "matrix-row-1793679583608-237",
+    "no": 237,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-11",
@@ -4137,8 +5628,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 27038400
   },
   {
-    "id": "matrix-row-1793243876187-172",
-    "no": 172,
+    "id": "matrix-row-1793679583608-238",
+    "no": 238,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-12",
@@ -4149,8 +5640,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 16015760
   },
   {
-    "id": "matrix-row-1793243876187-173",
-    "no": 173,
+    "id": "matrix-row-1793679583608-239",
+    "no": 239,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-12",
@@ -4161,8 +5652,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 55877991
   },
   {
-    "id": "matrix-row-1793243876187-174",
-    "no": 174,
+    "id": "matrix-row-1793679583608-240",
+    "no": 240,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-12",
@@ -4173,8 +5664,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 22428800
   },
   {
-    "id": "matrix-row-1793243876187-175",
-    "no": 175,
+    "id": "matrix-row-1793679583608-241",
+    "no": 241,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-13",
@@ -4185,8 +5676,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 33477030
   },
   {
-    "id": "matrix-row-1793243876187-176",
-    "no": 176,
+    "id": "matrix-row-1793679583608-242",
+    "no": 242,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-13",
@@ -4197,8 +5688,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 21687735
   },
   {
-    "id": "matrix-row-1793243876187-177",
-    "no": 177,
+    "id": "matrix-row-1793679583608-243",
+    "no": 243,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-14",
@@ -4209,8 +5700,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 39873420
   },
   {
-    "id": "matrix-row-1793243876187-178",
-    "no": 178,
+    "id": "matrix-row-1793679583608-244",
+    "no": 244,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-14",
@@ -4221,8 +5712,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 76021189
   },
   {
-    "id": "matrix-row-1793243876187-179",
-    "no": 179,
+    "id": "matrix-row-1793679583608-245",
+    "no": 245,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-14",
@@ -4233,8 +5724,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 4904000
   },
   {
-    "id": "matrix-row-1793243876187-180",
-    "no": 180,
+    "id": "matrix-row-1793679583608-246",
+    "no": 246,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-15",
@@ -4245,8 +5736,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 19772800
   },
   {
-    "id": "matrix-row-1793243876187-181",
-    "no": 181,
+    "id": "matrix-row-1793679583608-247",
+    "no": 247,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-15",
@@ -4257,8 +5748,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 62929500
   },
   {
-    "id": "matrix-row-1793243876187-182",
-    "no": 182,
+    "id": "matrix-row-1793679583608-248",
+    "no": 248,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-15",
@@ -4269,8 +5760,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 38569600
   },
   {
-    "id": "matrix-row-1793243876187-183",
-    "no": 183,
+    "id": "matrix-row-1793679583608-249",
+    "no": 249,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-16",
@@ -4281,8 +5772,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 32215210
   },
   {
-    "id": "matrix-row-1793243876187-184",
-    "no": 184,
+    "id": "matrix-row-1793679583608-250",
+    "no": 250,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-16",
@@ -4293,8 +5784,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 87564061
   },
   {
-    "id": "matrix-row-1793243876187-185",
-    "no": 185,
+    "id": "matrix-row-1793679583608-251",
+    "no": 251,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-16",
@@ -4305,8 +5796,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 1790400
   },
   {
-    "id": "matrix-row-1793243876187-186",
-    "no": 186,
+    "id": "matrix-row-1793679583609-252",
+    "no": 252,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-17",
@@ -4317,8 +5808,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 6412800
   },
   {
-    "id": "matrix-row-1793243876187-187",
-    "no": 187,
+    "id": "matrix-row-1793679583609-253",
+    "no": 253,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-17",
@@ -4329,8 +5820,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 104798053
   },
   {
-    "id": "matrix-row-1793243876187-188",
-    "no": 188,
+    "id": "matrix-row-1793679583609-254",
+    "no": 254,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-17",
@@ -4341,8 +5832,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 9801600
   },
   {
-    "id": "matrix-row-1793243876187-189",
-    "no": 189,
+    "id": "matrix-row-1793679583609-255",
+    "no": 255,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-18",
@@ -4353,8 +5844,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 25905600
   },
   {
-    "id": "matrix-row-1793243876187-190",
-    "no": 190,
+    "id": "matrix-row-1793679583609-256",
+    "no": 256,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-18",
@@ -4365,8 +5856,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 59148890
   },
   {
-    "id": "matrix-row-1793243876187-191",
-    "no": 191,
+    "id": "matrix-row-1793679583609-257",
+    "no": 257,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-18",
@@ -4377,8 +5868,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 30641600
   },
   {
-    "id": "matrix-row-1793243876187-192",
-    "no": 192,
+    "id": "matrix-row-1793679583609-258",
+    "no": 258,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-19",
@@ -4389,8 +5880,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 15663070
   },
   {
-    "id": "matrix-row-1793243876187-193",
-    "no": 193,
+    "id": "matrix-row-1793679583609-259",
+    "no": 259,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-19",
@@ -4401,8 +5892,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 90005468
   },
   {
-    "id": "matrix-row-1793243876187-194",
-    "no": 194,
+    "id": "matrix-row-1793679583609-260",
+    "no": 260,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-20",
@@ -4413,8 +5904,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 43440560
   },
   {
-    "id": "matrix-row-1793243876187-195",
-    "no": 195,
+    "id": "matrix-row-1793679583609-261",
+    "no": 261,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-21",
@@ -4425,8 +5916,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 47035550
   },
   {
-    "id": "matrix-row-1793243876187-196",
-    "no": 196,
+    "id": "matrix-row-1793679583609-262",
+    "no": 262,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-21",
@@ -4437,8 +5928,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 64687496
   },
   {
-    "id": "matrix-row-1793243876187-197",
-    "no": 197,
+    "id": "matrix-row-1793679583609-263",
+    "no": 263,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-22",
@@ -4449,8 +5940,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 70597100
   },
   {
-    "id": "matrix-row-1793243876187-198",
-    "no": 198,
+    "id": "matrix-row-1793679583609-264",
+    "no": 264,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-22",
@@ -4461,8 +5952,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 25156409
   },
   {
-    "id": "matrix-row-1793243876187-199",
-    "no": 199,
+    "id": "matrix-row-1793679583609-265",
+    "no": 265,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-22",
@@ -4473,8 +5964,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 20552000
   },
   {
-    "id": "matrix-row-1793243876187-200",
-    "no": 200,
+    "id": "matrix-row-1793679583609-266",
+    "no": 266,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-23",
@@ -4485,8 +5976,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 27526080
   },
   {
-    "id": "matrix-row-1793243876187-201",
-    "no": 201,
+    "id": "matrix-row-1793679583609-267",
+    "no": 267,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-23",
@@ -4497,8 +5988,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 79795920
   },
   {
-    "id": "matrix-row-1793243876187-202",
-    "no": 202,
+    "id": "matrix-row-1793679583609-268",
+    "no": 268,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-23",
@@ -4509,8 +6000,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 12139200
   },
   {
-    "id": "matrix-row-1793243876187-203",
-    "no": 203,
+    "id": "matrix-row-1793679583609-269",
+    "no": 269,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-24",
@@ -4521,8 +6012,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 22109560
   },
   {
-    "id": "matrix-row-1793243876187-204",
-    "no": 204,
+    "id": "matrix-row-1793679583609-270",
+    "no": 270,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-24",
@@ -4533,8 +6024,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 38778257
   },
   {
-    "id": "matrix-row-1793243876187-205",
-    "no": 205,
+    "id": "matrix-row-1793679583609-271",
+    "no": 271,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-24",
@@ -4545,8 +6036,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 55208000
   },
   {
-    "id": "matrix-row-1793243876187-206",
-    "no": 206,
+    "id": "matrix-row-1793679583609-272",
+    "no": 272,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-25",
@@ -4557,8 +6048,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 49501750
   },
   {
-    "id": "matrix-row-1793243876187-207",
-    "no": 207,
+    "id": "matrix-row-1793679583609-273",
+    "no": 273,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-25",
@@ -4569,8 +6060,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 38203478
   },
   {
-    "id": "matrix-row-1793243876187-208",
-    "no": 208,
+    "id": "matrix-row-1793679583609-274",
+    "no": 274,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-25",
@@ -4581,8 +6072,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 22364800
   },
   {
-    "id": "matrix-row-1793243876187-209",
-    "no": 209,
+    "id": "matrix-row-1793679583609-275",
+    "no": 275,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-26",
@@ -4593,8 +6084,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 7718130
   },
   {
-    "id": "matrix-row-1793243876187-210",
-    "no": 210,
+    "id": "matrix-row-1793679583609-276",
+    "no": 276,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-26",
@@ -4605,8 +6096,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 59162348
   },
   {
-    "id": "matrix-row-1793243876187-211",
-    "no": 211,
+    "id": "matrix-row-1793679583609-277",
+    "no": 277,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-26",
@@ -4617,8 +6108,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 39524800
   },
   {
-    "id": "matrix-row-1793243876187-212",
-    "no": 212,
+    "id": "matrix-row-1793679583609-278",
+    "no": 278,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-27",
@@ -4629,8 +6120,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 14202720
   },
   {
-    "id": "matrix-row-1793243876187-213",
-    "no": 213,
+    "id": "matrix-row-1793679583609-279",
+    "no": 279,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-27",
@@ -4641,8 +6132,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 35428050
   },
   {
-    "id": "matrix-row-1793243876187-214",
-    "no": 214,
+    "id": "matrix-row-1793679583609-280",
+    "no": 280,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-09-27",
@@ -4653,8 +6144,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 9617600
   },
   {
-    "id": "matrix-row-1793243876187-215",
-    "no": 215,
+    "id": "matrix-row-1793679583609-281",
+    "no": 281,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-28",
@@ -4665,8 +6156,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 3620400
   },
   {
-    "id": "matrix-row-1793243876187-216",
-    "no": 216,
+    "id": "matrix-row-1793679583609-282",
+    "no": 282,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-28",
@@ -4677,8 +6168,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 72779730
   },
   {
-    "id": "matrix-row-1793243876187-217",
-    "no": 217,
+    "id": "matrix-row-1793679583609-283",
+    "no": 283,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-29",
@@ -4689,8 +6180,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 29285760
   },
   {
-    "id": "matrix-row-1793243876187-218",
-    "no": 218,
+    "id": "matrix-row-1793679583609-284",
+    "no": 284,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-29",
@@ -4701,8 +6192,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 64788737
   },
   {
-    "id": "matrix-row-1793243876187-219",
-    "no": 219,
+    "id": "matrix-row-1793679583609-285",
+    "no": 285,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-09-30",
@@ -4713,8 +6204,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 3427200
   },
   {
-    "id": "matrix-row-1793243876187-220",
-    "no": 220,
+    "id": "matrix-row-1793679583609-286",
+    "no": 286,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-09-30",
@@ -4725,8 +6216,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 119660783
   },
   {
-    "id": "matrix-row-1793243876187-221",
-    "no": 221,
+    "id": "matrix-row-1793679583609-287",
+    "no": 287,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-01",
@@ -4737,20 +6228,20 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 40448600
   },
   {
-    "id": "matrix-row-1793243876187-222",
-    "no": 222,
+    "id": "matrix-row-1793679583609-288",
+    "no": 288,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-01",
     "mc": 6.8,
     "calori": 4320,
     "konsumsi": 34823,
-    "harga": 1268,
-    "totalHarga": 44150157
+    "harga": 1713,
+    "totalHarga": 59654745
   },
   {
-    "id": "matrix-row-1793243876187-223",
-    "no": 223,
+    "id": "matrix-row-1793679583609-289",
+    "no": 289,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-01",
@@ -4761,8 +6252,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 3496410
   },
   {
-    "id": "matrix-row-1793243876187-224",
-    "no": 224,
+    "id": "matrix-row-1793679583609-290",
+    "no": 290,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-02",
@@ -4773,8 +6264,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 35808100
   },
   {
-    "id": "matrix-row-1793243876187-225",
-    "no": 225,
+    "id": "matrix-row-1793679583609-291",
+    "no": 291,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-02",
@@ -4785,8 +6276,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 63482950
   },
   {
-    "id": "matrix-row-1793243876187-226",
-    "no": 226,
+    "id": "matrix-row-1793679583609-292",
+    "no": 292,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-02",
@@ -4797,8 +6288,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 10136250
   },
   {
-    "id": "matrix-row-1793243876187-227",
-    "no": 227,
+    "id": "matrix-row-1793679583609-293",
+    "no": 293,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-03",
@@ -4809,8 +6300,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 22060700
   },
   {
-    "id": "matrix-row-1793243876187-228",
-    "no": 228,
+    "id": "matrix-row-1793679583609-294",
+    "no": 294,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-03",
@@ -4821,8 +6312,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 50269130
   },
   {
-    "id": "matrix-row-1793243876187-229",
-    "no": 229,
+    "id": "matrix-row-1793679583609-295",
+    "no": 295,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-03",
@@ -4833,8 +6324,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 28181160
   },
   {
-    "id": "matrix-row-1793243876187-230",
-    "no": 230,
+    "id": "matrix-row-1793679583609-296",
+    "no": 296,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-04",
@@ -4845,8 +6336,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 32110760
   },
   {
-    "id": "matrix-row-1793243876187-231",
-    "no": 231,
+    "id": "matrix-row-1793679583609-297",
+    "no": 297,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-04",
@@ -4857,8 +6348,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 19060920
   },
   {
-    "id": "matrix-row-1793243876187-232",
-    "no": 232,
+    "id": "matrix-row-1793679583609-298",
+    "no": 298,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-05",
@@ -4869,8 +6360,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 52559050
   },
   {
-    "id": "matrix-row-1793243876187-233",
-    "no": 233,
+    "id": "matrix-row-1793679583609-299",
+    "no": 299,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-05",
@@ -4881,8 +6372,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 29818540
   },
   {
-    "id": "matrix-row-1793243876187-234",
-    "no": 234,
+    "id": "matrix-row-1793679583609-300",
+    "no": 300,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-05",
@@ -4893,8 +6384,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 17772470
   },
   {
-    "id": "matrix-row-1793243876187-235",
-    "no": 235,
+    "id": "matrix-row-1793679583609-301",
+    "no": 301,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-06",
@@ -4905,8 +6396,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 75512930
   },
   {
-    "id": "matrix-row-1793243876187-236",
-    "no": 236,
+    "id": "matrix-row-1793679583609-302",
+    "no": 302,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-06",
@@ -4917,8 +6408,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 29274800
   },
   {
-    "id": "matrix-row-1793243876187-237",
-    "no": 237,
+    "id": "matrix-row-1793679583609-303",
+    "no": 303,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-06",
@@ -4929,8 +6420,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 12401840
   },
   {
-    "id": "matrix-row-1793243876187-238",
-    "no": 238,
+    "id": "matrix-row-1793679583609-304",
+    "no": 304,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-07",
@@ -4941,20 +6432,20 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 17299530
   },
   {
-    "id": "matrix-row-1793243876187-239",
-    "no": 239,
+    "id": "matrix-row-1793679583609-305",
+    "no": 305,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-07",
     "mc": 6.8,
     "calori": 4320,
     "konsumsi": 29255,
-    "harga": 957,
-    "totalHarga": 27987100
+    "harga": 1652,
+    "totalHarga": 48338240
   },
   {
-    "id": "matrix-row-1793243876187-240",
-    "no": 240,
+    "id": "matrix-row-1793679583609-306",
+    "no": 306,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-07",
@@ -4965,8 +6456,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 39487650
   },
   {
-    "id": "matrix-row-1793243876188-241",
-    "no": 241,
+    "id": "matrix-row-1793679583609-307",
+    "no": 307,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-08",
@@ -4977,20 +6468,20 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 27968360
   },
   {
-    "id": "matrix-row-1793243876188-242",
-    "no": 242,
+    "id": "matrix-row-1793679583609-308",
+    "no": 308,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-08",
     "mc": 6.8,
     "calori": 4320,
     "konsumsi": 35124,
-    "harga": 1261,
-    "totalHarga": 44276770
+    "harga": 1663,
+    "totalHarga": 58422370
   },
   {
-    "id": "matrix-row-1793243876188-243",
-    "no": 243,
+    "id": "matrix-row-1793679583609-309",
+    "no": 309,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-08",
@@ -5001,8 +6492,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 23368230
   },
   {
-    "id": "matrix-row-1793243876188-244",
-    "no": 244,
+    "id": "matrix-row-1793679583609-310",
+    "no": 310,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-09",
@@ -5013,20 +6504,20 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 25020620
   },
   {
-    "id": "matrix-row-1793243876188-245",
-    "no": 245,
+    "id": "matrix-row-1793679583609-311",
+    "no": 311,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-09",
     "mc": 6.8,
     "calori": 4320,
     "konsumsi": 41566,
-    "harga": 1091,
-    "totalHarga": 45348990
+    "harga": 1689,
+    "totalHarga": 70208198
   },
   {
-    "id": "matrix-row-1793243876188-246",
-    "no": 246,
+    "id": "matrix-row-1793679583609-312",
+    "no": 312,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-09",
@@ -5037,8 +6528,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 25006400
   },
   {
-    "id": "matrix-row-1793243876188-247",
-    "no": 247,
+    "id": "matrix-row-1793679583609-313",
+    "no": 313,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-10",
@@ -5049,8 +6540,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 15305860
   },
   {
-    "id": "matrix-row-1793243876188-248",
-    "no": 248,
+    "id": "matrix-row-1793679583609-314",
+    "no": 314,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-10",
@@ -5061,8 +6552,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 87723665
   },
   {
-    "id": "matrix-row-1793243876188-249",
-    "no": 249,
+    "id": "matrix-row-1793679583609-315",
+    "no": 315,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-10",
@@ -5073,8 +6564,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 10728000
   },
   {
-    "id": "matrix-row-1793243876188-250",
-    "no": 250,
+    "id": "matrix-row-1793679583609-316",
+    "no": 316,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-11",
@@ -5085,8 +6576,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 22087420
   },
   {
-    "id": "matrix-row-1793243876188-251",
-    "no": 251,
+    "id": "matrix-row-1793679583609-317",
+    "no": 317,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-11",
@@ -5097,8 +6588,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 23636870
   },
   {
-    "id": "matrix-row-1793243876188-252",
-    "no": 252,
+    "id": "matrix-row-1793679583609-318",
+    "no": 318,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-11",
@@ -5109,8 +6600,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 10354080
   },
   {
-    "id": "matrix-row-1793243876188-253",
-    "no": 253,
+    "id": "matrix-row-1793679583609-319",
+    "no": 319,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-12",
@@ -5121,20 +6612,20 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 5918640
   },
   {
-    "id": "matrix-row-1793243876188-254",
-    "no": 254,
+    "id": "matrix-row-1793679583609-320",
+    "no": 320,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-12",
     "mc": 6.8,
     "calori": 4320,
     "konsumsi": 35876,
-    "harga": 1245,
-    "totalHarga": 44676670
+    "harga": 1643,
+    "totalHarga": 58935098
   },
   {
-    "id": "matrix-row-1793243876188-255",
-    "no": 255,
+    "id": "matrix-row-1793679583609-321",
+    "no": 321,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-12",
@@ -5145,8 +6636,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 22291800
   },
   {
-    "id": "matrix-row-1793243876188-256",
-    "no": 256,
+    "id": "matrix-row-1793679583609-322",
+    "no": 322,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-13",
@@ -5157,20 +6648,20 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 35339970
   },
   {
-    "id": "matrix-row-1793243876188-257",
-    "no": 257,
+    "id": "matrix-row-1793679583609-323",
+    "no": 323,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-13",
     "mc": 6.8,
     "calori": 4320,
     "konsumsi": 33790,
-    "harga": 1028,
-    "totalHarga": 34724533
+    "harga": 1702,
+    "totalHarga": 57520841
   },
   {
-    "id": "matrix-row-1793243876188-258",
-    "no": 258,
+    "id": "matrix-row-1793679583609-324",
+    "no": 324,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-13",
@@ -5181,8 +6672,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 32998430
   },
   {
-    "id": "matrix-row-1793243876188-259",
-    "no": 259,
+    "id": "matrix-row-1793679583609-325",
+    "no": 325,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-14",
@@ -5193,8 +6684,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 70053028
   },
   {
-    "id": "matrix-row-1793243876188-260",
-    "no": 260,
+    "id": "matrix-row-1793679583609-326",
+    "no": 326,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-14",
@@ -5205,8 +6696,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 51022400
   },
   {
-    "id": "matrix-row-1793243876188-261",
-    "no": 261,
+    "id": "matrix-row-1793679583609-327",
+    "no": 327,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-15",
@@ -5217,8 +6708,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 55900100
   },
   {
-    "id": "matrix-row-1793243876188-262",
-    "no": 262,
+    "id": "matrix-row-1793679583609-328",
+    "no": 328,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-15",
@@ -5229,8 +6720,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 43814770
   },
   {
-    "id": "matrix-row-1793243876188-263",
-    "no": 263,
+    "id": "matrix-row-1793679583609-329",
+    "no": 329,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-16",
@@ -5241,20 +6732,20 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 14369750
   },
   {
-    "id": "matrix-row-1793243876188-264",
-    "no": 264,
+    "id": "matrix-row-1793679583609-330",
+    "no": 330,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-16",
     "mc": 6.8,
     "calori": 4320,
-    "konsumsi": 39098,
-    "harga": 1550,
-    "totalHarga": 60588380
+    "konsumsi": 41988,
+    "harga": 1652,
+    "totalHarga": 69355284
   },
   {
-    "id": "matrix-row-1793243876188-265",
-    "no": 265,
+    "id": "matrix-row-1793679583609-331",
+    "no": 331,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-16",
@@ -5265,8 +6756,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 24496120
   },
   {
-    "id": "matrix-row-1793243876188-266",
-    "no": 266,
+    "id": "matrix-row-1793679583609-332",
+    "no": 332,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-17",
@@ -5277,20 +6768,20 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 55863980
   },
   {
-    "id": "matrix-row-1793243876188-267",
-    "no": 267,
+    "id": "matrix-row-1793679583609-333",
+    "no": 333,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-17",
     "mc": 6.8,
     "calori": 4320,
     "konsumsi": 46960,
-    "harga": 1712,
-    "totalHarga": 80380880
+    "harga": 1747,
+    "totalHarga": 82031200
   },
   {
-    "id": "matrix-row-1793243876188-268",
-    "no": 268,
+    "id": "matrix-row-1793679583609-334",
+    "no": 334,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-17",
@@ -5301,8 +6792,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 1435200
   },
   {
-    "id": "matrix-row-1793243876188-269",
-    "no": 269,
+    "id": "matrix-row-1793679583609-335",
+    "no": 335,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-18",
@@ -5313,20 +6804,20 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 6841300
   },
   {
-    "id": "matrix-row-1793243876188-270",
-    "no": 270,
+    "id": "matrix-row-1793679583609-336",
+    "no": 336,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-18",
     "mc": 6.8,
     "calori": 4320,
     "konsumsi": 18545,
-    "harga": 885,
-    "totalHarga": 16410840
+    "harga": 1655,
+    "totalHarga": 30686108
   },
   {
-    "id": "matrix-row-1793243876188-271",
-    "no": 271,
+    "id": "matrix-row-1793679583609-337",
+    "no": 337,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-18",
@@ -5337,8 +6828,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 14771200
   },
   {
-    "id": "matrix-row-1793243876188-272",
-    "no": 272,
+    "id": "matrix-row-1793679583609-338",
+    "no": 338,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-19",
@@ -5349,8 +6840,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 68456900
   },
   {
-    "id": "matrix-row-1793243876188-273",
-    "no": 273,
+    "id": "matrix-row-1793679583609-339",
+    "no": 339,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-19",
@@ -5361,8 +6852,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 42013550
   },
   {
-    "id": "matrix-row-1793243876188-274",
-    "no": 274,
+    "id": "matrix-row-1793679583609-340",
+    "no": 340,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-20",
@@ -5373,8 +6864,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 69874180
   },
   {
-    "id": "matrix-row-1793243876188-275",
-    "no": 275,
+    "id": "matrix-row-1793679583609-341",
+    "no": 341,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-20",
@@ -5385,8 +6876,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 27801040
   },
   {
-    "id": "matrix-row-1793243876188-276",
-    "no": 276,
+    "id": "matrix-row-1793679583609-342",
+    "no": 342,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-20",
@@ -5397,8 +6888,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 13008670
   },
   {
-    "id": "matrix-row-1793243876188-277",
-    "no": 277,
+    "id": "matrix-row-1793679583609-343",
+    "no": 343,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-21",
@@ -5409,8 +6900,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 37113650
   },
   {
-    "id": "matrix-row-1793243876188-278",
-    "no": 278,
+    "id": "matrix-row-1793679583609-344",
+    "no": 344,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-21",
@@ -5421,8 +6912,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 46965120
   },
   {
-    "id": "matrix-row-1793243876188-279",
-    "no": 279,
+    "id": "matrix-row-1793679583609-345",
+    "no": 345,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-21",
@@ -5433,8 +6924,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 43429260
   },
   {
-    "id": "matrix-row-1793243876188-280",
-    "no": 280,
+    "id": "matrix-row-1793679583609-346",
+    "no": 346,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-22",
@@ -5445,20 +6936,20 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 33173050
   },
   {
-    "id": "matrix-row-1793243876188-281",
-    "no": 281,
+    "id": "matrix-row-1793679583609-347",
+    "no": 347,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-22",
     "mc": 6.8,
     "calori": 4320,
     "konsumsi": 18988,
-    "harga": 1150,
-    "totalHarga": 21843460
+    "harga": 1656,
+    "totalHarga": 31437208
   },
   {
-    "id": "matrix-row-1793243876188-282",
-    "no": 282,
+    "id": "matrix-row-1793679583609-348",
+    "no": 348,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-22",
@@ -5469,8 +6960,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 44268330
   },
   {
-    "id": "matrix-row-1793243876188-283",
-    "no": 283,
+    "id": "matrix-row-1793679583609-349",
+    "no": 349,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-23",
@@ -5481,20 +6972,20 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 5934140
   },
   {
-    "id": "matrix-row-1793243876188-284",
-    "no": 284,
+    "id": "matrix-row-1793679583609-350",
+    "no": 350,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-23",
     "mc": 6.8,
     "calori": 4320,
     "konsumsi": 19055,
-    "harga": 523,
-    "totalHarga": 9969600
+    "harga": 1657,
+    "totalHarga": 31565216
   },
   {
-    "id": "matrix-row-1793243876188-285",
-    "no": 285,
+    "id": "matrix-row-1793679583609-351",
+    "no": 351,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-23",
@@ -5505,8 +6996,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 59930890
   },
   {
-    "id": "matrix-row-1793243876188-286",
-    "no": 286,
+    "id": "matrix-row-1793679583610-352",
+    "no": 352,
     "namaPt": "SAMCA",
     "bahanBakar": "CANGKANG",
     "tanggal": "2026-10-24",
@@ -5517,8 +7008,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 28434750
   },
   {
-    "id": "matrix-row-1793243876188-287",
-    "no": 287,
+    "id": "matrix-row-1793679583610-353",
+    "no": 353,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-24",
@@ -5529,8 +7020,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 32118010
   },
   {
-    "id": "matrix-row-1793243876188-288",
-    "no": 288,
+    "id": "matrix-row-1793679583610-354",
+    "no": 354,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-24",
@@ -5541,8 +7032,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 45253010
   },
   {
-    "id": "matrix-row-1793243876188-289",
-    "no": 289,
+    "id": "matrix-row-1793679583610-355",
+    "no": 355,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-25",
@@ -5553,8 +7044,8 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 39316580
   },
   {
-    "id": "matrix-row-1793243876188-290",
-    "no": 290,
+    "id": "matrix-row-1793679583610-356",
+    "no": 356,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-25",
@@ -5565,20 +7056,20 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "totalHarga": 3401010
   },
   {
-    "id": "matrix-row-1793243876188-291",
-    "no": 291,
+    "id": "matrix-row-1793679583610-357",
+    "no": 357,
     "namaPt": "WIRABUMI",
     "bahanBakar": "WOOD PELLET",
     "tanggal": "2026-10-26",
     "mc": 6.8,
     "calori": 4320,
     "konsumsi": 22686,
-    "harga": 1394,
-    "totalHarga": 31631140
+    "harga": 1681,
+    "totalHarga": 38129696
   },
   {
-    "id": "matrix-row-1793243876188-292",
-    "no": 292,
+    "id": "matrix-row-1793679583610-358",
+    "no": 358,
     "namaPt": "INDOPELLET",
     "bahanBakar": "DUST PELLET",
     "tanggal": "2026-10-26",
@@ -5587,5 +7078,77 @@ export const INITIAL_ENTRIES: FuelEntry[] = [
     "konsumsi": 19916,
     "harga": 1590,
     "totalHarga": 31666440
+  },
+  {
+    "id": "matrix-row-1793679583610-359",
+    "no": 359,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-10-27",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 3476,
+    "harga": 1670,
+    "totalHarga": 5804920
+  },
+  {
+    "id": "matrix-row-1793679583610-360",
+    "no": 360,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-10-27",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 36766,
+    "harga": 1436,
+    "totalHarga": 52808630
+  },
+  {
+    "id": "matrix-row-1793679583610-361",
+    "no": 361,
+    "namaPt": "INDOPELLET",
+    "bahanBakar": "DUST PELLET",
+    "tanggal": "2026-10-27",
+    "mc": 8.5,
+    "calori": 4150,
+    "konsumsi": 20645,
+    "harga": 1597,
+    "totalHarga": 32976640
+  },
+  {
+    "id": "matrix-row-1793679583610-362",
+    "no": 362,
+    "namaPt": "SAMCA",
+    "bahanBakar": "CANGKANG",
+    "tanggal": "2026-10-28",
+    "mc": 18.2,
+    "calori": 4100,
+    "konsumsi": 26270,
+    "harga": 1680,
+    "totalHarga": 44133600
+  },
+  {
+    "id": "matrix-row-1793679583610-363",
+    "no": 363,
+    "namaPt": "WIRABUMI",
+    "bahanBakar": "WOOD PELLET",
+    "tanggal": "2026-10-28",
+    "mc": 6.8,
+    "calori": 4320,
+    "konsumsi": 47923,
+    "harga": 1622,
+    "totalHarga": 77753932
+  },
+  {
+    "id": "matrix-row-1793679583610-364",
+    "no": 364,
+    "namaPt": "INDOPELLET",
+    "bahanBakar": "DUST PELLET",
+    "tanggal": "2026-10-28",
+    "mc": 8.5,
+    "calori": 4150,
+    "konsumsi": 2738,
+    "harga": 1590,
+    "totalHarga": 4353420
   }
 ];

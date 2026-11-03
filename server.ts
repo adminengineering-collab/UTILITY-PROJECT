@@ -108,15 +108,25 @@ async function syncServerFromSpreadsheet(overrideUrl?: string): Promise<boolean>
     const parsed = parseSpreadsheetText(text);
 
     if (parsed.entries && parsed.entries.length > 0) {
-      centralState.sheetUrl = targetUrl;
-      centralState.entries = parsed.entries;
-      centralState.steamData = parsed.steamData || {};
-      centralState.rowCount = parsed.entries.length;
-      centralState.lastSyncedAt = new Date().toLocaleString('id-ID');
-      centralState.lastUpdated = Date.now();
-      saveCentralData(centralState);
-      console.log(`[Server Sync] Successfully synced ${parsed.entries.length} rows from Google Sheets.`);
-      return true;
+      const oldKg = centralState.entries.reduce((a, b) => a + (b.konsumsi || 0), 0);
+      const newKg = parsed.entries.reduce((a, b) => a + (b.konsumsi || 0), 0);
+      const rowCountChanged = centralState.entries.length !== parsed.entries.length;
+      const kgChanged = Math.abs(oldKg - newKg) > 0.01;
+      const steamChanged = JSON.stringify(centralState.steamData) !== JSON.stringify(parsed.steamData || {});
+      const isInitial = centralState.entries.length === 0;
+
+      if (rowCountChanged || kgChanged || steamChanged || isInitial) {
+        centralState.sheetUrl = targetUrl;
+        centralState.entries = parsed.entries;
+        centralState.steamData = parsed.steamData || {};
+        centralState.rowCount = parsed.entries.length;
+        centralState.lastSyncedAt = new Date().toLocaleString('id-ID');
+        centralState.lastUpdated = Date.now();
+        centralState.mergeMode = 'replace';
+        saveCentralData(centralState);
+        console.log(`[Server Sync] Detected changes in spreadsheet! Replaced with ${parsed.entries.length} fresh rows.`);
+        return true;
+      }
     }
   } catch (err: any) {
     console.error('[Server Sync] Failed to fetch Google Sheet:', err.message);
@@ -179,23 +189,20 @@ async function startServer() {
         centralState.sheetUrl = sheetUrl.trim();
       }
       if (Array.isArray(entries) && entries.length > 0) {
-        // Prevent accidental downgrades from stale browser tabs (e.g., 105 entries overriding 292 entries)
-        if (centralState.entries.length >= 200 && entries.length < 150) {
-          console.warn(`[Sync Guard] Rejected save: Server has ${centralState.entries.length} rows, incoming client had only ${entries.length}`);
-        } else {
-          centralState.entries = entries;
-          centralState.rowCount = entries.length;
-        }
+        centralState.entries = entries;
+        centralState.rowCount = entries.length;
       }
       if (steamData && typeof steamData === 'object' && Object.keys(steamData).length > 0) {
-        centralState.steamData = { ...centralState.steamData, ...steamData };
+        if (mergeMode === 'merge') {
+          centralState.steamData = { ...centralState.steamData, ...steamData };
+        } else {
+          centralState.steamData = steamData;
+        }
       }
       if (lastSyncedAt) {
         centralState.lastSyncedAt = lastSyncedAt;
       }
-      if (mergeMode) {
-        centralState.mergeMode = mergeMode;
-      }
+      centralState.mergeMode = mergeMode || 'replace';
 
       centralState.lastUpdated = Date.now();
       saveCentralData(centralState);
@@ -262,10 +269,10 @@ async function startServer() {
     console.log(`Server running at http://0.0.0.0:${PORT}`);
     // Initial sync from Google Sheets on boot
     syncServerFromSpreadsheet().catch(console.error);
-    // Background auto-sync every 30 seconds
+    // Background real-time auto-sync from Google Sheets every 10 seconds
     setInterval(() => {
       syncServerFromSpreadsheet().catch(console.error);
-    }, 30000);
+    }, 10000);
   });
 }
 

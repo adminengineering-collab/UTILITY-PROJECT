@@ -206,7 +206,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
         'Rp per Ton Steam': Math.round(rpPerTonSteam),
       };
     });
-  }, [summaries, preloadedRecordsMap]);
+  }, [summaries, preloadedRecordsMap, chartDateSort]);
 
   // Custom Tooltip (Dialog Batang) displaying Total Konsumsi, Volume Spreadsheet, Percentages, Cost, and Steam
   const CustomConsumptionTooltip = ({ active, payload }: any) => {
@@ -1751,89 +1751,6 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                 <option value="DP">💨 Dust Pellet (DP)</option>
                 <option value="KP">☕ Kopi Pellet (KP)</option>
               </select>
-            </div>
-
-            {/* Rangkuman Tertinggi dan Terendah di Bulan Apa Tiap Jenis Bahan Bakar */}
-            <div className="mb-2 p-1.5 rounded-lg bg-slate-50 border border-slate-200 text-[10px] space-y-1 font-mono">
-              <div
-                onClick={() => setSelectedFuelExtreme(selectedFuelExtreme === 'CK' ? 'ALL' : 'CK')}
-                className={`flex items-center justify-between px-2 py-0.5 rounded cursor-pointer transition-colors border ${
-                  selectedFuelExtreme === 'CK'
-                    ? 'bg-emerald-100 border-emerald-400 font-extrabold text-emerald-950 shadow-2xs'
-                    : 'bg-emerald-50/70 border-emerald-200/80 text-emerald-950 hover:bg-emerald-100/60'
-                }`}
-                title="Klik untuk fokus ke Cangkang Sawit (CK)"
-              >
-                <span className="font-bold flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block"></span>
-                  <span>1. Cangkang (CK):</span>
-                </span>
-                <div className="flex items-center gap-2">
-                  <span className="text-rose-700 font-bold">🔺 Agu: Rp1.726</span>
-                  <span className="text-slate-400">·</span>
-                  <span className="text-emerald-700 font-bold">🔻 Okt: Rp1.679</span>
-                </div>
-              </div>
-
-              <div
-                onClick={() => setSelectedFuelExtreme(selectedFuelExtreme === 'WP' ? 'ALL' : 'WP')}
-                className={`flex items-center justify-between px-2 py-0.5 rounded cursor-pointer transition-colors border ${
-                  selectedFuelExtreme === 'WP'
-                    ? 'bg-amber-100 border-amber-400 font-extrabold text-amber-950 shadow-2xs'
-                    : 'bg-amber-50/70 border-amber-200/80 text-amber-950 hover:bg-amber-100/60'
-                }`}
-                title="Klik untuk fokus ke Wood Pellet (WP)"
-              >
-                <span className="font-bold flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-amber-600 inline-block"></span>
-                  <span>2. Wood Pellet (WP):</span>
-                </span>
-                <div className="flex items-center gap-2">
-                  <span className="text-rose-700 font-bold">🔺 Agu: Rp1.750</span>
-                  <span className="text-slate-400">·</span>
-                  <span className="text-emerald-700 font-bold">🔻 Feb: Rp1.586</span>
-                </div>
-              </div>
-
-              <div
-                onClick={() => setSelectedFuelExtreme(selectedFuelExtreme === 'DP' ? 'ALL' : 'DP')}
-                className={`flex items-center justify-between px-2 py-0.5 rounded cursor-pointer transition-colors border ${
-                  selectedFuelExtreme === 'DP'
-                    ? 'bg-sky-100 border-sky-400 font-extrabold text-sky-950 shadow-2xs'
-                    : 'bg-sky-50/70 border-sky-200/80 text-sky-950 hover:bg-sky-100/60'
-                }`}
-                title="Klik untuk fokus ke Dust Pellet (DP)"
-              >
-                <span className="font-bold flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-sky-600 inline-block"></span>
-                  <span>3. Dust Pellet (DP):</span>
-                </span>
-                <div className="flex items-center gap-2">
-                  <span className="text-rose-700 font-bold">🔺 Sep: Rp1.600</span>
-                  <span className="text-slate-400">·</span>
-                  <span className="text-emerald-700 font-bold">🔻 Okt: Rp1.594</span>
-                </div>
-              </div>
-
-              <div
-                onClick={() => setSelectedFuelExtreme(selectedFuelExtreme === 'KP' ? 'ALL' : 'KP')}
-                className={`flex items-center justify-between px-2 py-0.5 rounded cursor-pointer transition-colors border ${
-                  selectedFuelExtreme === 'KP'
-                    ? 'bg-purple-100 border-purple-400 font-extrabold text-purple-950 shadow-2xs'
-                    : 'bg-purple-50/70 border-purple-200/80 text-purple-950 hover:bg-purple-100/60'
-                }`}
-                title="Klik untuk fokus ke Kopi Pellet (KP)"
-              >
-                <span className="font-bold flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-purple-600 inline-block"></span>
-                  <span>4. Kopi Pellet (KP):</span>
-                </span>
-                <div className="flex items-center gap-2">
-                  <span className="text-rose-700 font-bold">🔺 Feb: Rp2.200</span>
-                  <span className="text-slate-400">·</span>
-                  <span className="text-purple-700 font-bold">Uji Coba Feb</span>
-                </div>
-              </div>
             </div>
           </div>
 

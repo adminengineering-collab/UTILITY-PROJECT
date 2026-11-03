@@ -680,24 +680,31 @@ export function parseSpreadsheetText(rawText: string): ParseResult {
         : (rawCols.length > 2 && !rawCols[2].includes('/') ? cleanNumber(rawCols[2]) : 0);
 
       // Quantities
-      const explicitTotalQty = matrixColMap.totalQty >= 0 
+      let explicitTotalQty = matrixColMap.totalQty >= 0 
         ? cleanNumber(rawCols[matrixColMap.totalQty]) 
         : (rawCols.length > 1 && !rawCols[1].includes('/') ? cleanNumber(rawCols[1]) : 0);
 
-      const cQty = matrixColMap.cangkangQty >= 0 ? cleanNumber(rawCols[matrixColMap.cangkangQty]) : 0;
+      let cQty = matrixColMap.cangkangQty >= 0 ? cleanNumber(rawCols[matrixColMap.cangkangQty]) : 0;
       let wQty = matrixColMap.woodPelletQty >= 0 ? cleanNumber(rawCols[matrixColMap.woodPelletQty]) : 0;
-      const dQty = matrixColMap.dustPelletQty >= 0 ? cleanNumber(rawCols[matrixColMap.dustPelletQty]) : 0;
-      const kQty = matrixColMap.kopiPelletQty >= 0 ? cleanNumber(rawCols[matrixColMap.kopiPelletQty]) : 0;
+      let dQty = matrixColMap.dustPelletQty >= 0 ? cleanNumber(rawCols[matrixColMap.dustPelletQty]) : 0;
+      let kQty = matrixColMap.kopiPelletQty >= 0 ? cleanNumber(rawCols[matrixColMap.kopiPelletQty]) : 0;
 
-      // Critical reconciliation: If spreadsheet Column B specifies TOTAL QTY (e.g. 69071 kg on 12/02),
-      // ensure fuel sub-quantities add up exactly to TOTAL QTY by assigning remainder to Wood Pellet (the main bulk fuel)
-      if (explicitTotalQty > 0) {
-        const sumSubFuels = cQty + wQty + dQty + kQty;
-        if (sumSubFuels < explicitTotalQty) {
-          wQty += (explicitTotalQty - sumSubFuels);
-        }
+      // Handle thousand values formatted with comma dropping trailing zero (e.g. "60,59" -> 60590 kg)
+      if (explicitTotalQty > 0 && explicitTotalQty < 500 && explicitTotalHarga > 1000000) {
+        explicitTotalQty = Math.round(explicitTotalQty * 1000);
       }
-      const sumQty = cQty + wQty + dQty + kQty;
+      if (cQty > 0 && cQty < 100 && explicitTotalQty > 1000) {
+        cQty = Math.round(cQty * 1000);
+      }
+      if (wQty > 0 && wQty < 100 && explicitTotalQty > 1000) {
+        wQty = Math.round(wQty * 1000);
+      }
+      if (dQty > 0 && dQty < 100 && explicitTotalQty > 1000) {
+        dQty = Math.round(dQty * 1000);
+      }
+      if (kQty > 0 && kQty < 100 && explicitTotalQty > 1000) {
+        kQty = Math.round(kQty * 1000);
+      }
 
       // Fuel-specific prices if available
       let cHrgTotal = matrixColMap.cangkangHarga >= 0 ? cleanNumber(rawCols[matrixColMap.cangkangHarga]) : 0;
@@ -705,18 +712,53 @@ export function parseSpreadsheetText(rawText: string): ParseResult {
       let dHrgTotal = matrixColMap.dustPelletHarga >= 0 ? cleanNumber(rawCols[matrixColMap.dustPelletHarga]) : 0;
       let kHrgTotal = matrixColMap.kopiHarga >= 0 ? cleanNumber(rawCols[matrixColMap.kopiHarga]) : 0;
 
-      // If explicitTotalHarga is present (e.g. Rp 125,015,945 on 12/02) and sub-totals are lower or zero:
+      // Critical reconciliation: If spreadsheet Column B specifies TOTAL QTY (e.g. 4527 kg on 17/02 or 69071 kg on 12/02),
+      // ensure fuel sub-quantities add up EXACTLY to TOTAL QTY!
+      if (explicitTotalQty > 0) {
+        const sumSubFuels = cQty + wQty + dQty + kQty;
+        if (sumSubFuels > explicitTotalQty) {
+          // If a single fuel already matches explicitTotalQty exactly (e.g. Kopi 4527 on 17/02), discard obsolete entries
+          if (kQty === explicitTotalQty && cQty === 0 && dQty === 0) {
+            wQty = 0;
+            wHrgTotal = 0;
+          } else if (wQty === explicitTotalQty && cQty === 0 && dQty === 0 && kQty === 0) {
+            // Already exact
+          } else if (cQty === explicitTotalQty && wQty === 0 && dQty === 0 && kQty === 0) {
+            // Already exact
+          } else {
+            const overflow = sumSubFuels - explicitTotalQty;
+            if (wQty >= overflow) {
+              wQty -= overflow;
+            } else {
+              wQty = 0;
+            }
+          }
+        } else if (sumSubFuels < explicitTotalQty) {
+          const diff = explicitTotalQty - sumSubFuels;
+          wQty += diff;
+        }
+      }
+
+      if (wQty === 0) wHrgTotal = 0;
+      if (cQty === 0) cHrgTotal = 0;
+      if (dQty === 0) dHrgTotal = 0;
+      if (kQty === 0) kHrgTotal = 0;
+
+      const sumQty = cQty + wQty + dQty + kQty;
+
+      // If explicitTotalHarga is present and sub-totals are lower or zero:
       if (explicitTotalHarga > 0) {
-        const currentSumHrg = cHrgTotal + wHrgTotal + dHrgTotal + kHrgTotal;
+        let currentSumHrg = cHrgTotal + wHrgTotal + dHrgTotal + kHrgTotal;
         if (currentSumHrg === 0 && sumQty > 0) {
           // Distribute proportionally if individual prices not provided
           cHrgTotal = cQty > 0 ? Math.round((cQty / sumQty) * explicitTotalHarga) : 0;
           wHrgTotal = wQty > 0 ? Math.round((wQty / sumQty) * explicitTotalHarga) : 0;
           dHrgTotal = dQty > 0 ? Math.round((dQty / sumQty) * explicitTotalHarga) : 0;
           kHrgTotal = explicitTotalHarga - (cHrgTotal + wHrgTotal + dHrgTotal);
-        } else if (currentSumHrg < explicitTotalHarga) {
-          // Add remainder to Wood Pellet
+        } else if (currentSumHrg < explicitTotalHarga && wQty > 0) {
           wHrgTotal += (explicitTotalHarga - currentSumHrg);
+        } else if (currentSumHrg > explicitTotalHarga && wHrgTotal >= (currentSumHrg - explicitTotalHarga)) {
+          wHrgTotal -= (currentSumHrg - explicitTotalHarga);
         }
       }
 
