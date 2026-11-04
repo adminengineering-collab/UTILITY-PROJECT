@@ -48,10 +48,10 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
             <div>
               <div className="text-base font-bold tracking-tight text-white flex items-center gap-2">
-                <span>Monitoring Konsumsi &amp; Biaya Bahan Bakar</span>
+                <span>MONITORING COST UTILITY</span>
               </div>
               <div className="text-[11px] text-slate-400 hidden md:block">
-                Sistem Pemantauan Bahan Bakar Boiler
+                Sistem Pemantauan Bahan Bakar Boiler &amp; Biaya Steam
               </div>
             </div>
           </div>
