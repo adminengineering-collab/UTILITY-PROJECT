@@ -4,6 +4,7 @@ import { FUEL_TYPES } from '../data/initialData';
 export interface ParseResult {
   entries: FuelEntry[];
   steamData: Record<string, number>;
+  poPrices?: Record<string, { wp: number; ck: number; dp: number }>;
   summary: {
     rowCount: number;
     datesFound: string[];
@@ -566,6 +567,9 @@ export function parseSpreadsheetText(rawText: string): ParseResult {
     woodPelletHarga: -1,
     dustPelletHarga: -1,
     kopiHarga: -1,
+    poWoodPelletHarga: -1,
+    poCangkangHarga: -1,
+    poDustPelletHarga: -1,
   };
 
   for (let i = 0; i < Math.min(lines.length, 5); i++) {
@@ -613,14 +617,20 @@ export function parseSpreadsheetText(rawText: string): ParseResult {
           matrixColMap.dustPelletQty = idx;
         } else if (col.includes('KOPI') && !col.includes('HARGA') && !col.includes('%') && !col.includes('RP')) {
           matrixColMap.kopiPelletQty = idx;
-        } else if ((col.includes('HARGA') || col.includes('RP')) && (col.includes('CANGKANG') || col.includes('SAWIT'))) {
+        } else if (matrixColMap.cangkangHarga === -1 && (col.includes('HARGA') || col.includes('RP')) && (col.includes('CANGKANG') || col.includes('SAWIT')) && !col.includes('PO') && !col.includes('RATA')) {
           matrixColMap.cangkangHarga = idx;
-        } else if ((col.includes('HARGA') || col.includes('RP')) && col.includes('WOOD') && !col.includes('DUST')) {
+        } else if (matrixColMap.woodPelletHarga === -1 && (col.includes('HARGA') || col.includes('RP')) && col.includes('WOOD') && !col.includes('DUST') && !col.includes('PO') && !col.includes('RATA')) {
           matrixColMap.woodPelletHarga = idx;
-        } else if ((col.includes('HARGA') || col.includes('RP')) && col.includes('DUST')) {
+        } else if (matrixColMap.dustPelletHarga === -1 && (col.includes('HARGA') || col.includes('RP')) && col.includes('DUST') && !col.includes('PO') && !col.includes('RATA')) {
           matrixColMap.dustPelletHarga = idx;
-        } else if ((col.includes('HARGA') || col.includes('RP')) && col.includes('KOPI')) {
+        } else if (matrixColMap.kopiHarga === -1 && (col.includes('HARGA') || col.includes('RP')) && col.includes('KOPI') && !col.includes('PO') && !col.includes('RATA')) {
           matrixColMap.kopiHarga = idx;
+        } else if (col.includes('PO') && col.includes('WOOD') && !col.includes('DUST')) {
+          matrixColMap.poWoodPelletHarga = idx;
+        } else if (col.includes('PO') && (col.includes('CANGKANG') || col.includes('SAWIT'))) {
+          matrixColMap.poCangkangHarga = idx;
+        } else if (col.includes('PO') && col.includes('DUST')) {
+          matrixColMap.poDustPelletHarga = idx;
         }
       });
       break;
@@ -654,6 +664,7 @@ export function parseSpreadsheetText(rawText: string): ParseResult {
 
   let rowCounter = 1;
   let lastValidDate = '';
+  const poMonthlyAcc: Record<string, { wpSum: number; wpCount: number; ckSum: number; ckCount: number; dpSum: number; dpCount: number }> = {};
 
   for (let i = headerRowIndex + 1; i < lines.length; i++) {
     const rawCols = splitRow(lines[i]);
@@ -672,6 +683,20 @@ export function parseSpreadsheetText(rawText: string): ParseResult {
       if (steamNum > 0) {
         steamData[parsedDate] = steamNum;
         if (rawDate) steamData[rawDate] = steamNum;
+      }
+
+      // Extract PO prices per month
+      const mKey = parsedDate.substring(0, 7);
+      if (mKey) {
+        if (!poMonthlyAcc[mKey]) {
+          poMonthlyAcc[mKey] = { wpSum: 0, wpCount: 0, ckSum: 0, ckCount: 0, dpSum: 0, dpCount: 0 };
+        }
+        const poWp = matrixColMap.poWoodPelletHarga >= 0 ? cleanNumber(rawCols[matrixColMap.poWoodPelletHarga]) : 0;
+        const poCk = matrixColMap.poCangkangHarga >= 0 ? cleanNumber(rawCols[matrixColMap.poCangkangHarga]) : 0;
+        const poDp = matrixColMap.poDustPelletHarga >= 0 ? cleanNumber(rawCols[matrixColMap.poDustPelletHarga]) : 0;
+        if (poWp > 0) { poMonthlyAcc[mKey].wpSum += poWp; poMonthlyAcc[mKey].wpCount += 1; }
+        if (poCk > 0) { poMonthlyAcc[mKey].ckSum += poCk; poMonthlyAcc[mKey].ckCount += 1; }
+        if (poDp > 0) { poMonthlyAcc[mKey].dpSum += poDp; poMonthlyAcc[mKey].dpCount += 1; }
       }
 
       // Read exact TOTAL HARGA (Rp) if present in matrix column 2 or designated column
@@ -904,9 +929,20 @@ export function parseSpreadsheetText(rawText: string): ParseResult {
     errors.push('Tidak dapat mengenali format baris spreadsheet. Pastikan kolom memuat Nama PT, Bahan Bakar, Tanggal, Konsumsi, dan Harga.');
   }
 
+  const poPrices: Record<string, { wp: number; ck: number; dp: number }> = {};
+  Object.keys(poMonthlyAcc).forEach((mKey) => {
+    const acc = poMonthlyAcc[mKey];
+    poPrices[mKey] = {
+      wp: acc.wpCount > 0 ? Math.round(acc.wpSum / acc.wpCount) : 0,
+      ck: acc.ckCount > 0 ? Math.round(acc.ckSum / acc.ckCount) : 0,
+      dp: acc.dpCount > 0 ? Math.round(acc.dpSum / acc.dpCount) : 0,
+    };
+  });
+
   return {
     entries,
     steamData,
+    poPrices,
     summary: {
       rowCount: entries.length,
       datesFound: Array.from(datesSet).sort(),

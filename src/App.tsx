@@ -68,6 +68,16 @@ export default function App() {
     return { ...INITIAL_STEAM_DATA };
   });
 
+  const [poPrices, setPoPrices] = useState<Record<string, { wp: number; ck: number; dp: number }>>(() => {
+    try {
+      const saved = localStorage.getItem('taco_boiler_po_prices_v1');
+      if (saved) return JSON.parse(saved);
+    } catch {
+      // ignore
+    }
+    return {};
+  });
+
   // Real-Time Spreadsheet Sync State - Defaults to official Google Sheet so all computers connect out-of-the-box
   const [sheetUrl, setSheetUrl] = useState<string>(() => {
     try {
@@ -441,6 +451,14 @@ export default function App() {
       setEntries(parseResult.entries);
       if (Object.keys(parseResult.steamData).length > 0) {
         setSteamData(parseResult.steamData);
+        if (parseResult.poPrices) {
+          setPoPrices(parseResult.poPrices);
+          try {
+            localStorage.setItem('taco_boiler_po_prices_v1', JSON.stringify(parseResult.poPrices));
+          } catch {
+            // ignore
+          }
+        }
       }
 
       // Auto-align date filter range with spreadsheet if dates exist so all data are immediately visible
@@ -706,26 +724,36 @@ export default function App() {
                 Semua Data
               </button>
 
-              {availableMonths.map((m) => {
-                const isSelected = dateFilterPreset === 'CUSTOM' && startDate.startsWith(m.ym);
-                return (
-                  <button
-                    key={m.ym}
-                    onClick={() => {
-                      setStartDate(`${m.ym}-01`);
-                      setEndDate(`${m.ym}-31`);
-                      setDateFilterPreset('CUSTOM');
-                    }}
-                    className={`px-2 py-1 text-xs rounded transition-colors font-medium ${
-                      isSelected
-                        ? 'bg-amber-500 text-white font-bold shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                    }`}
-                  >
+              <select
+                value={dateFilterPreset === 'CUSTOM' && availableMonths.some((m) => startDate.startsWith(m.ym)) ? startDate.substring(0, 7) : ''}
+                onChange={(e) => {
+                  const ym = e.target.value;
+                  if (!ym) {
+                    setDateFilterPreset('ALL');
+                    setStartDate('');
+                    setEndDate('');
+                  } else {
+                    setStartDate(`${ym}-01`);
+                    setEndDate(`${ym}-31`);
+                    setDateFilterPreset('CUSTOM');
+                  }
+                }}
+                className={`px-2.5 py-1 text-xs rounded border transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-500 ${
+                  dateFilterPreset === 'CUSTOM' && availableMonths.some((m) => startDate.startsWith(m.ym))
+                    ? 'bg-amber-500 text-white font-bold border-amber-500 shadow-xs'
+                    : 'bg-white text-slate-700 font-medium border-slate-200 hover:border-slate-300'
+                }`}
+                aria-label="Pilih Bulan"
+              >
+                <option value="" className="bg-white text-slate-700 font-medium">
+                  Pilih Bulan...
+                </option>
+                {availableMonths.map((m) => (
+                  <option key={m.ym} value={m.ym} className="bg-white text-slate-900 font-medium">
                     {m.label}
-                  </button>
-                );
-              })}
+                  </option>
+                ))}
+              </select>
 
               <button
                 onClick={() => {
@@ -850,6 +878,7 @@ export default function App() {
             <MetricCards summaries={summaries} />
             <ChartsSection
               summaries={summaries}
+              poPrices={poPrices}
               onUpdateDailySteam={handleUpdateDailySteam}
               onUpdateDailyFuel={handleUpdateDailyFuel}
               onPerformSync={() => handlePerformSync(false)}
@@ -869,6 +898,7 @@ export default function App() {
           <div className="space-y-6">
             <ChartsSection
               summaries={summaries}
+              poPrices={poPrices}
               onUpdateDailySteam={handleUpdateDailySteam}
               onUpdateDailyFuel={handleUpdateDailyFuel}
               onPerformSync={() => handlePerformSync(false)}

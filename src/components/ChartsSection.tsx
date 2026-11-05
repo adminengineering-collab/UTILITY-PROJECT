@@ -42,6 +42,7 @@ import { FuelType } from '../types/boiler';
 
 interface ChartsSectionProps {
   summaries: DailyFuelSummary[];
+  poPrices?: Record<string, { wp: number; ck: number; dp: number }>;
   onUpdateDailySteam?: (date: string, newSteamOut: number) => void;
   onUpdateDailyFuel?: (date: string, fuelType: FuelType, newKonsumsi: number) => void;
   onPerformSync?: () => void;
@@ -51,6 +52,7 @@ interface ChartsSectionProps {
 
 export const ChartsSection: React.FC<ChartsSectionProps> = ({
   summaries,
+  poPrices,
   onUpdateDailySteam,
   onUpdateDailyFuel,
   onPerformSync,
@@ -684,6 +686,8 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
       { key: '2026-03', short: 'MARET', name: 'Maret 2026' },
       { key: '2026-04', short: 'APRIL', name: 'April 2026' },
       { key: '2026-05', short: 'MEI', name: 'Mei 2026' },
+      { key: '2026-06', short: 'JUNI', name: 'Juni 2026' },
+      { key: '2026-07', short: 'JULI', name: 'Juli 2026' },
       { key: '2026-08', short: 'AGU', name: 'Agustus 2026' },
       { key: '2026-09', short: 'SEP', name: 'September 2026' },
       { key: '2026-10', short: 'OKT', name: 'Oktober 2026' },
@@ -740,7 +744,8 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
       const fromMap = priceMap.get(m.key);
       let price = fromMap ? fromMap.dp : 0;
       if (price === 0) {
-        if (m.key === '2026-03') price = 1950;
+        if (m.key === '2026-02') price = 1794;
+        else if (m.key === '2026-03') price = 1950;
         else if (m.key === '2026-08') price = 1599;
         else if (m.key === '2026-09') price = 1600;
         else if (m.key === '2026-10') price = 1594;
@@ -786,6 +791,91 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
       },
     };
   }, [monthlyVendorPrices]);
+
+  // Data Diagram Batang HARGA AVG PO (WP, CK, DP) per bulan
+  const monthlyPoPriceBarStats = useMemo(() => {
+    const monthDefs = [
+      { key: '2026-01', short: 'JAN', name: 'Januari 2026' },
+      { key: '2026-02', short: 'FEB', name: 'Februari 2026' },
+      { key: '2026-03', short: 'MARET', name: 'Maret 2026' },
+      { key: '2026-04', short: 'APRIL', name: 'April 2026' },
+      { key: '2026-05', short: 'MEI', name: 'Mei 2026' },
+      { key: '2026-06', short: 'JUNI', name: 'Juni 2026' },
+      { key: '2026-07', short: 'JULI', name: 'Juli 2026' },
+      { key: '2026-08', short: 'AGU', name: 'Agustus 2026' },
+      { key: '2026-09', short: 'SEP', name: 'September 2026' },
+      { key: '2026-10', short: 'OKT', name: 'Oktober 2026' },
+    ];
+
+    const poWpDefaults: Record<string, number> = {
+      '2026-02': 1814,
+      '2026-03': 1814,
+      '2026-04': 1814,
+      '2026-05': 1814,
+      '2026-06': 1814,
+      '2026-07': 1814,
+      '2026-08': 1750,
+      '2026-09': 1687,
+      '2026-10': 1671,
+    };
+    const poCkDefaults: Record<string, number> = {
+      '2026-02': 1893,
+      '2026-03': 1893,
+      '2026-04': 1893,
+      '2026-05': 1893,
+      '2026-06': 1893,
+      '2026-07': 1893,
+      '2026-08': 1726,
+      '2026-09': 1700,
+      '2026-10': 1679,
+    };
+    const poDpDefaults: Record<string, number> = {
+      '2026-02': 2053,
+      '2026-03': 2053,
+      '2026-04': 2053,
+      '2026-05': 2053,
+      '2026-06': 2053,
+      '2026-07': 2053,
+      '2026-08': 1599,
+      '2026-09': 1600,
+      '2026-10': 1594,
+    };
+
+    const buildList = (fuelKey: 'wp' | 'ck' | 'dp', defaults: Record<string, number>) =>
+      monthDefs.map((m) => {
+        const syncedVal = poPrices?.[m.key]?.[fuelKey] || 0;
+        const price = syncedVal > 0 ? syncedVal : (defaults[m.key] || 0);
+        return {
+          monthKey: m.key,
+          shortMonth: m.short,
+          monthName: m.name,
+          price,
+          formattedPrice: price > 0 ? formatRupiah(price) : 'Rp0',
+        };
+      });
+
+    const wpList = buildList('wp', poWpDefaults);
+    const ckList = buildList('ck', poCkDefaults);
+    const dpList = buildList('dp', poDpDefaults);
+
+    const findExtremes = (list: typeof wpList) => {
+      const nonZero = list.filter((item) => item.price > 0);
+      if (nonZero.length === 0) return { highest: null, lowest: null };
+      let highest = nonZero[0];
+      let lowest = nonZero[0];
+      nonZero.forEach((item) => {
+        if (item.price > highest.price) highest = item;
+        if (item.price < lowest.price) lowest = item;
+      });
+      return { highest, lowest };
+    };
+
+    return {
+      wp: { list: wpList, ...findExtremes(wpList) },
+      ck: { list: ckList, ...findExtremes(ckList) },
+      dp: { list: dpList, ...findExtremes(dpList) },
+    };
+  }, [poPrices]);
 
   // Data bulan aktif untuk Diagram Lingkaran
   const activeMonthAvgData = useMemo(() => {
@@ -1590,6 +1680,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
         date: dailyStats.highestConsumption.tanggal,
         value: dailyStats.highestConsumption.totalKonsumsi,
         display: `${formatNumber(dailyStats.highestConsumption.totalKonsumsi)} kg`,
+        steamOut: `${formatNumber(dailyStats.highestConsumption['Steam Out'])} Ton`,
         color: '#d97706',
         status: 'TERTINGGI (HARI)',
       },
@@ -1598,6 +1689,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
         date: dailyStats.lowestConsumption.tanggal,
         value: dailyStats.lowestConsumption.totalKonsumsi,
         display: `${formatNumber(dailyStats.lowestConsumption.totalKonsumsi)} kg`,
+        steamOut: `${formatNumber(dailyStats.lowestConsumption['Steam Out'])} Ton`,
         color: '#0284c7',
         status: 'TERENDAH (HARI)',
       },
@@ -1638,6 +1730,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
         date: dailyStats.highestRpSteam.tanggal,
         value: dailyStats.highestRpSteam['Rp per Ton Steam'],
         display: `${formatRupiah(dailyStats.highestRpSteam['Rp per Ton Steam'])}/Ton`,
+        steamOut: `${formatNumber(dailyStats.highestRpSteam['Steam Out'])} Ton`,
         color: '#e11d48',
         status: 'TERTINGGI (HARI)',
       },
@@ -1646,6 +1739,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
         date: dailyStats.lowestRpSteam.tanggal,
         value: dailyStats.lowestRpSteam['Rp per Ton Steam'],
         display: `${formatRupiah(dailyStats.lowestRpSteam['Rp per Ton Steam'])}/Ton`,
+        steamOut: `${formatNumber(dailyStats.lowestRpSteam['Steam Out'])} Ton`,
         color: '#0d9488',
         status: 'TERENDAH (HARI - Biaya Paling Hemat)',
       },
@@ -2192,6 +2286,210 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
         </div>
       </div>
 
+      {/* 3 DIAGRAM BATANG HARGA AVG PO: WP, CK, DP */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Card 1: 1. HARGA AVG PO WOOD PELLET */}
+        <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-2 border-b border-slate-100 pb-2">
+              <div className="flex items-center gap-2">
+                <Fuel className="w-4 h-4 text-amber-500" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                  1. HARGA AVG PO WOOD PELLET
+                </h4>
+              </div>
+              <span className="text-[10px] font-bold text-amber-800 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded">
+                Rp / kg
+              </span>
+            </div>
+          </div>
+
+          <div className="h-60 min-h-[240px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={monthlyPoPriceBarStats.wp.list} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <XAxis dataKey="shortMonth" tick={{ fontSize: 10, fill: '#475569', fontWeight: 600 }} />
+                <YAxis tick={{ fontSize: 10, fill: '#64748b' }} tickFormatter={(val) => `Rp${val}`} domain={[0, 'auto']} />
+                <Tooltip
+                  formatter={(val: any) => [`${formatRupiah(Number(val) || 0)} / kg`, 'Harga PO WP']}
+                  labelFormatter={(label: any) => `Bulan ${label}`}
+                  contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
+                />
+                <Bar dataKey="price" name="Harga PO Wood Pellet" fill="#d97706" radius={[4, 4, 0, 0]}>
+                  {monthlyPoPriceBarStats.wp.list.map((entry, index) => (
+                    <Cell
+                      key={`po-wp-cell-${index}`}
+                      fill={
+                        entry.price === monthlyPoPriceBarStats.wp.highest?.price && entry.price > 0
+                          ? '#b45309'
+                          : entry.price === monthlyPoPriceBarStats.wp.lowest?.price && entry.price > 0
+                          ? '#f59e0b'
+                          : '#d97706'
+                      }
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div className="mt-3 pt-2.5 border-t border-slate-100 p-2 rounded-lg bg-slate-50 border border-slate-200 text-[11px] space-y-1.5 font-mono">
+            <div className="flex items-center justify-between px-2.5 py-1 rounded bg-rose-50 border border-rose-200 text-rose-950">
+              <span className="font-bold flex items-center gap-1.5">
+                <span>🔺 TERTINGGI BULAN:</span>
+                <strong className="text-rose-900">{monthlyPoPriceBarStats.wp.highest?.monthName || '-'}</strong>
+              </span>
+              <span className="font-extrabold text-rose-700 font-mono">
+                {monthlyPoPriceBarStats.wp.highest ? `${formatRupiah(monthlyPoPriceBarStats.wp.highest.price)}/kg` : '-'}
+              </span>
+            </div>
+            <div className="flex items-center justify-between px-2.5 py-1 rounded bg-amber-50 border border-amber-200 text-amber-950">
+              <span className="font-bold flex items-center gap-1.5">
+                <span>🔻 TERENDAH BULAN:</span>
+                <strong className="text-amber-900">{monthlyPoPriceBarStats.wp.lowest?.monthName || '-'}</strong>
+              </span>
+              <span className="font-extrabold text-amber-700 font-mono">
+                {monthlyPoPriceBarStats.wp.lowest ? `${formatRupiah(monthlyPoPriceBarStats.wp.lowest.price)}/kg` : '-'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: 2. HARGA AVG PO CANGKANG */}
+        <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-2 border-b border-slate-100 pb-2">
+              <div className="flex items-center gap-2">
+                <Fuel className="w-4 h-4 text-emerald-600" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                  2. HARGA AVG PO CANGKANG
+                </h4>
+              </div>
+              <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">
+                Rp / kg
+              </span>
+            </div>
+          </div>
+
+          <div className="h-60 min-h-[240px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={monthlyPoPriceBarStats.ck.list} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <XAxis dataKey="shortMonth" tick={{ fontSize: 10, fill: '#475569', fontWeight: 600 }} />
+                <YAxis tick={{ fontSize: 10, fill: '#64748b' }} tickFormatter={(val) => `Rp${val}`} domain={[0, 'auto']} />
+                <Tooltip
+                  formatter={(val: any) => [`${formatRupiah(Number(val) || 0)} / kg`, 'Harga PO CK']}
+                  labelFormatter={(label: any) => `Bulan ${label}`}
+                  contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
+                />
+                <Bar dataKey="price" name="Harga PO Cangkang" fill="#16a34a" radius={[4, 4, 0, 0]}>
+                  {monthlyPoPriceBarStats.ck.list.map((entry, index) => (
+                    <Cell
+                      key={`po-ck-cell-${index}`}
+                      fill={
+                        entry.price === monthlyPoPriceBarStats.ck.highest?.price && entry.price > 0
+                          ? '#15803d'
+                          : entry.price === monthlyPoPriceBarStats.ck.lowest?.price && entry.price > 0
+                          ? '#4ade80'
+                          : '#16a34a'
+                      }
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div className="mt-3 pt-2.5 border-t border-slate-100 p-2 rounded-lg bg-slate-50 border border-slate-200 text-[11px] space-y-1.5 font-mono">
+            <div className="flex items-center justify-between px-2.5 py-1 rounded bg-rose-50 border border-rose-200 text-rose-950">
+              <span className="font-bold flex items-center gap-1.5">
+                <span>🔺 TERTINGGI BULAN:</span>
+                <strong className="text-rose-900">{monthlyPoPriceBarStats.ck.highest?.monthName || '-'}</strong>
+              </span>
+              <span className="font-extrabold text-rose-700 font-mono">
+                {monthlyPoPriceBarStats.ck.highest ? `${formatRupiah(monthlyPoPriceBarStats.ck.highest.price)}/kg` : '-'}
+              </span>
+            </div>
+            <div className="flex items-center justify-between px-2.5 py-1 rounded bg-emerald-50 border border-emerald-200 text-emerald-950">
+              <span className="font-bold flex items-center gap-1.5">
+                <span>🔻 TERENDAH BULAN:</span>
+                <strong className="text-emerald-900">{monthlyPoPriceBarStats.ck.lowest?.monthName || '-'}</strong>
+              </span>
+              <span className="font-extrabold text-emerald-700 font-mono">
+                {monthlyPoPriceBarStats.ck.lowest ? `${formatRupiah(monthlyPoPriceBarStats.ck.lowest.price)}/kg` : '-'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: 3. HARGA AVG PO DUST PELLET */}
+        <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-2 border-b border-slate-100 pb-2">
+              <div className="flex items-center gap-2">
+                <Fuel className="w-4 h-4 text-sky-600" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                  3. HARGA AVG PO DUST PELLET
+                </h4>
+              </div>
+              <span className="text-[10px] font-bold text-sky-800 bg-sky-50 border border-sky-200 px-1.5 py-0.5 rounded">
+                Rp / kg
+              </span>
+            </div>
+          </div>
+
+          <div className="h-60 min-h-[240px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={monthlyPoPriceBarStats.dp.list} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <XAxis dataKey="shortMonth" tick={{ fontSize: 10, fill: '#475569', fontWeight: 600 }} />
+                <YAxis tick={{ fontSize: 10, fill: '#64748b' }} tickFormatter={(val) => `Rp${val}`} domain={[0, 'auto']} />
+                <Tooltip
+                  formatter={(val: any) => [`${formatRupiah(Number(val) || 0)} / kg`, 'Harga PO DP']}
+                  labelFormatter={(label: any) => `Bulan ${label}`}
+                  contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
+                />
+                <Bar dataKey="price" name="Harga PO Dust Pellet" fill="#0284c7" radius={[4, 4, 0, 0]}>
+                  {monthlyPoPriceBarStats.dp.list.map((entry, index) => (
+                    <Cell
+                      key={`po-dp-cell-${index}`}
+                      fill={
+                        entry.price === monthlyPoPriceBarStats.dp.highest?.price && entry.price > 0
+                          ? '#0369a1'
+                          : entry.price === monthlyPoPriceBarStats.dp.lowest?.price && entry.price > 0
+                          ? '#7dd3fc'
+                          : '#0284c7'
+                      }
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div className="mt-3 pt-2.5 border-t border-slate-100 p-2 rounded-lg bg-slate-50 border border-slate-200 text-[11px] space-y-1.5 font-mono">
+            <div className="flex items-center justify-between px-2.5 py-1 rounded bg-rose-50 border border-rose-200 text-rose-950">
+              <span className="font-bold flex items-center gap-1.5">
+                <span>🔺 TERTINGGI BULAN:</span>
+                <strong className="text-rose-900">{monthlyPoPriceBarStats.dp.highest?.monthName || '-'}</strong>
+              </span>
+              <span className="font-extrabold text-rose-700 font-mono">
+                {monthlyPoPriceBarStats.dp.highest ? `${formatRupiah(monthlyPoPriceBarStats.dp.highest.price)}/kg` : '-'}
+              </span>
+            </div>
+            <div className="flex items-center justify-between px-2.5 py-1 rounded bg-sky-50 border border-sky-200 text-sky-950">
+              <span className="font-bold flex items-center gap-1.5">
+                <span>🔻 TERENDAH BULAN:</span>
+                <strong className="text-sky-900">{monthlyPoPriceBarStats.dp.lowest?.monthName || '-'}</strong>
+              </span>
+              <span className="font-extrabold text-sky-700 font-mono">
+                {monthlyPoPriceBarStats.dp.lowest ? `${formatRupiah(monthlyPoPriceBarStats.dp.lowest.price)}/kg` : '-'}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* 2. DIAGRAM LINGKARAN REKAPITULASI TERTINGGI & TERENDAH HARIAN */}
       <div className="space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-200 pb-2">
@@ -2214,7 +2512,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                 <div className="flex items-center gap-2">
                   <Fuel className="w-4 h-4 text-amber-500" />
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">
-                    1. Konsumsi Tertinggi &amp; Terendah (Hari)
+                    1. KONSUMSI TERTINGGI TERENDAH &amp; STEAM OUT (DAILY)
                   </h4>
                 </div>
                 <span className="text-[10px] font-bold text-amber-800 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded">
@@ -2230,7 +2528,10 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                     <strong className="text-amber-900">{dailyStats.highestConsumption?.tanggal}</strong>
                   </span>
                   <span className="font-extrabold text-amber-700 font-mono">
-                    {formatNumber(dailyStats.highestConsumption?.totalKonsumsi || 0)} kg
+                    {formatNumber(dailyStats.highestConsumption?.totalKonsumsi || 0)} kg{' '}
+                    <span className="text-[9px] font-semibold text-amber-800">
+                      ({formatNumber(dailyStats.highestConsumption?.['Steam Out'] || 0)} T)
+                    </span>
                   </span>
                 </div>
                 <div className="flex items-center justify-between px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-950">
@@ -2239,7 +2540,10 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                     <strong className="text-sky-900">{dailyStats.lowestConsumption?.tanggal}</strong>
                   </span>
                   <span className="font-extrabold text-sky-700 font-mono">
-                    {formatNumber(dailyStats.lowestConsumption?.totalKonsumsi || 0)} kg
+                    {formatNumber(dailyStats.lowestConsumption?.totalKonsumsi || 0)} kg{' '}
+                    <span className="text-[9px] font-semibold text-sky-800">
+                      ({formatNumber(dailyStats.lowestConsumption?.['Steam Out'] || 0)} T)
+                    </span>
                   </span>
                 </div>
               </div>
@@ -2264,7 +2568,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                   </Pie>
                   <Tooltip
                     formatter={(val: any, _name: any, item: any) => [
-                      `${item.payload.display}`,
+                      `${item.payload.display} (Steam Out: ${item.payload.steamOut})`,
                       `${item.payload.date} (${item.payload.status})`
                     ]}
                     contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
@@ -2278,6 +2582,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                         <span className="text-[10px] font-medium text-slate-700 inline-flex items-center gap-1">
                           <span>{value}:</span>
                           <strong className="font-mono text-slate-900">{item?.display}</strong>
+                          <span className="text-[9px] text-slate-500 font-normal">({item?.steamOut})</span>
                         </span>
                       );
                     }}
@@ -2294,7 +2599,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                 <div className="flex items-center gap-2">
                   <Gauge className="w-4 h-4 text-emerald-600" />
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">
-                    2. Rata-Rata Steam Out &amp; Kg/Ton Steam
+                    2. AVG KG/TON &amp; STEAM OUT (DAILY)
                   </h4>
                 </div>
                 <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">
@@ -2310,7 +2615,10 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                     <strong className="text-rose-900">{dailyStats.highestSteamKg?.tanggal}</strong>
                   </span>
                   <span className="font-extrabold text-rose-700 font-mono">
-                    {formatNumber(dailyStats.highestSteamKg?.['Kg per Ton Steam'] || 0)} kg/Ton
+                    {formatNumber(dailyStats.highestSteamKg?.['Kg per Ton Steam'] || 0)} kg/Ton{' '}
+                    <span className="text-[9px] font-semibold text-rose-800">
+                      ({formatNumber(dailyStats.highestSteamKg?.['Steam Out'] || 0)} T)
+                    </span>
                   </span>
                 </div>
                 <div className="flex items-center justify-between px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-950">
@@ -2319,7 +2627,10 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                     <strong className="text-emerald-900">{dailyStats.lowestSteamKg?.tanggal}</strong>
                   </span>
                   <span className="font-extrabold text-emerald-700 font-mono">
-                    {formatNumber(dailyStats.lowestSteamKg?.['Kg per Ton Steam'] || 0)} kg/Ton
+                    {formatNumber(dailyStats.lowestSteamKg?.['Kg per Ton Steam'] || 0)} kg/Ton{' '}
+                    <span className="text-[9px] font-semibold text-emerald-800">
+                      ({formatNumber(dailyStats.lowestSteamKg?.['Steam Out'] || 0)} T)
+                    </span>
                   </span>
                 </div>
               </div>
@@ -2375,7 +2686,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                 <div className="flex items-center gap-2">
                   <CircleDollarSign className="w-4 h-4 text-teal-600" />
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">
-                    3. Rata-Rata Rp/Ton Steam (Hari)
+                    3. AVG RP/TON STEAM (DAILY)
                   </h4>
                 </div>
                 <span className="text-[10px] font-bold text-teal-800 bg-teal-50 border border-teal-200 px-1.5 py-0.5 rounded">
@@ -2391,7 +2702,10 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                     <strong className="text-rose-900">{dailyStats.highestRpSteam?.tanggal}</strong>
                   </span>
                   <span className="font-extrabold text-rose-700 font-mono">
-                    {formatRupiah(dailyStats.highestRpSteam?.['Rp per Ton Steam'] || 0)}/Ton
+                    {formatRupiah(dailyStats.highestRpSteam?.['Rp per Ton Steam'] || 0)}/Ton{' '}
+                    <span className="text-[9px] font-semibold text-rose-800">
+                      ({formatNumber(dailyStats.highestRpSteam?.['Steam Out'] || 0)} T)
+                    </span>
                   </span>
                 </div>
                 <div className="flex items-center justify-between px-2 py-0.5 rounded bg-teal-50 border border-teal-200 text-teal-950">
@@ -2400,7 +2714,10 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                     <strong className="text-teal-900">{dailyStats.lowestRpSteam?.tanggal}</strong>
                   </span>
                   <span className="font-extrabold text-teal-700 font-mono">
-                    {formatRupiah(dailyStats.lowestRpSteam?.['Rp per Ton Steam'] || 0)}/Ton
+                    {formatRupiah(dailyStats.lowestRpSteam?.['Rp per Ton Steam'] || 0)}/Ton{' '}
+                    <span className="text-[9px] font-semibold text-teal-800">
+                      ({formatNumber(dailyStats.lowestRpSteam?.['Steam Out'] || 0)} T)
+                    </span>
                   </span>
                 </div>
               </div>
@@ -2425,7 +2742,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                   </Pie>
                   <Tooltip
                     formatter={(val: any, _name: any, item: any) => [
-                      `${item.payload.display}`,
+                      `${item.payload.display} (Steam Out: ${item.payload.steamOut})`,
                       `${item.payload.date} (${item.payload.status})`
                     ]}
                     contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
@@ -2439,6 +2756,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                         <span className="text-[10px] font-medium text-slate-700 inline-flex items-center gap-1">
                           <span>{value}:</span>
                           <strong className="font-mono text-slate-900">{item?.display}</strong>
+                          <span className="text-[9px] text-slate-500 font-normal">({item?.steamOut})</span>
                         </span>
                       );
                     }}

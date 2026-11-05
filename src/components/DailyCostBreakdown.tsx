@@ -102,34 +102,30 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
       const woodPelletPct = totalQty > 0 ? Math.round((woodPelletQty / totalQty) * 100) : 0;
       const dustPelletPct = totalQty > 0 ? Math.round((dustPelletQty / totalQty) * 100) : 0;
       const kopiPelletPct = totalQty > 0 ? Math.round((kopiPelletQty / totalQty) * 100) : 0;
-      // Monthly average prices according to columns S, T, U, V in latest spreadsheet
-      let avgHargaCK = 0;
-      let avgHargaWP = 0;
-      let avgHargaDP = 0;
-      let avgHargaKP = 0;
-
+      // Dynamic monthly average prices (Rp/kg) calculated from synced spreadsheet data for all months
       const mKey = s.tanggal.substring(0, 7);
-      if (mKey === '2026-10') {
-        avgHargaCK = 1679;
-        avgHargaWP = 1671;
-        avgHargaDP = 1594;
-        avgHargaKP = 0;
-      } else if (mKey === '2026-09') {
-        avgHargaCK = 1700;
-        avgHargaWP = 1687;
-        avgHargaDP = 1600;
-        avgHargaKP = 0;
-      } else if (mKey === '2026-08') {
-        avgHargaCK = 1726;
-        avgHargaWP = 1750;
-        avgHargaDP = 1599;
-        avgHargaKP = 0;
-      } else if (mKey === '2026-02') {
-        avgHargaCK = 1709;
-        avgHargaWP = 1586;
-        avgHargaDP = 0;
-        avgHargaKP = 2200;
+      let mCkQty = 0, mCkHrg = 0;
+      let mWpQty = 0, mWpHrg = 0;
+      let mDpQty = 0, mDpHrg = 0;
+      let mKpQty = 0, mKpHrg = 0;
+
+      for (const item of summaries) {
+        if (item.tanggal.substring(0, 7) === mKey) {
+          mCkQty += item.breakdown['CANGKANG']?.konsumsi || 0;
+          mCkHrg += item.breakdown['CANGKANG']?.hargaTotal || 0;
+          mWpQty += item.breakdown['WOOD PELLET']?.konsumsi || 0;
+          mWpHrg += item.breakdown['WOOD PELLET']?.hargaTotal || 0;
+          mDpQty += item.breakdown['DUST PELLET']?.konsumsi || 0;
+          mDpHrg += item.breakdown['DUST PELLET']?.hargaTotal || 0;
+          mKpQty += item.breakdown['KOPI PELLET']?.konsumsi || 0;
+          mKpHrg += item.breakdown['KOPI PELLET']?.hargaTotal || 0;
+        }
       }
+
+      const avgHargaCK = mCkQty > 0 ? Math.round(mCkHrg / mCkQty) : 0;
+      const avgHargaWP = mWpQty > 0 ? Math.round(mWpHrg / mWpQty) : 0;
+      const avgHargaDP = mDpQty > 0 ? Math.round(mDpHrg / mDpQty) : (mKey === '2026-02' ? 1794 : 0);
+      const avgHargaKP = mKpQty > 0 ? Math.round(mKpHrg / mKpQty) : 0;
 
       return {
         tanggal: s.displayTanggal,
