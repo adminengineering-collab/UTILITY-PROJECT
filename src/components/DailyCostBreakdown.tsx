@@ -6,6 +6,7 @@ import { Calendar, Search, Download, Copy, Check, Table, ChevronRight, Edit2, X,
 
 interface DailyCostBreakdownProps {
   summaries: DailyFuelSummary[];
+  poPrices?: Record<string, { wp: number; ck: number; dp: number }>;
   onSelectDayForDetail?: (day: DailyFuelSummary) => void;
   onUpdateDailySteam?: (date: string, newSteamOut: number) => void;
   onUpdateDailyFuel?: (date: string, fuelType: FuelType, newKonsumsi: number) => void;
@@ -13,6 +14,7 @@ interface DailyCostBreakdownProps {
 
 export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
   summaries,
+  poPrices,
   onSelectDayForDetail,
   onUpdateDailySteam,
   onUpdateDailyFuel,
@@ -127,6 +129,11 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
       const avgHargaDP = mDpQty > 0 ? Math.round(mDpHrg / mDpQty) : (mKey === '2026-02' ? 1794 : 0);
       const avgHargaKP = mKpQty > 0 ? Math.round(mKpHrg / mKpQty) : 0;
 
+      const syncedPo = poPrices?.[mKey];
+      const poHargaWP = syncedPo?.wp && syncedPo.wp > 0 ? syncedPo.wp : (['2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07'].includes(mKey) ? 1814 : avgHargaWP);
+      const poHargaCK = syncedPo?.ck && syncedPo.ck > 0 ? syncedPo.ck : (['2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07'].includes(mKey) ? 1893 : avgHargaCK);
+      const poHargaDP = syncedPo?.dp && syncedPo.dp > 0 ? syncedPo.dp : (['2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07'].includes(mKey) ? 2053 : avgHargaDP);
+
       return {
         tanggal: s.displayTanggal,
         isoDate: s.tanggal,
@@ -152,6 +159,9 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
         avgHargaWP,
         avgHargaDP,
         avgHargaKP,
+        poHargaWP,
+        poHargaCK,
+        poHargaDP,
         summaryRef: s,
       };
     });
@@ -760,6 +770,15 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
               <th className="py-2.5 px-3 text-right bg-amber-50/90 text-amber-950 border-b border-slate-300 font-extrabold whitespace-nowrap">
                 HARGA RATA-RATA KP (Rp)
               </th>
+              <th className="py-2.5 px-3 text-right bg-sky-50/90 text-sky-950 border-b border-slate-300 font-extrabold whitespace-nowrap">
+                HARGA AVG PO WOOD PELLET
+              </th>
+              <th className="py-2.5 px-3 text-right bg-sky-50/90 text-sky-950 border-b border-slate-300 font-extrabold whitespace-nowrap">
+                HARGA AVG PO CANGKANG
+              </th>
+              <th className="py-2.5 px-3 text-right bg-sky-50/90 text-sky-950 border-b border-slate-300 font-extrabold whitespace-nowrap">
+                HARGA AVG PO DUST PELLET
+              </th>
             </tr>
           </thead>
 
@@ -909,12 +928,24 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
                     <td className="py-2 px-3 text-right text-purple-900 font-semibold tabular-nums">
                       {row.avgHargaKP > 0 ? formatCurrencyExcel(row.avgHargaKP, 0) : 'Rp0'}
                     </td>
+                    {/* HARGA AVG PO WOOD PELLET */}
+                    <td className="py-2 px-3 text-right text-amber-900 font-semibold tabular-nums bg-sky-50/30">
+                      {row.poHargaWP > 0 ? formatNumber(row.poHargaWP) : '0'}
+                    </td>
+                    {/* HARGA AVG PO CANGKANG */}
+                    <td className="py-2 px-3 text-right text-emerald-900 font-semibold tabular-nums bg-sky-50/30">
+                      {row.poHargaCK > 0 ? formatNumber(row.poHargaCK) : '0'}
+                    </td>
+                    {/* HARGA AVG PO DUST PELLET */}
+                    <td className="py-2 px-3 text-right text-sky-900 font-semibold tabular-nums bg-sky-50/30">
+                      {row.poHargaDP > 0 ? formatNumber(row.poHargaDP) : '0'}
+                    </td>
                   </tr>
                 );
               })
             ) : (
               <tr>
-                <td colSpan={priceColumnMode === 'spreadsheet' ? 21 : 22} className="py-8 text-center text-slate-400 font-sans italic">
+                <td colSpan={priceColumnMode === 'spreadsheet' ? 24 : 25} className="py-8 text-center text-slate-400 font-sans italic">
                   Tidak ada data untuk filter yang dipilih
                 </td>
               </tr>
@@ -1003,6 +1034,15 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
               </td>
               <td className="py-3 px-3 text-right font-bold text-purple-950">
                 {formatCurrencyExcel(totals.avgHargaKP, 0)}
+              </td>
+              <td className="py-3 px-3 text-right font-bold text-amber-950 bg-sky-100/50">
+                -
+              </td>
+              <td className="py-3 px-3 text-right font-bold text-emerald-950 bg-sky-100/50">
+                -
+              </td>
+              <td className="py-3 px-3 text-right font-bold text-sky-950 bg-sky-100/50">
+                -
               </td>
             </tr>
           </tfoot>

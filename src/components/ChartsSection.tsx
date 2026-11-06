@@ -43,6 +43,7 @@ import { FuelType } from '../types/boiler';
 interface ChartsSectionProps {
   summaries: DailyFuelSummary[];
   poPrices?: Record<string, { wp: number; ck: number; dp: number }>;
+  dateFilterBar?: React.ReactNode;
   onUpdateDailySteam?: (date: string, newSteamOut: number) => void;
   onUpdateDailyFuel?: (date: string, fuelType: FuelType, newKonsumsi: number) => void;
   onPerformSync?: () => void;
@@ -53,6 +54,7 @@ interface ChartsSectionProps {
 export const ChartsSection: React.FC<ChartsSectionProps> = ({
   summaries,
   poPrices,
+  dateFilterBar,
   onUpdateDailySteam,
   onUpdateDailyFuel,
   onPerformSync,
@@ -2768,6 +2770,8 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
         </div>
       </div>
 
+      {dateFilterBar}
+
       {/* 3. GRAFIK PEMAKAIAN KONSUMSI HARIAN & KG/TON STEAM */}
       <div className="space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-200 pb-2">
@@ -2896,7 +2900,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
         {chartMode === 'kg_steam' && (
           <div className="space-y-4">
             {/* Realtime Synchronization & Action Toolbar */}
-            <div className="flex flex-wrap items-center justify-between gap-2.5 p-3 rounded-xl bg-gradient-to-r from-emerald-50/90 via-slate-50 to-amber-50/50 border border-emerald-200/80 shadow-2xs">
+            <div className="hidden flex-wrap items-center justify-between gap-2.5 p-3 rounded-xl bg-gradient-to-r from-emerald-50/90 via-slate-50 to-amber-50/50 border border-emerald-200/80 shadow-2xs">
               <div className="flex items-center gap-2">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>

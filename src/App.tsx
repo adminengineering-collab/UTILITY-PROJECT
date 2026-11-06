@@ -656,51 +656,8 @@ export default function App() {
     return `${summaries[0].displayTanggal} s/d ${summaries[summaries.length - 1].displayTanggal}`;
   }, [summaries]);
 
-  return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
-      {/* Toast Notification */}
-      {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-lg shadow-xl border border-slate-700 flex items-center gap-2 text-xs animate-in slide-in-from-bottom duration-200">
-          <CheckCircle className="w-4 h-4 text-emerald-400" />
-          <span>{toastMessage}</span>
-        </div>
-      )}
-
-      {/* Header */}
-      <Header
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        onOpenAddModal={() => {
-          setEditingEntry(null);
-          setIsAddModalOpen(true);
-        }}
-        onOpenExportModal={() => setIsExportModalOpen(true)}
-        onOpenRealtimeSettings={() => setIsRealtimeModalOpen(true)}
-        onPerformSync={() => handlePerformSync(false)}
-        isSyncing={isSyncing}
-        hasGoogleSheetConnected={Boolean(sheetUrl)}
-        lastSyncedAt={lastSyncedAt}
-        autoSync={autoSync}
-        syncIntervalSeconds={syncIntervalSeconds}
-        dateRangeText={periodText}
-        nextSyncCountdown={nextSyncCountdown}
-        onToggleAutoSyncQuick={handleToggleAutoSyncQuick}
-      />
-
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-        {/* Real-time Centralized Spreadsheet Synchronization Banner */}
-        <CentralRealtimeSyncBanner
-          entriesCount={entries.length}
-          isSyncing={isSyncing}
-          onPerformSync={() => handlePerformSync(false)}
-          onOpenSettings={() => setIsRealtimeModalOpen(true)}
-          lastSyncedAt={lastSyncedAt}
-          sheetUrl={sheetUrl}
-        />
-
-        {/* Global Filter Bar */}
-        <div className="bg-white border border-slate-200 rounded-xl p-3.5 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+  const dateFilterBar = (
+    <div className="bg-white border border-slate-200 rounded-xl p-3.5 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-semibold text-slate-700 flex items-center gap-1.5 mr-1">
               <Filter className="w-3.5 h-3.5 text-amber-500" />
@@ -846,6 +803,51 @@ export default function App() {
             </button>
           </div>
         </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-lg shadow-xl border border-slate-700 flex items-center gap-2 text-xs animate-in slide-in-from-bottom duration-200">
+          <CheckCircle className="w-4 h-4 text-emerald-400" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
+
+      {/* Header */}
+      <Header
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        onOpenAddModal={() => {
+          setEditingEntry(null);
+          setIsAddModalOpen(true);
+        }}
+        onOpenExportModal={() => setIsExportModalOpen(true)}
+        onOpenRealtimeSettings={() => setIsRealtimeModalOpen(true)}
+        onPerformSync={() => handlePerformSync(false)}
+        isSyncing={isSyncing}
+        hasGoogleSheetConnected={Boolean(sheetUrl)}
+        lastSyncedAt={lastSyncedAt}
+        autoSync={autoSync}
+        syncIntervalSeconds={syncIntervalSeconds}
+        dateRangeText={periodText}
+        nextSyncCountdown={nextSyncCountdown}
+        onToggleAutoSyncQuick={handleToggleAutoSyncQuick}
+      />
+
+      {/* Main Content Area */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+        {/* Real-time Centralized Spreadsheet Synchronization Banner */}
+        <CentralRealtimeSyncBanner
+          entriesCount={entries.length}
+          isSyncing={isSyncing}
+          onPerformSync={() => handlePerformSync(false)}
+          onOpenSettings={() => setIsRealtimeModalOpen(true)}
+          lastSyncedAt={lastSyncedAt}
+          sheetUrl={sheetUrl}
+        />
+
 
         {/* Empty filter result warning */}
         {summaries.length === 0 && (
@@ -872,6 +874,9 @@ export default function App() {
           </div>
         )}
 
+        {/* Global Filter Bar (for non-chart tabs) */}
+        {activeTab !== 'overview' && activeTab !== 'charts' && dateFilterBar}
+
         {/* TAB 1: OVERVIEW / RINGKASAN EKSEKUTIF */}
         {activeTab === 'overview' && (
           <div className="space-y-6">
@@ -879,16 +884,12 @@ export default function App() {
             <ChartsSection
               summaries={summaries}
               poPrices={poPrices}
+              dateFilterBar={dateFilterBar}
               onUpdateDailySteam={handleUpdateDailySteam}
               onUpdateDailyFuel={handleUpdateDailyFuel}
               onPerformSync={() => handlePerformSync(false)}
               isSyncing={isSyncing}
               lastSyncedAt={lastSyncedAt}
-            />
-            <DailyCostBreakdown
-              summaries={summaries}
-              onUpdateDailySteam={handleUpdateDailySteam}
-              onUpdateDailyFuel={handleUpdateDailyFuel}
             />
           </div>
         )}
@@ -899,6 +900,7 @@ export default function App() {
             <ChartsSection
               summaries={summaries}
               poPrices={poPrices}
+              dateFilterBar={dateFilterBar}
               onUpdateDailySteam={handleUpdateDailySteam}
               onUpdateDailyFuel={handleUpdateDailyFuel}
               onPerformSync={() => handlePerformSync(false)}
@@ -907,6 +909,7 @@ export default function App() {
             />
             <DailyCostBreakdown
               summaries={summaries}
+              poPrices={poPrices}
               onUpdateDailySteam={handleUpdateDailySteam}
               onUpdateDailyFuel={handleUpdateDailyFuel}
             />
