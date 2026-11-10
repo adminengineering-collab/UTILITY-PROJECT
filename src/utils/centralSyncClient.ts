@@ -7,6 +7,7 @@ export interface CentralSyncResponse {
   lastUpdated?: number;
   entries?: FuelEntry[];
   steamData?: Record<string, number>;
+  poPrices?: Record<string, { wp: number; ck: number; dp: number }>;
   rowCount?: number;
   mergeMode?: 'replace' | 'merge';
   error?: string;
@@ -52,6 +53,7 @@ export async function saveCentralDataToServer(payload: {
   sheetUrl?: string;
   entries: FuelEntry[];
   steamData: Record<string, number>;
+  poPrices?: Record<string, { wp: number; ck: number; dp: number }>;
   lastSyncedAt?: string | null;
   mergeMode?: 'replace' | 'merge';
 }): Promise<{ success: boolean; rowCount?: number; lastUpdated?: number; error?: string }> {

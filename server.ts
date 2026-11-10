@@ -17,6 +17,7 @@ interface CentralSyncData {
   lastUpdated: number;
   entries: any[];
   steamData: Record<string, number>;
+  poPrices?: Record<string, { wp: number; ck: number; dp: number }>;
   rowCount: number;
   mergeMode: 'replace' | 'merge';
 }
@@ -33,6 +34,7 @@ function loadCentralData(): CentralSyncData {
           lastUpdated: parsed.lastUpdated || Date.now(),
           entries: parsed.entries,
           steamData: parsed.steamData || {},
+          poPrices: parsed.poPrices || {},
           rowCount: parsed.entries.length,
           mergeMode: parsed.mergeMode || 'replace',
         };
@@ -119,6 +121,7 @@ async function syncServerFromSpreadsheet(overrideUrl?: string): Promise<boolean>
         centralState.sheetUrl = targetUrl;
         centralState.entries = parsed.entries;
         centralState.steamData = parsed.steamData || {};
+        centralState.poPrices = parsed.poPrices || {};
         centralState.rowCount = parsed.entries.length;
         centralState.lastSyncedAt = new Date().toLocaleString('id-ID');
         centralState.lastUpdated = Date.now();
@@ -162,6 +165,7 @@ async function startServer() {
       lastUpdated: centralState.lastUpdated,
       entries: centralState.entries,
       steamData: centralState.steamData,
+      poPrices: centralState.poPrices || {},
       rowCount: centralState.entries.length,
       mergeMode: centralState.mergeMode,
     });
@@ -183,7 +187,7 @@ async function startServer() {
   // Update central sync data (called when a client syncs or updates data)
   app.post('/api/sync/save', (req, res) => {
     try {
-      const { sheetUrl, entries, steamData, lastSyncedAt, mergeMode } = req.body;
+      const { sheetUrl, entries, steamData, poPrices, lastSyncedAt, mergeMode } = req.body;
 
       if (typeof sheetUrl === 'string' && sheetUrl.trim()) {
         centralState.sheetUrl = sheetUrl.trim();
@@ -198,6 +202,9 @@ async function startServer() {
         } else {
           centralState.steamData = steamData;
         }
+      }
+      if (poPrices && typeof poPrices === 'object') {
+        centralState.poPrices = poPrices;
       }
       if (lastSyncedAt) {
         centralState.lastSyncedAt = lastSyncedAt;

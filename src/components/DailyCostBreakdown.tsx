@@ -130,9 +130,9 @@ export const DailyCostBreakdown: React.FC<DailyCostBreakdownProps> = ({
       const avgHargaKP = mKpQty > 0 ? Math.round(mKpHrg / mKpQty) : 0;
 
       const syncedPo = poPrices?.[mKey];
-      const poHargaWP = syncedPo?.wp && syncedPo.wp > 0 ? syncedPo.wp : (['2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07'].includes(mKey) ? 1814 : avgHargaWP);
-      const poHargaCK = syncedPo?.ck && syncedPo.ck > 0 ? syncedPo.ck : (['2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07'].includes(mKey) ? 1893 : avgHargaCK);
-      const poHargaDP = syncedPo?.dp && syncedPo.dp > 0 ? syncedPo.dp : (['2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07'].includes(mKey) ? 2053 : avgHargaDP);
+      const poHargaWP = syncedPo?.wp && syncedPo.wp > 0 ? syncedPo.wp : (['2025-12', '2026-01'].includes(mKey) ? 1797 : ['2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07'].includes(mKey) ? 1814 : avgHargaWP);
+      const poHargaCK = syncedPo?.ck && syncedPo.ck > 0 ? syncedPo.ck : (['2025-12', '2026-01'].includes(mKey) ? 1607 : ['2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07'].includes(mKey) ? 1893 : avgHargaCK);
+      const poHargaDP = syncedPo?.dp && syncedPo.dp > 0 ? syncedPo.dp : (['2025-12', '2026-01'].includes(mKey) ? 1950 : ['2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07'].includes(mKey) ? 2053 : avgHargaDP);
 
       return {
         tanggal: s.displayTanggal,

@@ -153,6 +153,14 @@ export default function App() {
           if (central.steamData && Object.keys(central.steamData).length > 0) {
             setSteamData(central.steamData);
           }
+          if (central.poPrices && Object.keys(central.poPrices).length > 0) {
+            setPoPrices(central.poPrices);
+            try {
+              localStorage.setItem('taco_boiler_po_prices_v1', JSON.stringify(central.poPrices));
+            } catch {
+              // ignore
+            }
+          }
           if (central.sheetUrl) setSheetUrl(central.sheetUrl);
           if (central.lastSyncedAt) setLastSyncedAt(central.lastSyncedAt);
           if (central.lastUpdated) lastServerUpdatedRef.current = central.lastUpdated;
@@ -231,21 +239,33 @@ export default function App() {
     return Array.from(set).sort();
   }, [entries]);
 
-  // Compute available distinct months for fast toolbar filtering (e.g. Feb 2026, Mar 2026)
+  // Compute available distinct months for fast toolbar filtering (e.g. Des 2025, Feb 2026, Mar 2026)
   const availableMonths = useMemo(() => {
     const months = new Set<string>();
     uniqueDates.forEach((d) => {
       const ym = d.substring(0, 7);
       if (ym) months.add(ym);
     });
+    const indonesianMonthNames: Record<string, string> = {
+      '01': 'Januari',
+      '02': 'Februari',
+      '03': 'Maret',
+      '04': 'April',
+      '05': 'Mei',
+      '06': 'Juni',
+      '07': 'Juli',
+      '08': 'Agustus',
+      '09': 'September',
+      '10': 'Oktober',
+      '11': 'November',
+      '12': 'Desember',
+    };
     return Array.from(months).sort().map((ym) => {
-      let label = ym;
-      if (ym === '2026-02') label = 'Februari 2026';
-      else if (ym === '2026-03') label = 'Maret 2026';
-      else if (ym === '2026-08') label = 'Agustus 2026';
-      else if (ym === '2026-09') label = 'September 2026';
-      else if (ym === '2026-10') label = 'Oktober 2026';
-      return { ym, label };
+      const parts = ym.split('-');
+      if (parts.length === 2 && indonesianMonthNames[parts[1]]) {
+        return { ym, label: `${indonesianMonthNames[parts[1]]} ${parts[0]}` };
+      }
+      return { ym, label: ym };
     });
   }, [uniqueDates]);
 
@@ -554,6 +574,14 @@ export default function App() {
             lastServerUpdatedRef.current = fresh.lastUpdated || status.lastUpdated;
             setEntries(sanitizeEntries(fresh.entries)); // Hapus data lama, gantikan dengan data baru
             if (fresh.steamData) setSteamData(fresh.steamData); // Hapus steam lama, gantikan dengan data baru
+            if (fresh.poPrices && Object.keys(fresh.poPrices).length > 0) {
+              setPoPrices(fresh.poPrices);
+              try {
+                localStorage.setItem('taco_boiler_po_prices_v1', JSON.stringify(fresh.poPrices));
+              } catch {
+                // ignore
+              }
+            }
             if (fresh.sheetUrl) setSheetUrl(fresh.sheetUrl);
             if (fresh.lastSyncedAt) setLastSyncedAt(fresh.lastSyncedAt);
             setMergeMode('replace');

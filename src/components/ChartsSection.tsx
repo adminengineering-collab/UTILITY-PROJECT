@@ -606,6 +606,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
     });
 
     const monthNames: Record<string, string> = {
+      '2025-12': 'Desember 2025',
       '2026-01': 'Januari 2026',
       '2026-02': 'Februari 2026',
       '2026-03': 'Maret 2026',
@@ -624,6 +625,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
       const d = monthsMap[m];
       
       // Nilai resmi spreadsheet terbaru (kolom S, T, U, V dari spreadsheet operasional):
+      // Des 2025: CK 1677, WP 1771, DP 0, KP 2168
       // Okt 2026: CK 1679, WP 1671, DP 1594, KP 0
       // Sep 2026: CK 1700, WP 1687, DP 1600, KP 0
       // Agu 2026: CK 1726, WP 1750, DP 1599, KP 0
@@ -634,7 +636,12 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
       let dp = d.dpQty > 0 ? Math.round(d.dpHarga / d.dpQty) : 0;
       let kp = d.kpQty > 0 ? Math.round(d.kpHarga / d.kpQty) : 0;
 
-      if (m === '2026-10') {
+      if (m === '2025-12') {
+        ck = ck > 0 ? ck : 1677;
+        wp = wp > 0 ? wp : 1771;
+        dp = dp > 0 ? dp : 0;
+        kp = kp > 0 ? kp : 2168;
+      } else if (m === '2026-10') {
         ck = 1679; wp = 1671; dp = 1594; kp = 0;
       } else if (m === '2026-09') {
         ck = 1700; wp = 1687; dp = 1600; kp = 0;
@@ -681,8 +688,9 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
 
   // Statistik Rata-Rata Harga Wood Pellet, Cangkang, dan Dust Pellet per Bulan (Diagram Batang)
   const monthlyFuelPriceBarStats = useMemo(() => {
-    // Standard bulan yang diminta user: JAN, FEB, MARET, APRIL, MEI, dst.
+    // Standard bulan yang diminta user: DES 2025, JAN, FEB, MARET, APRIL, MEI, dst.
     const monthDefs = [
+      { key: '2025-12', short: 'DES', name: 'Desember 2025' },
       { key: '2026-01', short: 'JAN', name: 'Januari 2026' },
       { key: '2026-02', short: 'FEB', name: 'Februari 2026' },
       { key: '2026-03', short: 'MARET', name: 'Maret 2026' },
@@ -708,7 +716,9 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
       const fromMap = priceMap.get(m.key);
       let price = fromMap ? fromMap.wp : 0;
       if (price === 0) {
-        if (m.key === '2026-02') price = 1586;
+        if (m.key === '2025-12') price = 1771;
+        else if (m.key === '2026-01') price = 1771;
+        else if (m.key === '2026-02') price = 1586;
         else if (m.key === '2026-03') price = 1750;
         else if (m.key === '2026-08') price = 1750;
         else if (m.key === '2026-09') price = 1687;
@@ -727,7 +737,9 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
       const fromMap = priceMap.get(m.key);
       let price = fromMap ? fromMap.ck : 0;
       if (price === 0) {
-        if (m.key === '2026-02') price = 1709;
+        if (m.key === '2025-12') price = 1677;
+        else if (m.key === '2026-01') price = 1677;
+        else if (m.key === '2026-02') price = 1709;
         else if (m.key === '2026-03') price = 1710;
         else if (m.key === '2026-08') price = 1726;
         else if (m.key === '2026-09') price = 1700;
@@ -746,7 +758,9 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
       const fromMap = priceMap.get(m.key);
       let price = fromMap ? fromMap.dp : 0;
       if (price === 0) {
-        if (m.key === '2026-02') price = 1794;
+        if (m.key === '2025-12') price = 0;
+        else if (m.key === '2026-01') price = 0;
+        else if (m.key === '2026-02') price = 1794;
         else if (m.key === '2026-03') price = 1950;
         else if (m.key === '2026-08') price = 1599;
         else if (m.key === '2026-09') price = 1600;
@@ -797,6 +811,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
   // Data Diagram Batang HARGA AVG PO (WP, CK, DP) per bulan
   const monthlyPoPriceBarStats = useMemo(() => {
     const monthDefs = [
+      { key: '2025-12', short: 'DES', name: 'Desember 2025' },
       { key: '2026-01', short: 'JAN', name: 'Januari 2026' },
       { key: '2026-02', short: 'FEB', name: 'Februari 2026' },
       { key: '2026-03', short: 'MARET', name: 'Maret 2026' },
@@ -810,6 +825,8 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
     ];
 
     const poWpDefaults: Record<string, number> = {
+      '2025-12': 1797,
+      '2026-01': 1797,
       '2026-02': 1814,
       '2026-03': 1814,
       '2026-04': 1814,
@@ -821,6 +838,8 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
       '2026-10': 1671,
     };
     const poCkDefaults: Record<string, number> = {
+      '2025-12': 1607,
+      '2026-01': 1607,
       '2026-02': 1893,
       '2026-03': 1893,
       '2026-04': 1893,
@@ -832,6 +851,8 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
       '2026-10': 1679,
     };
     const poDpDefaults: Record<string, number> = {
+      '2025-12': 1950,
+      '2026-01': 1950,
       '2026-02': 2053,
       '2026-03': 2053,
       '2026-04': 2053,
@@ -974,10 +995,19 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
     });
 
     const monthLabels: Record<string, string> = {
+      '2025-12': 'Desember 2025',
+      '2026-01': 'Januari 2026',
       '2026-02': 'Februari 2026',
+      '2026-03': 'Maret 2026',
+      '2026-04': 'April 2026',
+      '2026-05': 'Mei 2026',
+      '2026-06': 'Juni 2026',
+      '2026-07': 'Juli 2026',
       '2026-08': 'Agustus 2026',
       '2026-09': 'September 2026',
       '2026-10': 'Oktober 2026',
+      '2026-11': 'November 2026',
+      '2026-12': 'Desember 2026',
     };
 
     const monthItems = Object.keys(monthsMap)
@@ -1281,6 +1311,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
     });
 
     const monthLabels: Record<string, { full: string; short: string; color: string }> = {
+      '2025-12': { full: 'Desember 2025', short: 'Des', color: '#0ea5e9' },
       '2026-01': { full: 'Januari 2026', short: 'Jan', color: '#6366f1' },
       '2026-02': { full: 'Februari 2026', short: 'Feb', color: '#9333ea' },
       '2026-03': { full: 'Maret 2026', short: 'Mar', color: '#ea580c' },
@@ -1559,11 +1590,14 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
   // DATA DIAGRAM BATANG BULANAN KHUSUS EFISIENSI: 1. AVG KG/TON STEAM, 2. AVG RP/TON STEAM
   const monthlyEfficiencyBarStats = useMemo(() => {
     const monthDefs = [
+      { key: '2025-12', short: 'DES', name: 'Desember 2025' },
       { key: '2026-01', short: 'JAN', name: 'Januari 2026' },
       { key: '2026-02', short: 'FEB', name: 'Februari 2026' },
       { key: '2026-03', short: 'MARET', name: 'Maret 2026' },
       { key: '2026-04', short: 'APRIL', name: 'April 2026' },
       { key: '2026-05', short: 'MEI', name: 'Mei 2026' },
+      { key: '2026-06', short: 'JUNI', name: 'Juni 2026' },
+      { key: '2026-07', short: 'JULI', name: 'Juli 2026' },
       { key: '2026-08', short: 'AGU', name: 'Agustus 2026' },
       { key: '2026-09', short: 'SEP', name: 'September 2026' },
       { key: '2026-10', short: 'OKT', name: 'Oktober 2026' },
